@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { calcBazi, CITIES, type BirthInput, type BaziResult } from './engine/bazi'
+import { calcBazi, calcFromPillars, CITIES, type BirthInput, type BaziResult } from './engine/bazi'
 
 const form = ref({
   calendar: 'solar' as 'solar' | 'lunar',
@@ -17,6 +17,43 @@ const form = ref({
   lunarLeap: false,
 })
 
+const inputMode = ref<'birth' | 'direct'>('birth')
+const GAN_OPTS = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸']
+const ZHI_OPTS = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥']
+const direct = ref([
+  { gan: '辛', zhi: '卯' }, { gan: '庚', zhi: '子' }, { gan: '丁', zhi: '丑' }, { gan: '丁', zhi: '未' },
+])
+const PRESETS: { name: string; gz: string; gender: 'male' | 'female' }[] = [
+  { name: '胡适', gz: '辛卯庚子丁丑丁未', gender: 'male' },
+  { name: '南怀瑾', gz: '戊午乙卯甲子乙亥', gender: 'male' },
+  { name: '溥仪', gz: '丙午庚申壬午壬寅', gender: 'male' },
+  { name: '戴笠', gz: '丁酉乙巳丙戌丁酉', gender: 'male' },
+  { name: '韦千里', gz: '辛亥辛卯庚子庚辰', gender: 'male' },
+  { name: '李鸿章', gz: '癸未甲寅乙亥己卯', gender: 'male' },
+  { name: '王安石', gz: '辛酉庚子癸未丙辰', gender: 'male' },
+  { name: '彭玉麟', gz: '丙子辛丑戊子癸丑', gender: 'male' },
+  { name: '毛泽东', gz: '癸巳甲子丁酉甲辰', gender: 'male' },
+  { name: '徐乐吾', gz: '丙戌壬辰丙申丙申', gender: 'male' },
+  { name: '证严法师', gz: '丁丑甲辰辛卯己丑', gender: 'female' },
+  { name: '杜月笙', gz: '戊子庚申乙丑壬午', gender: 'male' },
+  { name: '曾国藩', gz: '辛未己亥丙辰己亥', gender: 'male' },
+  { name: '岳飞', gz: '癸未乙卯甲子乙巳', gender: 'male' },
+]
+function applyPreset(pr: typeof PRESETS[number]) {
+  for (let i = 0; i < 4; i++) { direct.value[i] = { gan: pr.gz.charAt(i * 2), zhi: pr.gz.charAt(i * 2 + 1) } }
+  form.value.gender = pr.gender
+  runDirect()
+}
+function runDirect() {
+  errorMsg.value = ''
+  try {
+    const pillars = direct.value.map((d) => d.gan + d.zhi)
+    result.value = calcFromPillars(pillars, form.value.gender, form.value.ziSect)
+  } catch (e: any) {
+    errorMsg.value = e?.message || '八字输入有误，请检查。'
+    result.value = null
+  }
+}
 const result = ref<BaziResult | null>(null)
 const selectedDaYun = ref(1)
 const errorMsg = ref('')
@@ -113,8 +150,34 @@ run()
     </header>
 
     <section class="card">
-      <h2>出生信息</h2>
-      <div class="grid">
+      <h2>{{ inputMode === 'birth' ? '出生信息' : '直接输入八字' }}</h2>
+      <div class="seg mode-seg">
+        <button :class="{ on: inputMode === 'birth' }" @click="inputMode = 'birth'">生辰排盘</button>
+        <button :class="{ on: inputMode === 'direct' }" @click="inputMode = 'direct'">直接输入八字</button>
+      </div>
+      <template v-if="inputMode === 'direct'">
+        <div class="direct-grid">
+          <div v-for="(d, i) in direct" :key="i" class="direct-col">
+            <label>{{ ['年柱','月柱','日柱','时柱'][i] }}</label>
+            <select v-model="direct[i].gan"><option v-for="g in GAN_OPTS" :key="g" :value="g">{{ g }}</option></select>
+            <select v-model="direct[i].zhi"><option v-for="z in ZHI_OPTS" :key="z" :value="z">{{ z }}</option></select>
+          </div>
+        </div>
+        <div class="switches">
+          <label>性别：
+            <select v-model="form.gender"><option value="male">男 · 乾造</option><option value="female">女 · 坤造</option></select>
+          </label>
+          <span class="small">改性别只影响大运顺逆说明，本命盘不变；直接输入默认只看本命盘。</span>
+        </div>
+        <button class="btn" @click="runDirect">出 盘</button>
+        <div class="preset-box">
+          <div class="preset-title">名人命例 · 备用计算八字·比对用（点一下即出盘）</div>
+          <div class="preset-chips">
+            <button v-for="pr in PRESETS" :key="pr.name" class="chip" @click="applyPreset(pr)">{{ pr.gz }} {{ pr.name }}</button>
+          </div>
+        </div>
+      </template>
+      <div v-if="inputMode === 'birth'" class="grid">
         <div class="field">
           <label>历法</label>
           <div class="seg">
@@ -148,6 +211,7 @@ run()
           </select>
         </div>
       </div>
+      <template v-if="inputMode === 'birth'">
       <div class="switches">
         <label><input type="checkbox" v-model="form.useTrueSolarTime" /> 真太阳时</label>
         <label v-if="form.calendar === 'lunar'"><input type="checkbox" v-model="form.lunarLeap" /> 闰月</label>
@@ -159,12 +223,20 @@ run()
         </label>
       </div>
       <button class="btn" @click="run">排 盘</button>
+      </template>
       <p v-if="errorMsg" style="color: var(--red); font-size: 13px;">{{ errorMsg }}</p>
     </section>
 
     <template v-if="result">
       <!-- 顶部信息行（图1） -->
-      <section class="card info-card">
+      <section v-if="result.directMode" class="card info-card">
+        <table class="info-table"><tbody>
+          <tr><th>四柱</th><td>{{ result.pillars.map(p=>p.ganZhi).join(' ') }} · {{ result.genderLabel }} · 日主 {{ result.dayGan }}（备用计算八字·比对用）</td></tr>
+          <tr v-if="result.reverseSolarText"><th>反查示例</th><td>公历 {{ result.reverseSolarText }}（仅用于取库本命字段，不代表命主生辰）</td></tr>
+          <tr><th>大运</th><td>直接输入模式默认只看本命盘；需补出生日期/性别并改用生辰排盘才能排大运。</td></tr>
+        </tbody></table>
+      </section>
+      <section v-else class="card info-card">
         <table class="info-table">
           <tbody>
             <tr><th>日期</th><td>{{ result.solarText }}（农历 {{ result.lunarText }}）</td></tr>
@@ -255,7 +327,11 @@ run()
         <p class="meta">日主 {{ result.dayGan }}：{{ result.dayMasterStrength }}（同党占比粗判，仅供参考）</p>
       </section>
 
-      <section class="card">
+      <section v-if="!result.daYun.length" class="card">
+        <h2>大运 · 交运</h2>
+        <p class="jiao">直接输入模式默认只看本命盘，大运无法排：需补出生日期/性别并改用「生辰排盘」才能排大运。此处不假排。</p>
+      </section>
+      <section v-else class="card">
         <h2>大运 · 交运</h2>
         <p class="jiao">{{ result.jiaoYunText }}。首步交运：{{ result.qiYunStartSolar }}（{{ result.qiYunStartDate }}）。</p>
         <div class="dy-scroll">

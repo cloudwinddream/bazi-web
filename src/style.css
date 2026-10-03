@@ -102,3 +102,14 @@ footer { margin-top: 22px; font-size: 12px; color: #99876c; line-height: 1.8; te
   .dark-gan { font-size: 34px; } .dark-zhi { font-size: 30px; }
   .dark-hide { gap: 6px; } .dark-hide-gan { font-size: 15px; }
 }
+
+/* 直接输入模式 */
+.mode-seg { margin-bottom: 14px; }
+.direct-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.direct-col label { display: block; font-size: 12px; color: #7a6a55; margin-bottom: 4px; text-align: center; }
+.direct-col select { width: 100%; padding: 9px 4px; border: 1px solid var(--line); border-radius: 9px; font-size: 17px; background: #fff; font-family: inherit; text-align: center; margin-bottom: 6px; }
+.preset-box { margin-top: 14px; border-top: 1px dashed var(--line); padding-top: 10px; }
+.preset-title { font-size: 12px; color: #7a6a55; margin-bottom: 8px; }
+.preset-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 6px 10px; font-size: 12px; cursor: pointer; font-family: inherit; }
+.chip:active { background: #fdf0ec; border-color: var(--red); }

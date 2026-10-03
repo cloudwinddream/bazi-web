@@ -16,7 +16,7 @@
     "build": "vue-tsc --noEmit && vite build",
     "dev": "vite",
     "preview": "vite preview",
-    "test:cases": "node tests/build-engine.mjs && node tests/run-cases.mjs",
+    "test:cases": "node tests/build-engine.mjs && node tests/run-cases.mjs && node tests/direct-cases.mjs",
     "test:cross": "node tests/build-engine.mjs && node tests/dump-js.mjs && python3 tests/cross_check.py check"
   },
   "type": "module",

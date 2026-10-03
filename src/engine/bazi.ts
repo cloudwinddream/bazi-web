@@ -94,6 +94,8 @@ export interface BaziResult {
   qiYunStartDate: string
   jiaoYunText: string
   jieQiTermText: string
+  directMode?: boolean
+  reverseSolarText?: string
   caliber: string[]
 }
 
@@ -363,5 +365,137 @@ export function calcBazi(input: BirthInput): BaziResult {
     qiYunStartDate: solarYmd(qiYunStartObj),
     jiaoYunText, jieQiTermText,
     caliber,
+  }
+}
+
+// ---- 直接输入八字（比对用）：校验 + 反查示例日期取库字段 ----
+export function validatePillars(pillars: string[]): string | null {
+  if (pillars.length !== 4) return '需要完整的年、月、日、时四柱'
+  for (const gz of pillars) {
+    if (!gz || gz.length !== 2) return `干支「${gz || ''}」不完整，每柱需天干+地支各一字`
+    const g = gz.charAt(0), z = gz.charAt(1)
+    if (!GAN_LIST.includes(g)) return `天干「${g}」不合法（应为甲乙丙丁戊己庚辛壬癸）`
+    if (!ZHI_LIST.includes(z)) return `地支「${z}」不合法（应为子丑寅卯辰巳午未申酉戌亥）`
+    if (GAN_LIST.indexOf(g) % 2 !== ZHI_LIST.indexOf(z) % 2) return `干支组合「${gz}」不存在：阴阳不合，六十甲子中无此柱`
+  }
+  return null
+}
+
+export function pillarWarnings(pillars: string[]): string[] {
+  const warns: string[] = []
+  if (validatePillars(pillars)) return warns
+  const yearGan = pillars[0].charAt(0)
+  const monthZhiIdx = ZHI_LIST.indexOf(pillars[1].charAt(1))
+  const monthOffset = (monthZhiIdx - ZHI_LIST.indexOf('寅') + 12) % 12
+  const firstMonthGanIdx: Record<string, number> = { 甲: 2, 己: 2, 乙: 4, 庚: 4, 丙: 6, 辛: 6, 丁: 8, 壬: 8, 戊: 0, 癸: 0 }
+  const expectedMonthGan = GAN_LIST[(firstMonthGanIdx[yearGan] + monthOffset) % 10]
+  if (pillars[1].charAt(0) !== expectedMonthGan) warns.push(`月柱与五虎遁不合（${yearGan}年${pillars[1].charAt(1)}月按遁法应为${expectedMonthGan}${pillars[1].charAt(1)}），已按输入原柱出盘供比对`)
+  const dayGan = pillars[2].charAt(0)
+  const timeZhiIdx = ZHI_LIST.indexOf(pillars[3].charAt(1))
+  const ziGanIdx: Record<string, number> = { 甲: 0, 己: 0, 乙: 2, 庚: 2, 丙: 4, 辛: 4, 丁: 6, 壬: 6, 戊: 8, 癸: 8 }
+  const expectedTimeGan = GAN_LIST[(ziGanIdx[dayGan] + timeZhiIdx) % 10]
+  if (pillars[3].charAt(0) !== expectedTimeGan) warns.push(`时柱与五鼠遁不合（${dayGan}日${pillars[3].charAt(1)}时按遁法应为${expectedTimeGan}${pillars[3].charAt(1)}），已按输入原柱出盘供比对`)
+  return warns
+}
+
+export function calcFromPillars(pillarsInput: string[], gender: 'male' | 'female', ziSect: 1 | 2 = 1): BaziResult {
+  const err = validatePillars(pillarsInput)
+  if (err) throw new Error(err)
+  const [ygz, mgz, dgz, tgz] = pillarsInput
+  // 四柱反查示例公历（1800 年起），仅为调用库 EightChar 字段，不代表命主生辰
+  let found: any = null
+  for (const sect of [ziSect, ziSect === 1 ? 2 : 1] as const) {
+    const list = (Solar as any).fromBaZi(ygz, mgz, dgz, tgz, sect, 1800)
+    if (Array.isArray(list)) {
+      for (const s of list) {
+        const ec0 = s.getLunar().getEightChar(); ec0.setSect(ziSect)
+        if (ec0.getYear() === ygz && ec0.getMonth() === mgz && ec0.getDay() === dgz && ec0.getTime() === tgz) { found = s; break }
+      }
+    }
+    if (found) break
+  }
+  const warns = pillarWarnings(pillarsInput)
+  if (!found) {
+    // 反查无真实日期（多为五虎/五鼠不合的历史命例）：按库表由四柱直推本命字段，不编造
+    const dayGan0 = dgz.charAt(0)
+    const mkF = (label: string, gz: string): Pillar => {
+      const gan = gz.charAt(0); const zhi = gz.charAt(1)
+      const hide: string[] = ((LunarUtil as any).ZHI_HIDE_GAN[zhi] as string[]) || []
+      const offset = (LunarUtil as any).CHANG_SHENG_OFFSET[dayGan0]
+      const dIdx = GAN_LIST.indexOf(dayGan0); const zIdx = ZHI_LIST.indexOf(zhi)
+      let ci = ((offset + (dIdx % 2 === 0 ? zIdx : -zIdx)) % 12 + 12) % 12
+      return { label, ganZhi: gz, gan, zhi, ganWx: GAN_WUXING[gan], zhiWx: ZHI_WUXING[zhi], hideGan: hide, shiShenGan: label === '日柱' ? '日主' : shiShenOf(dayGan0, gan), shiShenZhi: hide.map((g) => shiShenOf(dayGan0, g)), naYin: (LunarUtil as any).NAYIN[gz] || '', diShi: (LunarUtil as any).CHANG_SHENG[ci], ziZuo: ziZuoOf(gan, zhi), xun: (LunarUtil as any).getXun ? (LunarUtil as any).getXun(gz) : '', xunKong: (LunarUtil as any).getXunKong ? (LunarUtil as any).getXunKong(gz) : '' }
+    }
+    const pillarsF: Pillar[] = [mkF('年柱', ygz), mkF('月柱', mgz), mkF('日柱', dgz), mkF('时柱', tgz)]
+    const scoresF: Record<string, number> = { 木: 0, 火: 0, 土: 0, 金: 0, 水: 0 }
+    for (const pp of pillarsF) { scoresF[GAN_WUXING[pp.gan]] += 1.0; pp.hideGan.forEach((g, i) => { scoresF[GAN_WUXING[g]] += HIDE_WEIGHTS[i] ?? 0.2 }) }
+    const wuXingF = ORDER.map((n) => ({ name: n, score: Math.round(scoresF[n] * 10) / 10 }))
+    const dayWxF = GAN_WUXING[dayGan0]; const shengWoF: Record<string, string> = { 木: '水', 火: '木', 土: '火', 金: '土', 水: '金' }
+    const totalF = wuXingF.reduce((a, b) => a + b.score, 0); const ratioF = totalF ? (scoresF[dayWxF] + scoresF[shengWoF[dayWxF]]) / totalF : 0
+    const taiGan = GAN_LIST[(GAN_LIST.indexOf(mgz.charAt(0)) + 1) % 10]; const taiZhi = ZHI_LIST[(ZHI_LIST.indexOf(mgz.charAt(1)) + 3) % 12]; const taiYuanF = taiGan + taiZhi
+    // 命宫/身宫按库公式（MONTH_ZHI 序）推算
+    const MONTH_ZHI = ['寅','卯','辰','巳','午','未','申','酉','戌','亥','子','丑']
+    const mzIdx = MONTH_ZHI.indexOf(mgz.charAt(1)) + 1; const tzIdxM = MONTH_ZHI.indexOf(tgz.charAt(1)) + 1
+    let offM = mzIdx + tzIdxM; offM = (offM >= 14 ? 26 : 14) - offM
+    let gIdxM = (GAN_LIST.indexOf(ygz.charAt(0)) + 1 + 1) * 2 + offM; while (gIdxM > 10) gIdxM -= 10
+    const mingGongF = GAN_LIST[gIdxM - 1] + MONTH_ZHI[offM - 1]
+    const tzIdxZ = ZHI_LIST.indexOf(tgz.charAt(1)) + 1
+    let offS = mzIdx + tzIdxZ; if (offS > 12) offS -= 12
+    let gIdxS = (GAN_LIST.indexOf(ygz.charAt(0)) + 1 + 1) * 2 + offS; while (gIdxS > 10) gIdxS -= 10
+    const shenGongF = GAN_LIST[gIdxS - 1] + MONTH_ZHI[offS - 1]
+    return {
+      pillars: pillarsF, dayGan: dayGan0, lunarText: '', solarText: '', beijingText: '', correctedText: '',
+      trueSolarOffsetSeconds: null, equationOfTimeSeconds: null, wuXing: wuXingF,
+      dayMasterStrength: ratioF >= 0.55 ? '身偏强' : ratioF >= 0.42 ? '中和偏强' : ratioF >= 0.32 ? '中和偏弱' : '身偏弱',
+      qiYunText: '直接输入模式：未排大运（需出生日期与性别补排）', qiYunStartSolar: '', daYun: [],
+      prevJieQi: '', nextJieQi: '',
+      taiYuan: `${taiYuanF}（${(LunarUtil as any).NAYIN[taiYuanF] || ''}）`, taiYuanGanZhi: taiYuanF,
+      mingGong: `${mingGongF}（${(LunarUtil as any).NAYIN[mingGongF] || ''}）`, mingGongGanZhi: mingGongF,
+      shenGong: `${shenGongF}（${(LunarUtil as any).NAYIN[shenGongF] || ''}）`, shenGongGanZhi: shenGongF,
+      genderLabel: gender === 'male' ? '乾造' : '坤造', placeName: '', prevJieQiName: '', nextJieQiName: '', jieQiFromPrevText: '', jieQiToNextText: '',
+      qiYunStartDate: '', jiaoYunText: '直接输入模式默认只看本命盘；如需大运，请改用生辰排盘并补出生日期/性别。', jieQiTermText: '',
+      directMode: true, reverseSolarText: '',
+      caliber: ['直接输入四柱（备用计算八字·比对用），与生辰模式同库表口径（lunar-javascript 1.7.7）', '此四柱反查无对应真实公历（见警告），本命字段按库表由四柱直接推算', ...warns, '大运未排：直接输入无生辰信息，性别仅影响大运顺逆说明，本命盘不变'],
+    }
+  }
+  const lunar = found.getLunar()
+  const ec = lunar.getEightChar(); ec.setSect(ziSect)
+  const mk = (label: string, gz: string, hide: string[], ssg: string, ssz: string[], nayin: string, dishi: string, xun: string, xunkong: string): Pillar => {
+    const gan = gz.charAt(0); const zhi = gz.charAt(1)
+    return { label, ganZhi: gz, gan, zhi, ganWx: GAN_WUXING[gan], zhiWx: ZHI_WUXING[zhi], hideGan: hide, shiShenGan: ssg, shiShenZhi: ssz, naYin: nayin, diShi: dishi, ziZuo: ziZuoOf(gan, zhi), xun, xunKong: xunkong }
+  }
+  const pillars: Pillar[] = [
+    mk('年柱', ec.getYear(), ec.getYearHideGan(), ec.getYearShiShenGan(), ec.getYearShiShenZhi(), ec.getYearNaYin(), ec.getYearDiShi(), ec.getYearXun(), ec.getYearXunKong()),
+    mk('月柱', ec.getMonth(), ec.getMonthHideGan(), ec.getMonthShiShenGan(), ec.getMonthShiShenZhi(), ec.getMonthNaYin(), ec.getMonthDiShi(), ec.getMonthXun(), ec.getMonthXunKong()),
+    mk('日柱', ec.getDay(), ec.getDayHideGan(), ec.getDayShiShenGan(), ec.getDayShiShenZhi(), ec.getDayNaYin(), ec.getDayDiShi(), ec.getDayXun(), ec.getDayXunKong()),
+    mk('时柱', ec.getTime(), ec.getTimeHideGan(), ec.getTimeShiShenGan(), ec.getTimeShiShenZhi(), ec.getTimeNaYin(), ec.getTimeDiShi(), ec.getTimeXun(), ec.getTimeXunKong()),
+  ]
+  const scores: Record<string, number> = { 木: 0, 火: 0, 土: 0, 金: 0, 水: 0 }
+  for (const p of pillars) { scores[GAN_WUXING[p.gan]] += 1.0; p.hideGan.forEach((g, i) => { scores[GAN_WUXING[g]] += HIDE_WEIGHTS[i] ?? 0.2 }) }
+  const wuXing = ORDER.map((n) => ({ name: n, score: Math.round(scores[n] * 10) / 10 }))
+  const dayGan = ec.getDayGan(); const dayWx = GAN_WUXING[dayGan]
+  const shengWo: Record<string, string> = { 木: '水', 火: '木', 土: '火', 金: '土', 水: '金' }
+  const total = wuXing.reduce((a, b) => a + b.score, 0); const ally = scores[dayWx] + scores[shengWo[dayWx]]; const ratio = total ? ally / total : 0
+  const dayMasterStrength = ratio >= 0.55 ? '身偏强' : ratio >= 0.42 ? '中和偏强' : ratio >= 0.32 ? '中和偏弱' : '身偏弱'
+  return {
+    pillars, dayGan,
+    lunarText: '', solarText: '', beijingText: '', correctedText: '',
+    trueSolarOffsetSeconds: null, equationOfTimeSeconds: null,
+    wuXing, dayMasterStrength,
+    qiYunText: '直接输入模式：未排大运（需出生日期与性别补排）', qiYunStartSolar: '', daYun: [],
+    prevJieQi: '', nextJieQi: '',
+    taiYuan: `${ec.getTaiYuan()}（${ec.getTaiYuanNaYin()}）`, taiYuanGanZhi: ec.getTaiYuan(),
+    mingGong: `${ec.getMingGong()}（${ec.getMingGongNaYin()}）`, mingGongGanZhi: ec.getMingGong(),
+    shenGong: `${ec.getShenGong()}（${ec.getShenGongNaYin()}）`, shenGongGanZhi: ec.getShenGong(),
+    genderLabel: gender === 'male' ? '乾造' : '坤造',
+    placeName: '', prevJieQiName: '', nextJieQiName: '', jieQiFromPrevText: '', jieQiToNextText: '',
+    qiYunStartDate: '', jiaoYunText: '直接输入模式默认只看本命盘；如需大运，请改用生辰排盘并补出生日期/性别。', jieQiTermText: '',
+    directMode: true, reverseSolarText: solarFmt(found),
+    caliber: [
+      '直接输入四柱（备用计算八字·比对用），与生辰模式同引擎同口径（lunar-javascript 1.7.7）',
+      `反查示例公历 ${solarFmt(found)} 仅用于取库本命字段，不代表命主生辰`,
+      `子时流派 sect=${ziSect}`,
+      '大运未排：直接输入无生辰信息，性别仅影响大运顺逆说明，本命盘不变',
+    ],
   }
 }
