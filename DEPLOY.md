@@ -5,3 +5,4 @@
 - 自定义域：https://bazi.cloudwind.ccwu.cc（CNAME → bazi-web-553.pages.dev，proxied，证书由 Cloudflare 自动签发）
 - 构建：`npm run build` → `dist`，生产分支 `main`
 - 发布前自测：`npm run test:cases` 10/10 通过（立春交界、子时 sect1/2、闰二月、清明交界、千禧、真太阳时临界等）
+- 精度整改版：2026-10-03，npm run test:cross 30/30 通过后 push 触发自动部署（真太阳时秒级天文公式、大运 sect、时区、胎元命宫）。

@@ -1,0 +1,4824 @@
+[
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "庚午",
+    "hideGan": [
+     "丁",
+     "己"
+    ],
+    "shiShenGan": "劫财",
+    "shiShenZhi": [
+     "七杀",
+     "偏印"
+    ],
+    "naYin": "路旁土",
+    "diShi": "病",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "壬午",
+    "hideGan": [
+     "丁",
+     "己"
+    ],
+    "shiShenGan": "伤官",
+    "shiShenZhi": [
+     "七杀",
+     "偏印"
+    ],
+    "naYin": "杨柳木",
+    "diShi": "病",
+    "xunKong": "申酉"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "辛亥",
+    "hideGan": [
+     "壬",
+     "甲"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "伤官",
+     "正财"
+    ],
+    "naYin": "钗钏金",
+    "diShi": "沐浴",
+    "xunKong": "寅卯"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "乙未",
+    "hideGan": [
+     "己",
+     "丁",
+     "乙"
+    ],
+    "shiShenGan": "偏财",
+    "shiShenZhi": [
+     "偏印",
+     "七杀",
+     "偏财"
+    ],
+    "naYin": "沙中金",
+    "diShi": "衰",
+    "xunKong": "辰巳"
+   }
+  ],
+  "taiYuan": "癸酉（剑锋金）",
+  "mingGong": "庚辰（白蜡金）",
+  "shenGong": "戊寅（城头土）",
+  "prevJieQi": "芒种 1990-06-06 06:46:18",
+  "nextJieQi": "小暑 1990-07-07 17:00:28",
+  "qiYunStartSolar": "1997-11-04 14:30:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 1990,
+    "endYear": 1996,
+    "startAge": 1,
+    "endAge": 7
+   },
+   {
+    "index": 1,
+    "ganZhi": "癸未",
+    "startYear": 1997,
+    "endYear": 2006,
+    "startAge": 8,
+    "endAge": 17
+   },
+   {
+    "index": 2,
+    "ganZhi": "甲申",
+    "startYear": 2007,
+    "endYear": 2016,
+    "startAge": 18,
+    "endAge": 27
+   },
+   {
+    "index": 3,
+    "ganZhi": "乙酉",
+    "startYear": 2017,
+    "endYear": 2026,
+    "startAge": 28,
+    "endAge": 37
+   },
+   {
+    "index": 4,
+    "ganZhi": "丙戌",
+    "startYear": 2027,
+    "endYear": 2036,
+    "startAge": 38,
+    "endAge": 47
+   },
+   {
+    "index": 5,
+    "ganZhi": "丁亥",
+    "startYear": 2037,
+    "endYear": 2046,
+    "startAge": 48,
+    "endAge": 57
+   },
+   {
+    "index": 6,
+    "ganZhi": "戊子",
+    "startYear": 2047,
+    "endYear": 2056,
+    "startAge": 58,
+    "endAge": 67
+   },
+   {
+    "index": 7,
+    "ganZhi": "己丑",
+    "startYear": 2057,
+    "endYear": 2066,
+    "startAge": 68,
+    "endAge": 77
+   },
+   {
+    "index": 8,
+    "ganZhi": "庚寅",
+    "startYear": 2067,
+    "endYear": 2076,
+    "startAge": 78,
+    "endAge": 87
+   },
+   {
+    "index": 9,
+    "ganZhi": "辛卯",
+    "startYear": 2077,
+    "endYear": 2086,
+    "startAge": 88,
+    "endAge": 97
+   }
+  ],
+  "correctedText": "1990-06-15 14:30:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "基准1990"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "癸卯",
+    "hideGan": [
+     "乙"
+    ],
+    "shiShenGan": "正财",
+    "shiShenZhi": [
+     "正官"
+    ],
+    "naYin": "金箔金",
+    "diShi": "沐浴",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "乙丑",
+    "hideGan": [
+     "己",
+     "癸",
+     "辛"
+    ],
+    "shiShenGan": "正官",
+    "shiShenZhi": [
+     "劫财",
+     "正财",
+     "伤官"
+    ],
+    "naYin": "海中金",
+    "diShi": "养",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "戊戌",
+    "hideGan": [
+     "戊",
+     "辛",
+     "丁"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "比肩",
+     "伤官",
+     "正印"
+    ],
+    "naYin": "平地木",
+    "diShi": "墓",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "庚申",
+    "hideGan": [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    "shiShenGan": "食神",
+    "shiShenZhi": [
+     "食神",
+     "偏财",
+     "比肩"
+    ],
+    "naYin": "石榴木",
+    "diShi": "病",
+    "xunKong": "子丑"
+   }
+  ],
+  "taiYuan": "丙辰（沙中土）",
+  "mingGong": "庚申（石榴木）",
+  "shenGong": "壬戌（大海水）",
+  "prevJieQi": "小寒 2024-01-06 04:49:22",
+  "nextJieQi": "立春 2024-02-04 16:27:07",
+  "qiYunStartSolar": "2033-12-04 16:26:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2024,
+    "endYear": 2032,
+    "startAge": 1,
+    "endAge": 9
+   },
+   {
+    "index": 1,
+    "ganZhi": "甲子",
+    "startYear": 2033,
+    "endYear": 2042,
+    "startAge": 10,
+    "endAge": 19
+   },
+   {
+    "index": 2,
+    "ganZhi": "癸亥",
+    "startYear": 2043,
+    "endYear": 2052,
+    "startAge": 20,
+    "endAge": 29
+   },
+   {
+    "index": 3,
+    "ganZhi": "壬戌",
+    "startYear": 2053,
+    "endYear": 2062,
+    "startAge": 30,
+    "endAge": 39
+   },
+   {
+    "index": 4,
+    "ganZhi": "辛酉",
+    "startYear": 2063,
+    "endYear": 2072,
+    "startAge": 40,
+    "endAge": 49
+   },
+   {
+    "index": 5,
+    "ganZhi": "庚申",
+    "startYear": 2073,
+    "endYear": 2082,
+    "startAge": 50,
+    "endAge": 59
+   },
+   {
+    "index": 6,
+    "ganZhi": "己未",
+    "startYear": 2083,
+    "endYear": 2092,
+    "startAge": 60,
+    "endAge": 69
+   },
+   {
+    "index": 7,
+    "ganZhi": "戊午",
+    "startYear": 2093,
+    "endYear": 2102,
+    "startAge": 70,
+    "endAge": 79
+   },
+   {
+    "index": 8,
+    "ganZhi": "丁巳",
+    "startYear": 2103,
+    "endYear": 2112,
+    "startAge": 80,
+    "endAge": 89
+   },
+   {
+    "index": 9,
+    "ganZhi": "丙辰",
+    "startYear": 2113,
+    "endYear": 2122,
+    "startAge": 90,
+    "endAge": 99
+   }
+  ],
+  "correctedText": "2024-02-04 16:26:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "立春前1分钟2024"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "甲辰",
+    "hideGan": [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    "shiShenGan": "七杀",
+    "shiShenZhi": [
+     "比肩",
+     "正官",
+     "正财"
+    ],
+    "naYin": "覆灯火",
+    "diShi": "冠带",
+    "xunKong": "寅卯"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "丙寅",
+    "hideGan": [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    "shiShenGan": "偏印",
+    "shiShenZhi": [
+     "七杀",
+     "偏印",
+     "比肩"
+    ],
+    "naYin": "炉中火",
+    "diShi": "长生",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "戊戌",
+    "hideGan": [
+     "戊",
+     "辛",
+     "丁"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "比肩",
+     "伤官",
+     "正印"
+    ],
+    "naYin": "平地木",
+    "diShi": "墓",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "庚申",
+    "hideGan": [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    "shiShenGan": "食神",
+    "shiShenZhi": [
+     "食神",
+     "偏财",
+     "比肩"
+    ],
+    "naYin": "石榴木",
+    "diShi": "病",
+    "xunKong": "子丑"
+   }
+  ],
+  "taiYuan": "丁巳（沙中土）",
+  "mingGong": "辛未（路旁土）",
+  "shenGong": "乙亥（山头火）",
+  "prevJieQi": "立春 2024-02-04 16:27:07",
+  "nextJieQi": "惊蛰 2024-03-05 10:22:45",
+  "qiYunStartSolar": "2034-01-04 16:28:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2024,
+    "endYear": 2033,
+    "startAge": 1,
+    "endAge": 10
+   },
+   {
+    "index": 1,
+    "ganZhi": "丁卯",
+    "startYear": 2034,
+    "endYear": 2043,
+    "startAge": 11,
+    "endAge": 20
+   },
+   {
+    "index": 2,
+    "ganZhi": "戊辰",
+    "startYear": 2044,
+    "endYear": 2053,
+    "startAge": 21,
+    "endAge": 30
+   },
+   {
+    "index": 3,
+    "ganZhi": "己巳",
+    "startYear": 2054,
+    "endYear": 2063,
+    "startAge": 31,
+    "endAge": 40
+   },
+   {
+    "index": 4,
+    "ganZhi": "庚午",
+    "startYear": 2064,
+    "endYear": 2073,
+    "startAge": 41,
+    "endAge": 50
+   },
+   {
+    "index": 5,
+    "ganZhi": "辛未",
+    "startYear": 2074,
+    "endYear": 2083,
+    "startAge": 51,
+    "endAge": 60
+   },
+   {
+    "index": 6,
+    "ganZhi": "壬申",
+    "startYear": 2084,
+    "endYear": 2093,
+    "startAge": 61,
+    "endAge": 70
+   },
+   {
+    "index": 7,
+    "ganZhi": "癸酉",
+    "startYear": 2094,
+    "endYear": 2103,
+    "startAge": 71,
+    "endAge": 80
+   },
+   {
+    "index": 8,
+    "ganZhi": "甲戌",
+    "startYear": 2104,
+    "endYear": 2113,
+    "startAge": 81,
+    "endAge": 90
+   },
+   {
+    "index": 9,
+    "ganZhi": "乙亥",
+    "startYear": 2114,
+    "endYear": 2123,
+    "startAge": 91,
+    "endAge": 100
+   }
+  ],
+  "correctedText": "2024-02-04 16:28:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "立春后1分钟2024"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "癸卯",
+    "hideGan": [
+     "乙"
+    ],
+    "shiShenGan": "正财",
+    "shiShenZhi": [
+     "正官"
+    ],
+    "naYin": "金箔金",
+    "diShi": "沐浴",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "乙丑",
+    "hideGan": [
+     "己",
+     "癸",
+     "辛"
+    ],
+    "shiShenGan": "正官",
+    "shiShenZhi": [
+     "劫财",
+     "正财",
+     "伤官"
+    ],
+    "naYin": "海中金",
+    "diShi": "养",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "戊戌",
+    "hideGan": [
+     "戊",
+     "辛",
+     "丁"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "比肩",
+     "伤官",
+     "正印"
+    ],
+    "naYin": "平地木",
+    "diShi": "墓",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "庚申",
+    "hideGan": [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    "shiShenGan": "食神",
+    "shiShenZhi": [
+     "食神",
+     "偏财",
+     "比肩"
+    ],
+    "naYin": "石榴木",
+    "diShi": "病",
+    "xunKong": "子丑"
+   }
+  ],
+  "taiYuan": "丙辰（沙中土）",
+  "mingGong": "庚申（石榴木）",
+  "shenGong": "壬戌（大海水）",
+  "prevJieQi": "小寒 2024-01-06 04:49:22",
+  "nextJieQi": "立春 2024-02-04 16:27:07",
+  "qiYunStartSolar": "2024-02-04 16:27:06",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2024,
+    "endYear": 2023,
+    "startAge": 1,
+    "endAge": 0
+   },
+   {
+    "index": 1,
+    "ganZhi": "丙寅",
+    "startYear": 2024,
+    "endYear": 2033,
+    "startAge": 1,
+    "endAge": 10
+   },
+   {
+    "index": 2,
+    "ganZhi": "丁卯",
+    "startYear": 2034,
+    "endYear": 2043,
+    "startAge": 11,
+    "endAge": 20
+   },
+   {
+    "index": 3,
+    "ganZhi": "戊辰",
+    "startYear": 2044,
+    "endYear": 2053,
+    "startAge": 21,
+    "endAge": 30
+   },
+   {
+    "index": 4,
+    "ganZhi": "己巳",
+    "startYear": 2054,
+    "endYear": 2063,
+    "startAge": 31,
+    "endAge": 40
+   },
+   {
+    "index": 5,
+    "ganZhi": "庚午",
+    "startYear": 2064,
+    "endYear": 2073,
+    "startAge": 41,
+    "endAge": 50
+   },
+   {
+    "index": 6,
+    "ganZhi": "辛未",
+    "startYear": 2074,
+    "endYear": 2083,
+    "startAge": 51,
+    "endAge": 60
+   },
+   {
+    "index": 7,
+    "ganZhi": "壬申",
+    "startYear": 2084,
+    "endYear": 2093,
+    "startAge": 61,
+    "endAge": 70
+   },
+   {
+    "index": 8,
+    "ganZhi": "癸酉",
+    "startYear": 2094,
+    "endYear": 2103,
+    "startAge": 71,
+    "endAge": 80
+   },
+   {
+    "index": 9,
+    "ganZhi": "甲戌",
+    "startYear": 2104,
+    "endYear": 2113,
+    "startAge": 81,
+    "endAge": 90
+   }
+  ],
+  "correctedText": "2024-02-04 16:27:06",
+  "trueSolarOffsetSeconds": null,
+  "name": "立春精确秒前2024-02-04 16:27:06"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "甲辰",
+    "hideGan": [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    "shiShenGan": "七杀",
+    "shiShenZhi": [
+     "比肩",
+     "正官",
+     "正财"
+    ],
+    "naYin": "覆灯火",
+    "diShi": "冠带",
+    "xunKong": "寅卯"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "丙寅",
+    "hideGan": [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    "shiShenGan": "偏印",
+    "shiShenZhi": [
+     "七杀",
+     "偏印",
+     "比肩"
+    ],
+    "naYin": "炉中火",
+    "diShi": "长生",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "戊戌",
+    "hideGan": [
+     "戊",
+     "辛",
+     "丁"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "比肩",
+     "伤官",
+     "正印"
+    ],
+    "naYin": "平地木",
+    "diShi": "墓",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "庚申",
+    "hideGan": [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    "shiShenGan": "食神",
+    "shiShenZhi": [
+     "食神",
+     "偏财",
+     "比肩"
+    ],
+    "naYin": "石榴木",
+    "diShi": "病",
+    "xunKong": "子丑"
+   }
+  ],
+  "taiYuan": "丁巳（沙中土）",
+  "mingGong": "辛未（路旁土）",
+  "shenGong": "乙亥（山头火）",
+  "prevJieQi": "立春 2024-02-04 16:27:07",
+  "nextJieQi": "惊蛰 2024-03-05 10:22:45",
+  "qiYunStartSolar": "2024-02-04 16:27:08",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2024,
+    "endYear": 2023,
+    "startAge": 1,
+    "endAge": 0
+   },
+   {
+    "index": 1,
+    "ganZhi": "乙丑",
+    "startYear": 2024,
+    "endYear": 2033,
+    "startAge": 1,
+    "endAge": 10
+   },
+   {
+    "index": 2,
+    "ganZhi": "甲子",
+    "startYear": 2034,
+    "endYear": 2043,
+    "startAge": 11,
+    "endAge": 20
+   },
+   {
+    "index": 3,
+    "ganZhi": "癸亥",
+    "startYear": 2044,
+    "endYear": 2053,
+    "startAge": 21,
+    "endAge": 30
+   },
+   {
+    "index": 4,
+    "ganZhi": "壬戌",
+    "startYear": 2054,
+    "endYear": 2063,
+    "startAge": 31,
+    "endAge": 40
+   },
+   {
+    "index": 5,
+    "ganZhi": "辛酉",
+    "startYear": 2064,
+    "endYear": 2073,
+    "startAge": 41,
+    "endAge": 50
+   },
+   {
+    "index": 6,
+    "ganZhi": "庚申",
+    "startYear": 2074,
+    "endYear": 2083,
+    "startAge": 51,
+    "endAge": 60
+   },
+   {
+    "index": 7,
+    "ganZhi": "己未",
+    "startYear": 2084,
+    "endYear": 2093,
+    "startAge": 61,
+    "endAge": 70
+   },
+   {
+    "index": 8,
+    "ganZhi": "戊午",
+    "startYear": 2094,
+    "endYear": 2103,
+    "startAge": 71,
+    "endAge": 80
+   },
+   {
+    "index": 9,
+    "ganZhi": "丁巳",
+    "startYear": 2104,
+    "endYear": 2113,
+    "startAge": 81,
+    "endAge": 90
+   }
+  ],
+  "correctedText": "2024-02-04 16:27:08",
+  "trueSolarOffsetSeconds": null,
+  "name": "立春精确秒后2024-02-04 16:27:08"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "癸卯",
+    "hideGan": [
+     "乙"
+    ],
+    "shiShenGan": "偏印",
+    "shiShenZhi": [
+     "比肩"
+    ],
+    "naYin": "金箔金",
+    "diShi": "临官",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "甲子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "劫财",
+    "shiShenZhi": [
+     "偏印"
+    ],
+    "naYin": "海中金",
+    "diShi": "病",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "乙丑",
+    "hideGan": [
+     "己",
+     "癸",
+     "辛"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "偏财",
+     "偏印",
+     "七杀"
+    ],
+    "naYin": "海中金",
+    "diShi": "衰",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "丙子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "伤官",
+    "shiShenZhi": [
+     "偏印"
+    ],
+    "naYin": "涧下水",
+    "diShi": "病",
+    "xunKong": "申酉"
+   }
+  ],
+  "taiYuan": "乙卯（大溪水）",
+  "mingGong": "丁巳（沙中土）",
+  "shenGong": "乙丑（海中金）",
+  "prevJieQi": "大雪 2023-12-07 17:32:55",
+  "nextJieQi": "小寒 2024-01-06 04:49:22",
+  "qiYunStartSolar": "2032-05-21 23:30:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2024,
+    "endYear": 2031,
+    "startAge": 1,
+    "endAge": 8
+   },
+   {
+    "index": 1,
+    "ganZhi": "癸亥",
+    "startYear": 2032,
+    "endYear": 2041,
+    "startAge": 9,
+    "endAge": 18
+   },
+   {
+    "index": 2,
+    "ganZhi": "壬戌",
+    "startYear": 2042,
+    "endYear": 2051,
+    "startAge": 19,
+    "endAge": 28
+   },
+   {
+    "index": 3,
+    "ganZhi": "辛酉",
+    "startYear": 2052,
+    "endYear": 2061,
+    "startAge": 29,
+    "endAge": 38
+   },
+   {
+    "index": 4,
+    "ganZhi": "庚申",
+    "startYear": 2062,
+    "endYear": 2071,
+    "startAge": 39,
+    "endAge": 48
+   },
+   {
+    "index": 5,
+    "ganZhi": "己未",
+    "startYear": 2072,
+    "endYear": 2081,
+    "startAge": 49,
+    "endAge": 58
+   },
+   {
+    "index": 6,
+    "ganZhi": "戊午",
+    "startYear": 2082,
+    "endYear": 2091,
+    "startAge": 59,
+    "endAge": 68
+   },
+   {
+    "index": 7,
+    "ganZhi": "丁巳",
+    "startYear": 2092,
+    "endYear": 2101,
+    "startAge": 69,
+    "endAge": 78
+   },
+   {
+    "index": 8,
+    "ganZhi": "丙辰",
+    "startYear": 2102,
+    "endYear": 2111,
+    "startAge": 79,
+    "endAge": 88
+   },
+   {
+    "index": 9,
+    "ganZhi": "乙卯",
+    "startYear": 2112,
+    "endYear": 2121,
+    "startAge": 89,
+    "endAge": 98
+   }
+  ],
+  "correctedText": "2024-01-01 23:30:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "子时23:30 sect1"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "癸卯",
+    "hideGan": [
+     "乙"
+    ],
+    "shiShenGan": "正印",
+    "shiShenZhi": [
+     "劫财"
+    ],
+    "naYin": "金箔金",
+    "diShi": "帝旺",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "甲子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "比肩",
+    "shiShenZhi": [
+     "正印"
+    ],
+    "naYin": "海中金",
+    "diShi": "沐浴",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "甲子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "正印"
+    ],
+    "naYin": "海中金",
+    "diShi": "沐浴",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "丙子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "食神",
+    "shiShenZhi": [
+     "正印"
+    ],
+    "naYin": "涧下水",
+    "diShi": "沐浴",
+    "xunKong": "申酉"
+   }
+  ],
+  "taiYuan": "乙卯（大溪水）",
+  "mingGong": "丁巳（沙中土）",
+  "shenGong": "乙丑（海中金）",
+  "prevJieQi": "大雪 2023-12-07 17:32:55",
+  "nextJieQi": "小寒 2024-01-06 04:49:22",
+  "qiYunStartSolar": "2032-05-21 23:30:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2024,
+    "endYear": 2031,
+    "startAge": 1,
+    "endAge": 8
+   },
+   {
+    "index": 1,
+    "ganZhi": "癸亥",
+    "startYear": 2032,
+    "endYear": 2041,
+    "startAge": 9,
+    "endAge": 18
+   },
+   {
+    "index": 2,
+    "ganZhi": "壬戌",
+    "startYear": 2042,
+    "endYear": 2051,
+    "startAge": 19,
+    "endAge": 28
+   },
+   {
+    "index": 3,
+    "ganZhi": "辛酉",
+    "startYear": 2052,
+    "endYear": 2061,
+    "startAge": 29,
+    "endAge": 38
+   },
+   {
+    "index": 4,
+    "ganZhi": "庚申",
+    "startYear": 2062,
+    "endYear": 2071,
+    "startAge": 39,
+    "endAge": 48
+   },
+   {
+    "index": 5,
+    "ganZhi": "己未",
+    "startYear": 2072,
+    "endYear": 2081,
+    "startAge": 49,
+    "endAge": 58
+   },
+   {
+    "index": 6,
+    "ganZhi": "戊午",
+    "startYear": 2082,
+    "endYear": 2091,
+    "startAge": 59,
+    "endAge": 68
+   },
+   {
+    "index": 7,
+    "ganZhi": "丁巳",
+    "startYear": 2092,
+    "endYear": 2101,
+    "startAge": 69,
+    "endAge": 78
+   },
+   {
+    "index": 8,
+    "ganZhi": "丙辰",
+    "startYear": 2102,
+    "endYear": 2111,
+    "startAge": 79,
+    "endAge": 88
+   },
+   {
+    "index": 9,
+    "ganZhi": "乙卯",
+    "startYear": 2112,
+    "endYear": 2121,
+    "startAge": 89,
+    "endAge": 98
+   }
+  ],
+  "correctedText": "2024-01-01 23:30:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "子时23:30 sect2"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "癸卯",
+    "hideGan": [
+     "乙"
+    ],
+    "shiShenGan": "偏印",
+    "shiShenZhi": [
+     "比肩"
+    ],
+    "naYin": "金箔金",
+    "diShi": "临官",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "甲子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "劫财",
+    "shiShenZhi": [
+     "偏印"
+    ],
+    "naYin": "海中金",
+    "diShi": "病",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "乙丑",
+    "hideGan": [
+     "己",
+     "癸",
+     "辛"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "偏财",
+     "偏印",
+     "七杀"
+    ],
+    "naYin": "海中金",
+    "diShi": "衰",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "丙子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "伤官",
+    "shiShenZhi": [
+     "偏印"
+    ],
+    "naYin": "涧下水",
+    "diShi": "病",
+    "xunKong": "申酉"
+   }
+  ],
+  "taiYuan": "乙卯（大溪水）",
+  "mingGong": "丁巳（沙中土）",
+  "shenGong": "乙丑（海中金）",
+  "prevJieQi": "大雪 2023-12-07 17:32:55",
+  "nextJieQi": "小寒 2024-01-06 04:49:22",
+  "qiYunStartSolar": "2025-05-22 00:30:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2024,
+    "endYear": 2024,
+    "startAge": 1,
+    "endAge": 1
+   },
+   {
+    "index": 1,
+    "ganZhi": "乙丑",
+    "startYear": 2025,
+    "endYear": 2034,
+    "startAge": 2,
+    "endAge": 11
+   },
+   {
+    "index": 2,
+    "ganZhi": "丙寅",
+    "startYear": 2035,
+    "endYear": 2044,
+    "startAge": 12,
+    "endAge": 21
+   },
+   {
+    "index": 3,
+    "ganZhi": "丁卯",
+    "startYear": 2045,
+    "endYear": 2054,
+    "startAge": 22,
+    "endAge": 31
+   },
+   {
+    "index": 4,
+    "ganZhi": "戊辰",
+    "startYear": 2055,
+    "endYear": 2064,
+    "startAge": 32,
+    "endAge": 41
+   },
+   {
+    "index": 5,
+    "ganZhi": "己巳",
+    "startYear": 2065,
+    "endYear": 2074,
+    "startAge": 42,
+    "endAge": 51
+   },
+   {
+    "index": 6,
+    "ganZhi": "庚午",
+    "startYear": 2075,
+    "endYear": 2084,
+    "startAge": 52,
+    "endAge": 61
+   },
+   {
+    "index": 7,
+    "ganZhi": "辛未",
+    "startYear": 2085,
+    "endYear": 2094,
+    "startAge": 62,
+    "endAge": 71
+   },
+   {
+    "index": 8,
+    "ganZhi": "壬申",
+    "startYear": 2095,
+    "endYear": 2104,
+    "startAge": 72,
+    "endAge": 81
+   },
+   {
+    "index": 9,
+    "ganZhi": "癸酉",
+    "startYear": 2105,
+    "endYear": 2114,
+    "startAge": 82,
+    "endAge": 91
+   }
+  ],
+  "correctedText": "2024-01-02 00:30:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "子时00:30 sect1"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "癸卯",
+    "hideGan": [
+     "乙"
+    ],
+    "shiShenGan": "偏印",
+    "shiShenZhi": [
+     "比肩"
+    ],
+    "naYin": "金箔金",
+    "diShi": "临官",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "甲子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "劫财",
+    "shiShenZhi": [
+     "偏印"
+    ],
+    "naYin": "海中金",
+    "diShi": "病",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "乙丑",
+    "hideGan": [
+     "己",
+     "癸",
+     "辛"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "偏财",
+     "偏印",
+     "七杀"
+    ],
+    "naYin": "海中金",
+    "diShi": "衰",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "丙子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "伤官",
+    "shiShenZhi": [
+     "偏印"
+    ],
+    "naYin": "涧下水",
+    "diShi": "病",
+    "xunKong": "申酉"
+   }
+  ],
+  "taiYuan": "乙卯（大溪水）",
+  "mingGong": "丁巳（沙中土）",
+  "shenGong": "乙丑（海中金）",
+  "prevJieQi": "大雪 2023-12-07 17:32:55",
+  "nextJieQi": "小寒 2024-01-06 04:49:22",
+  "qiYunStartSolar": "2025-05-22 00:30:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2024,
+    "endYear": 2024,
+    "startAge": 1,
+    "endAge": 1
+   },
+   {
+    "index": 1,
+    "ganZhi": "乙丑",
+    "startYear": 2025,
+    "endYear": 2034,
+    "startAge": 2,
+    "endAge": 11
+   },
+   {
+    "index": 2,
+    "ganZhi": "丙寅",
+    "startYear": 2035,
+    "endYear": 2044,
+    "startAge": 12,
+    "endAge": 21
+   },
+   {
+    "index": 3,
+    "ganZhi": "丁卯",
+    "startYear": 2045,
+    "endYear": 2054,
+    "startAge": 22,
+    "endAge": 31
+   },
+   {
+    "index": 4,
+    "ganZhi": "戊辰",
+    "startYear": 2055,
+    "endYear": 2064,
+    "startAge": 32,
+    "endAge": 41
+   },
+   {
+    "index": 5,
+    "ganZhi": "己巳",
+    "startYear": 2065,
+    "endYear": 2074,
+    "startAge": 42,
+    "endAge": 51
+   },
+   {
+    "index": 6,
+    "ganZhi": "庚午",
+    "startYear": 2075,
+    "endYear": 2084,
+    "startAge": 52,
+    "endAge": 61
+   },
+   {
+    "index": 7,
+    "ganZhi": "辛未",
+    "startYear": 2085,
+    "endYear": 2094,
+    "startAge": 62,
+    "endAge": 71
+   },
+   {
+    "index": 8,
+    "ganZhi": "壬申",
+    "startYear": 2095,
+    "endYear": 2104,
+    "startAge": 72,
+    "endAge": 81
+   },
+   {
+    "index": 9,
+    "ganZhi": "癸酉",
+    "startYear": 2105,
+    "endYear": 2114,
+    "startAge": 82,
+    "endAge": 91
+   }
+  ],
+  "correctedText": "2024-01-02 00:30:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "子时00:30 sect2"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "甲辰",
+    "hideGan": [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    "shiShenGan": "七杀",
+    "shiShenZhi": [
+     "比肩",
+     "正官",
+     "正财"
+    ],
+    "naYin": "覆灯火",
+    "diShi": "冠带",
+    "xunKong": "寅卯"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "丁卯",
+    "hideGan": [
+     "乙"
+    ],
+    "shiShenGan": "正印",
+    "shiShenZhi": [
+     "正官"
+    ],
+    "naYin": "炉中火",
+    "diShi": "沐浴",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "戊戌",
+    "hideGan": [
+     "戊",
+     "辛",
+     "丁"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "比肩",
+     "伤官",
+     "正印"
+    ],
+    "naYin": "平地木",
+    "diShi": "墓",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "庚申",
+    "hideGan": [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    "shiShenGan": "食神",
+    "shiShenZhi": [
+     "食神",
+     "偏财",
+     "比肩"
+    ],
+    "naYin": "石榴木",
+    "diShi": "病",
+    "xunKong": "子丑"
+   }
+  ],
+  "taiYuan": "戊午（天上火）",
+  "mingGong": "庚午（路旁土）",
+  "shenGong": "丙子（涧下水）",
+  "prevJieQi": "惊蛰 2024-03-05 10:22:45",
+  "nextJieQi": "清明 2024-04-04 15:02:17",
+  "qiYunStartSolar": "2024-04-04 15:01:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2024,
+    "endYear": 2023,
+    "startAge": 1,
+    "endAge": 0
+   },
+   {
+    "index": 1,
+    "ganZhi": "戊辰",
+    "startYear": 2024,
+    "endYear": 2033,
+    "startAge": 1,
+    "endAge": 10
+   },
+   {
+    "index": 2,
+    "ganZhi": "己巳",
+    "startYear": 2034,
+    "endYear": 2043,
+    "startAge": 11,
+    "endAge": 20
+   },
+   {
+    "index": 3,
+    "ganZhi": "庚午",
+    "startYear": 2044,
+    "endYear": 2053,
+    "startAge": 21,
+    "endAge": 30
+   },
+   {
+    "index": 4,
+    "ganZhi": "辛未",
+    "startYear": 2054,
+    "endYear": 2063,
+    "startAge": 31,
+    "endAge": 40
+   },
+   {
+    "index": 5,
+    "ganZhi": "壬申",
+    "startYear": 2064,
+    "endYear": 2073,
+    "startAge": 41,
+    "endAge": 50
+   },
+   {
+    "index": 6,
+    "ganZhi": "癸酉",
+    "startYear": 2074,
+    "endYear": 2083,
+    "startAge": 51,
+    "endAge": 60
+   },
+   {
+    "index": 7,
+    "ganZhi": "甲戌",
+    "startYear": 2084,
+    "endYear": 2093,
+    "startAge": 61,
+    "endAge": 70
+   },
+   {
+    "index": 8,
+    "ganZhi": "乙亥",
+    "startYear": 2094,
+    "endYear": 2103,
+    "startAge": 71,
+    "endAge": 80
+   },
+   {
+    "index": 9,
+    "ganZhi": "丙子",
+    "startYear": 2104,
+    "endYear": 2113,
+    "startAge": 81,
+    "endAge": 90
+   }
+  ],
+  "correctedText": "2024-04-04 15:01:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "清明前2024"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "甲辰",
+    "hideGan": [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    "shiShenGan": "七杀",
+    "shiShenZhi": [
+     "比肩",
+     "正官",
+     "正财"
+    ],
+    "naYin": "覆灯火",
+    "diShi": "冠带",
+    "xunKong": "寅卯"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "戊辰",
+    "hideGan": [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    "shiShenGan": "比肩",
+    "shiShenZhi": [
+     "比肩",
+     "正官",
+     "正财"
+    ],
+    "naYin": "大林木",
+    "diShi": "冠带",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "戊戌",
+    "hideGan": [
+     "戊",
+     "辛",
+     "丁"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "比肩",
+     "伤官",
+     "正印"
+    ],
+    "naYin": "平地木",
+    "diShi": "墓",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "庚申",
+    "hideGan": [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    "shiShenGan": "食神",
+    "shiShenZhi": [
+     "食神",
+     "偏财",
+     "比肩"
+    ],
+    "naYin": "石榴木",
+    "diShi": "病",
+    "xunKong": "子丑"
+   }
+  ],
+  "taiYuan": "己未（天上火）",
+  "mingGong": "己巳（大林木）",
+  "shenGong": "丁丑（涧下水）",
+  "prevJieQi": "清明 2024-04-04 15:02:17",
+  "nextJieQi": "立夏 2024-05-05 08:10:05",
+  "qiYunStartSolar": "2034-06-24 15:03:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2024,
+    "endYear": 2033,
+    "startAge": 1,
+    "endAge": 10
+   },
+   {
+    "index": 1,
+    "ganZhi": "己巳",
+    "startYear": 2034,
+    "endYear": 2043,
+    "startAge": 11,
+    "endAge": 20
+   },
+   {
+    "index": 2,
+    "ganZhi": "庚午",
+    "startYear": 2044,
+    "endYear": 2053,
+    "startAge": 21,
+    "endAge": 30
+   },
+   {
+    "index": 3,
+    "ganZhi": "辛未",
+    "startYear": 2054,
+    "endYear": 2063,
+    "startAge": 31,
+    "endAge": 40
+   },
+   {
+    "index": 4,
+    "ganZhi": "壬申",
+    "startYear": 2064,
+    "endYear": 2073,
+    "startAge": 41,
+    "endAge": 50
+   },
+   {
+    "index": 5,
+    "ganZhi": "癸酉",
+    "startYear": 2074,
+    "endYear": 2083,
+    "startAge": 51,
+    "endAge": 60
+   },
+   {
+    "index": 6,
+    "ganZhi": "甲戌",
+    "startYear": 2084,
+    "endYear": 2093,
+    "startAge": 61,
+    "endAge": 70
+   },
+   {
+    "index": 7,
+    "ganZhi": "乙亥",
+    "startYear": 2094,
+    "endYear": 2103,
+    "startAge": 71,
+    "endAge": 80
+   },
+   {
+    "index": 8,
+    "ganZhi": "丙子",
+    "startYear": 2104,
+    "endYear": 2113,
+    "startAge": 81,
+    "endAge": 90
+   },
+   {
+    "index": 9,
+    "ganZhi": "丁丑",
+    "startYear": 2114,
+    "endYear": 2123,
+    "startAge": 91,
+    "endAge": 100
+   }
+  ],
+  "correctedText": "2024-04-04 15:03:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "清明后2024"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "癸卯",
+    "hideGan": [
+     "乙"
+    ],
+    "shiShenGan": "比肩",
+    "shiShenZhi": [
+     "食神"
+    ],
+    "naYin": "金箔金",
+    "diShi": "长生",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "丙辰",
+    "hideGan": [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    "shiShenGan": "正财",
+    "shiShenZhi": [
+     "正官",
+     "食神",
+     "比肩"
+    ],
+    "naYin": "沙中土",
+    "diShi": "养",
+    "xunKong": "子丑"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "癸巳",
+    "hideGan": [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "正财",
+     "正印",
+     "正官"
+    ],
+    "naYin": "长流水",
+    "diShi": "胎",
+    "xunKong": "午未"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "丁巳",
+    "hideGan": [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    "shiShenGan": "偏财",
+    "shiShenZhi": [
+     "正财",
+     "正印",
+     "正官"
+    ],
+    "naYin": "沙中土",
+    "diShi": "胎",
+    "xunKong": "子丑"
+   }
+  ],
+  "taiYuan": "丁未（天河水）",
+  "mingGong": "庚申（石榴木）",
+  "shenGong": "壬戌（大海水）",
+  "prevJieQi": "清明 2023-04-05 09:13:04",
+  "nextJieQi": "立夏 2023-05-06 02:18:46",
+  "qiYunStartSolar": "2023-04-05 10:00:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2023,
+    "endYear": 2022,
+    "startAge": 1,
+    "endAge": 0
+   },
+   {
+    "index": 1,
+    "ganZhi": "乙卯",
+    "startYear": 2023,
+    "endYear": 2032,
+    "startAge": 1,
+    "endAge": 10
+   },
+   {
+    "index": 2,
+    "ganZhi": "甲寅",
+    "startYear": 2033,
+    "endYear": 2042,
+    "startAge": 11,
+    "endAge": 20
+   },
+   {
+    "index": 3,
+    "ganZhi": "癸丑",
+    "startYear": 2043,
+    "endYear": 2052,
+    "startAge": 21,
+    "endAge": 30
+   },
+   {
+    "index": 4,
+    "ganZhi": "壬子",
+    "startYear": 2053,
+    "endYear": 2062,
+    "startAge": 31,
+    "endAge": 40
+   },
+   {
+    "index": 5,
+    "ganZhi": "辛亥",
+    "startYear": 2063,
+    "endYear": 2072,
+    "startAge": 41,
+    "endAge": 50
+   },
+   {
+    "index": 6,
+    "ganZhi": "庚戌",
+    "startYear": 2073,
+    "endYear": 2082,
+    "startAge": 51,
+    "endAge": 60
+   },
+   {
+    "index": 7,
+    "ganZhi": "己酉",
+    "startYear": 2083,
+    "endYear": 2092,
+    "startAge": 61,
+    "endAge": 70
+   },
+   {
+    "index": 8,
+    "ganZhi": "戊申",
+    "startYear": 2093,
+    "endYear": 2102,
+    "startAge": 71,
+    "endAge": 80
+   },
+   {
+    "index": 9,
+    "ganZhi": "丁未",
+    "startYear": 2103,
+    "endYear": 2112,
+    "startAge": 81,
+    "endAge": 90
+   }
+  ],
+  "correctedText": "2023-04-05 10:00:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "闰二月农历2023"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "庚子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "偏财",
+    "shiShenZhi": [
+     "正官"
+    ],
+    "naYin": "壁上土",
+    "diShi": "胎",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "辛巳",
+    "hideGan": [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    "shiShenGan": "正财",
+    "shiShenZhi": [
+     "比肩",
+     "偏财",
+     "食神"
+    ],
+    "naYin": "白蜡金",
+    "diShi": "临官",
+    "xunKong": "申酉"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "丙寅",
+    "hideGan": [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "偏印",
+     "比肩",
+     "食神"
+    ],
+    "naYin": "炉中火",
+    "diShi": "长生",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "壬辰",
+    "hideGan": [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    "shiShenGan": "七杀",
+    "shiShenZhi": [
+     "食神",
+     "正印",
+     "正官"
+    ],
+    "naYin": "长流水",
+    "diShi": "冠带",
+    "xunKong": "午未"
+   }
+  ],
+  "taiYuan": "壬申（剑锋金）",
+  "mingGong": "甲申（泉中水）",
+  "shenGong": "丙戌（屋上土）",
+  "prevJieQi": "立夏 2020-05-05 08:51:23",
+  "nextJieQi": "芒种 2020-06-05 12:58:26",
+  "qiYunStartSolar": "2026-05-23 08:00:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2020,
+    "endYear": 2025,
+    "startAge": 1,
+    "endAge": 6
+   },
+   {
+    "index": 1,
+    "ganZhi": "庚辰",
+    "startYear": 2026,
+    "endYear": 2035,
+    "startAge": 7,
+    "endAge": 16
+   },
+   {
+    "index": 2,
+    "ganZhi": "己卯",
+    "startYear": 2036,
+    "endYear": 2045,
+    "startAge": 17,
+    "endAge": 26
+   },
+   {
+    "index": 3,
+    "ganZhi": "戊寅",
+    "startYear": 2046,
+    "endYear": 2055,
+    "startAge": 27,
+    "endAge": 36
+   },
+   {
+    "index": 4,
+    "ganZhi": "丁丑",
+    "startYear": 2056,
+    "endYear": 2065,
+    "startAge": 37,
+    "endAge": 46
+   },
+   {
+    "index": 5,
+    "ganZhi": "丙子",
+    "startYear": 2066,
+    "endYear": 2075,
+    "startAge": 47,
+    "endAge": 56
+   },
+   {
+    "index": 6,
+    "ganZhi": "乙亥",
+    "startYear": 2076,
+    "endYear": 2085,
+    "startAge": 57,
+    "endAge": 66
+   },
+   {
+    "index": 7,
+    "ganZhi": "甲戌",
+    "startYear": 2086,
+    "endYear": 2095,
+    "startAge": 67,
+    "endAge": 76
+   },
+   {
+    "index": 8,
+    "ganZhi": "癸酉",
+    "startYear": 2096,
+    "endYear": 2105,
+    "startAge": 77,
+    "endAge": 86
+   },
+   {
+    "index": 9,
+    "ganZhi": "壬申",
+    "startYear": 2106,
+    "endYear": 2115,
+    "startAge": 87,
+    "endAge": 96
+   }
+  ],
+  "correctedText": "2020-05-23 08:00:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "闰四月农历2020"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "己卯",
+    "hideGan": [
+     "乙"
+    ],
+    "shiShenGan": "劫财",
+    "shiShenZhi": [
+     "正官"
+    ],
+    "naYin": "城头土",
+    "diShi": "沐浴",
+    "xunKong": "申酉"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "丙子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "偏印",
+    "shiShenZhi": [
+     "正财"
+    ],
+    "naYin": "涧下水",
+    "diShi": "胎",
+    "xunKong": "申酉"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "戊午",
+    "hideGan": [
+     "丁",
+     "己"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "正印",
+     "劫财"
+    ],
+    "naYin": "天上火",
+    "diShi": "帝旺",
+    "xunKong": "子丑"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "壬子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "偏财",
+    "shiShenZhi": [
+     "正财"
+    ],
+    "naYin": "桑柘木",
+    "diShi": "胎",
+    "xunKong": "寅卯"
+   }
+  ],
+  "taiYuan": "丁卯（炉中火）",
+  "mingGong": "己巳（大林木）",
+  "shenGong": "丁丑（涧下水）",
+  "prevJieQi": "大雪 1999-12-07 21:47:27",
+  "nextJieQi": "小寒 2000-01-06 09:00:42",
+  "qiYunStartSolar": "2001-10-21 00:00:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2000,
+    "endYear": 2000,
+    "startAge": 1,
+    "endAge": 1
+   },
+   {
+    "index": 1,
+    "ganZhi": "丁丑",
+    "startYear": 2001,
+    "endYear": 2010,
+    "startAge": 2,
+    "endAge": 11
+   },
+   {
+    "index": 2,
+    "ganZhi": "戊寅",
+    "startYear": 2011,
+    "endYear": 2020,
+    "startAge": 12,
+    "endAge": 21
+   },
+   {
+    "index": 3,
+    "ganZhi": "己卯",
+    "startYear": 2021,
+    "endYear": 2030,
+    "startAge": 22,
+    "endAge": 31
+   },
+   {
+    "index": 4,
+    "ganZhi": "庚辰",
+    "startYear": 2031,
+    "endYear": 2040,
+    "startAge": 32,
+    "endAge": 41
+   },
+   {
+    "index": 5,
+    "ganZhi": "辛巳",
+    "startYear": 2041,
+    "endYear": 2050,
+    "startAge": 42,
+    "endAge": 51
+   },
+   {
+    "index": 6,
+    "ganZhi": "壬午",
+    "startYear": 2051,
+    "endYear": 2060,
+    "startAge": 52,
+    "endAge": 61
+   },
+   {
+    "index": 7,
+    "ganZhi": "癸未",
+    "startYear": 2061,
+    "endYear": 2070,
+    "startAge": 62,
+    "endAge": 71
+   },
+   {
+    "index": 8,
+    "ganZhi": "甲申",
+    "startYear": 2071,
+    "endYear": 2080,
+    "startAge": 72,
+    "endAge": 81
+   },
+   {
+    "index": 9,
+    "ganZhi": "乙酉",
+    "startYear": 2081,
+    "endYear": 2090,
+    "startAge": 82,
+    "endAge": 91
+   }
+  ],
+  "correctedText": "2000-01-01 00:00:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "千禧2000女"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "己亥",
+    "hideGan": [
+     "壬",
+     "甲"
+    ],
+    "shiShenGan": "正财",
+    "shiShenZhi": [
+     "偏印",
+     "比肩"
+    ],
+    "naYin": "平地木",
+    "diShi": "长生",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "丙子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "食神",
+    "shiShenZhi": [
+     "正印"
+    ],
+    "naYin": "涧下水",
+    "diShi": "沐浴",
+    "xunKong": "申酉"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "甲戌",
+    "hideGan": [
+     "戊",
+     "辛",
+     "丁"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "偏财",
+     "正官",
+     "伤官"
+    ],
+    "naYin": "山头火",
+    "diShi": "养",
+    "xunKong": "申酉"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "庚午",
+    "hideGan": [
+     "丁",
+     "己"
+    ],
+    "shiShenGan": "七杀",
+    "shiShenZhi": [
+     "伤官",
+     "正财"
+    ],
+    "naYin": "路旁土",
+    "diShi": "死",
+    "xunKong": "戌亥"
+   }
+  ],
+  "taiYuan": "丁卯（炉中火）",
+  "mingGong": "乙亥（山头火）",
+  "shenGong": "辛未（路旁土）",
+  "prevJieQi": "大雪 1899-12-07 15:04:33",
+  "nextJieQi": "小寒 1900-01-06 02:03:57",
+  "qiYunStartSolar": "1908-04-11 12:00:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 1900,
+    "endYear": 1907,
+    "startAge": 1,
+    "endAge": 8
+   },
+   {
+    "index": 1,
+    "ganZhi": "乙亥",
+    "startYear": 1908,
+    "endYear": 1917,
+    "startAge": 9,
+    "endAge": 18
+   },
+   {
+    "index": 2,
+    "ganZhi": "甲戌",
+    "startYear": 1918,
+    "endYear": 1927,
+    "startAge": 19,
+    "endAge": 28
+   },
+   {
+    "index": 3,
+    "ganZhi": "癸酉",
+    "startYear": 1928,
+    "endYear": 1937,
+    "startAge": 29,
+    "endAge": 38
+   },
+   {
+    "index": 4,
+    "ganZhi": "壬申",
+    "startYear": 1938,
+    "endYear": 1947,
+    "startAge": 39,
+    "endAge": 48
+   },
+   {
+    "index": 5,
+    "ganZhi": "辛未",
+    "startYear": 1948,
+    "endYear": 1957,
+    "startAge": 49,
+    "endAge": 58
+   },
+   {
+    "index": 6,
+    "ganZhi": "庚午",
+    "startYear": 1958,
+    "endYear": 1967,
+    "startAge": 59,
+    "endAge": 68
+   },
+   {
+    "index": 7,
+    "ganZhi": "己巳",
+    "startYear": 1968,
+    "endYear": 1977,
+    "startAge": 69,
+    "endAge": 78
+   },
+   {
+    "index": 8,
+    "ganZhi": "戊辰",
+    "startYear": 1978,
+    "endYear": 1987,
+    "startAge": 79,
+    "endAge": 88
+   },
+   {
+    "index": 9,
+    "ganZhi": "丁卯",
+    "startYear": 1988,
+    "endYear": 1997,
+    "startAge": 89,
+    "endAge": 98
+   }
+  ],
+  "correctedText": "1900-01-01 12:00:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "1900下限"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "庚申",
+    "hideGan": [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    "shiShenGan": "正财",
+    "shiShenZhi": [
+     "正财",
+     "正官",
+     "伤官"
+    ],
+    "naYin": "石榴木",
+    "diShi": "沐浴",
+    "xunKong": "子丑"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "戊子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "伤官",
+    "shiShenZhi": [
+     "七杀"
+    ],
+    "naYin": "霹雳火",
+    "diShi": "绝",
+    "xunKong": "午未"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "丁未",
+    "hideGan": [
+     "己",
+     "丁",
+     "乙"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "食神",
+     "比肩",
+     "偏印"
+    ],
+    "naYin": "天河水",
+    "diShi": "冠带",
+    "xunKong": "寅卯"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "壬子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "正官",
+    "shiShenZhi": [
+     "七杀"
+    ],
+    "naYin": "桑柘木",
+    "diShi": "绝",
+    "xunKong": "寅卯"
+   }
+  ],
+  "taiYuan": "己卯（城头土）",
+  "mingGong": "辛巳（白蜡金）",
+  "shenGong": "己丑（霹雳火）",
+  "prevJieQi": "大雪 2100-12-07 09:40:07",
+  "nextJieQi": "小寒 2101-01-05 21:06:51",
+  "qiYunStartSolar": "2109-03-12 13:59:59",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2100,
+    "endYear": 2108,
+    "startAge": 1,
+    "endAge": 9
+   },
+   {
+    "index": 1,
+    "ganZhi": "丁亥",
+    "startYear": 2109,
+    "endYear": 2118,
+    "startAge": 10,
+    "endAge": 19
+   },
+   {
+    "index": 2,
+    "ganZhi": "丙戌",
+    "startYear": 2119,
+    "endYear": 2128,
+    "startAge": 20,
+    "endAge": 29
+   },
+   {
+    "index": 3,
+    "ganZhi": "乙酉",
+    "startYear": 2129,
+    "endYear": 2138,
+    "startAge": 30,
+    "endAge": 39
+   },
+   {
+    "index": 4,
+    "ganZhi": "甲申",
+    "startYear": 2139,
+    "endYear": 2148,
+    "startAge": 40,
+    "endAge": 49
+   },
+   {
+    "index": 5,
+    "ganZhi": "癸未",
+    "startYear": 2149,
+    "endYear": 2158,
+    "startAge": 50,
+    "endAge": 59
+   },
+   {
+    "index": 6,
+    "ganZhi": "壬午",
+    "startYear": 2159,
+    "endYear": 2168,
+    "startAge": 60,
+    "endAge": 69
+   },
+   {
+    "index": 7,
+    "ganZhi": "辛巳",
+    "startYear": 2169,
+    "endYear": 2178,
+    "startAge": 70,
+    "endAge": 79
+   },
+   {
+    "index": 8,
+    "ganZhi": "庚辰",
+    "startYear": 2179,
+    "endYear": 2188,
+    "startAge": 80,
+    "endAge": 89
+   },
+   {
+    "index": 9,
+    "ganZhi": "己卯",
+    "startYear": 2189,
+    "endYear": 2198,
+    "startAge": 90,
+    "endAge": 99
+   }
+  ],
+  "correctedText": "2100-12-31 23:59:59",
+  "trueSolarOffsetSeconds": null,
+  "name": "2100上限"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "甲辰",
+    "hideGan": [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    "shiShenGan": "偏印",
+    "shiShenZhi": [
+     "食神",
+     "正印",
+     "正官"
+    ],
+    "naYin": "覆灯火",
+    "diShi": "冠带",
+    "xunKong": "寅卯"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "己巳",
+    "hideGan": [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    "shiShenGan": "伤官",
+    "shiShenZhi": [
+     "比肩",
+     "偏财",
+     "食神"
+    ],
+    "naYin": "大林木",
+    "diShi": "临官",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "丙申",
+    "hideGan": [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "偏财",
+     "七杀",
+     "食神"
+    ],
+    "naYin": "山下火",
+    "diShi": "病",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "辛卯",
+    "hideGan": [
+     "乙"
+    ],
+    "shiShenGan": "正财",
+    "shiShenZhi": [
+     "正印"
+    ],
+    "naYin": "松柏木",
+    "diShi": "沐浴",
+    "xunKong": "午未"
+   }
+  ],
+  "taiYuan": "庚申（石榴木）",
+  "mingGong": "癸酉（剑锋金）",
+  "shenGong": "癸酉（剑锋金）",
+  "prevJieQi": "立夏 2024-05-05 08:10:05",
+  "nextJieQi": "芒种 2024-06-05 12:09:54",
+  "qiYunStartSolar": "2025-11-01 05:22:33",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2024,
+    "endYear": 2024,
+    "startAge": 1,
+    "endAge": 1
+   },
+   {
+    "index": 1,
+    "ganZhi": "庚午",
+    "startYear": 2025,
+    "endYear": 2034,
+    "startAge": 2,
+    "endAge": 11
+   },
+   {
+    "index": 2,
+    "ganZhi": "辛未",
+    "startYear": 2035,
+    "endYear": 2044,
+    "startAge": 12,
+    "endAge": 21
+   },
+   {
+    "index": 3,
+    "ganZhi": "壬申",
+    "startYear": 2045,
+    "endYear": 2054,
+    "startAge": 22,
+    "endAge": 31
+   },
+   {
+    "index": 4,
+    "ganZhi": "癸酉",
+    "startYear": 2055,
+    "endYear": 2064,
+    "startAge": 32,
+    "endAge": 41
+   },
+   {
+    "index": 5,
+    "ganZhi": "甲戌",
+    "startYear": 2065,
+    "endYear": 2074,
+    "startAge": 42,
+    "endAge": 51
+   },
+   {
+    "index": 6,
+    "ganZhi": "乙亥",
+    "startYear": 2075,
+    "endYear": 2084,
+    "startAge": 52,
+    "endAge": 61
+   },
+   {
+    "index": 7,
+    "ganZhi": "丙子",
+    "startYear": 2085,
+    "endYear": 2094,
+    "startAge": 62,
+    "endAge": 71
+   },
+   {
+    "index": 8,
+    "ganZhi": "丁丑",
+    "startYear": 2095,
+    "endYear": 2104,
+    "startAge": 72,
+    "endAge": 81
+   },
+   {
+    "index": 9,
+    "ganZhi": "戊寅",
+    "startYear": 2105,
+    "endYear": 2114,
+    "startAge": 82,
+    "endAge": 91
+   }
+  ],
+  "correctedText": "2024-06-01 05:22:33",
+  "trueSolarOffsetSeconds": -7647.454110128072,
+  "name": "真太阳乌鲁木齐临界"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "乙亥",
+    "hideGan": [
+     "壬",
+     "甲"
+    ],
+    "shiShenGan": "食神",
+    "shiShenZhi": [
+     "劫财",
+     "伤官"
+    ],
+    "naYin": "山头火",
+    "diShi": "帝旺",
+    "xunKong": "申酉"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "甲申",
+    "hideGan": [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    "shiShenGan": "伤官",
+    "shiShenZhi": [
+     "正印",
+     "劫财",
+     "正官"
+    ],
+    "naYin": "泉中水",
+    "diShi": "死",
+    "xunKong": "午未"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "癸未",
+    "hideGan": [
+     "己",
+     "丁",
+     "乙"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "七杀",
+     "偏财",
+     "食神"
+    ],
+    "naYin": "杨柳木",
+    "diShi": "墓",
+    "xunKong": "申酉"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "丁巳",
+    "hideGan": [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    "shiShenGan": "偏财",
+    "shiShenZhi": [
+     "正财",
+     "正印",
+     "正官"
+    ],
+    "naYin": "沙中土",
+    "diShi": "胎",
+    "xunKong": "子丑"
+   }
+  ],
+  "taiYuan": "乙亥（山头火）",
+  "mingGong": "庚辰（白蜡金）",
+  "shenGong": "戊寅（城头土）",
+  "prevJieQi": "立秋 1995-08-08 07:51:44",
+  "nextJieQi": "白露 1995-09-08 10:48:34",
+  "qiYunStartSolar": "2001-12-24 10:00:51",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 1995,
+    "endYear": 2000,
+    "startAge": 1,
+    "endAge": 6
+   },
+   {
+    "index": 1,
+    "ganZhi": "乙酉",
+    "startYear": 2001,
+    "endYear": 2010,
+    "startAge": 7,
+    "endAge": 16
+   },
+   {
+    "index": 2,
+    "ganZhi": "丙戌",
+    "startYear": 2011,
+    "endYear": 2020,
+    "startAge": 17,
+    "endAge": 26
+   },
+   {
+    "index": 3,
+    "ganZhi": "丁亥",
+    "startYear": 2021,
+    "endYear": 2030,
+    "startAge": 27,
+    "endAge": 36
+   },
+   {
+    "index": 4,
+    "ganZhi": "戊子",
+    "startYear": 2031,
+    "endYear": 2040,
+    "startAge": 37,
+    "endAge": 46
+   },
+   {
+    "index": 5,
+    "ganZhi": "己丑",
+    "startYear": 2041,
+    "endYear": 2050,
+    "startAge": 47,
+    "endAge": 56
+   },
+   {
+    "index": 6,
+    "ganZhi": "庚寅",
+    "startYear": 2051,
+    "endYear": 2060,
+    "startAge": 57,
+    "endAge": 66
+   },
+   {
+    "index": 7,
+    "ganZhi": "辛卯",
+    "startYear": 2061,
+    "endYear": 2070,
+    "startAge": 67,
+    "endAge": 76
+   },
+   {
+    "index": 8,
+    "ganZhi": "壬辰",
+    "startYear": 2071,
+    "endYear": 2080,
+    "startAge": 77,
+    "endAge": 86
+   },
+   {
+    "index": 9,
+    "ganZhi": "癸巳",
+    "startYear": 2081,
+    "endYear": 2090,
+    "startAge": 87,
+    "endAge": 96
+   }
+  ],
+  "correctedText": "1995-08-20 10:00:51",
+  "trueSolarOffsetSeconds": -7148.680251087018,
+  "name": "真太阳拉萨"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "戊辰",
+    "hideGan": [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    "shiShenGan": "劫财",
+    "shiShenZhi": [
+     "劫财",
+     "七杀",
+     "偏财"
+    ],
+    "naYin": "大林木",
+    "diShi": "衰",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "乙卯",
+    "hideGan": [
+     "乙"
+    ],
+    "shiShenGan": "七杀",
+    "shiShenZhi": [
+     "七杀"
+    ],
+    "naYin": "大溪水",
+    "diShi": "病",
+    "xunKong": "子丑"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "己巳",
+    "hideGan": [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "正印",
+     "伤官",
+     "劫财"
+    ],
+    "naYin": "大林木",
+    "diShi": "帝旺",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "丁卯",
+    "hideGan": [
+     "乙"
+    ],
+    "shiShenGan": "偏印",
+    "shiShenZhi": [
+     "七杀"
+    ],
+    "naYin": "炉中火",
+    "diShi": "病",
+    "xunKong": "戌亥"
+   }
+  ],
+  "taiYuan": "丙午（天河水）",
+  "mingGong": "癸亥（大海水）",
+  "shenGong": "己未（天上火）",
+  "prevJieQi": "惊蛰 1988-03-05 16:46:32",
+  "nextJieQi": "清明 1988-04-04 21:39:04",
+  "qiYunStartSolar": "1995-02-04 06:12:22",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 1988,
+    "endYear": 1994,
+    "startAge": 1,
+    "endAge": 7
+   },
+   {
+    "index": 1,
+    "ganZhi": "丙辰",
+    "startYear": 1995,
+    "endYear": 2004,
+    "startAge": 8,
+    "endAge": 17
+   },
+   {
+    "index": 2,
+    "ganZhi": "丁巳",
+    "startYear": 2005,
+    "endYear": 2014,
+    "startAge": 18,
+    "endAge": 27
+   },
+   {
+    "index": 3,
+    "ganZhi": "戊午",
+    "startYear": 2015,
+    "endYear": 2024,
+    "startAge": 28,
+    "endAge": 37
+   },
+   {
+    "index": 4,
+    "ganZhi": "己未",
+    "startYear": 2025,
+    "endYear": 2034,
+    "startAge": 38,
+    "endAge": 47
+   },
+   {
+    "index": 5,
+    "ganZhi": "庚申",
+    "startYear": 2035,
+    "endYear": 2044,
+    "startAge": 48,
+    "endAge": 57
+   },
+   {
+    "index": 6,
+    "ganZhi": "辛酉",
+    "startYear": 2045,
+    "endYear": 2054,
+    "startAge": 58,
+    "endAge": 67
+   },
+   {
+    "index": 7,
+    "ganZhi": "壬戌",
+    "startYear": 2055,
+    "endYear": 2064,
+    "startAge": 68,
+    "endAge": 77
+   },
+   {
+    "index": 8,
+    "ganZhi": "癸亥",
+    "startYear": 2065,
+    "endYear": 2074,
+    "startAge": 78,
+    "endAge": 87
+   },
+   {
+    "index": 9,
+    "ganZhi": "甲子",
+    "startYear": 2075,
+    "endYear": 2084,
+    "startAge": 88,
+    "endAge": 97
+   }
+  ],
+  "correctedText": "1988-03-15 06:12:22",
+  "trueSolarOffsetSeconds": -188.33712643310093,
+  "name": "真太阳上海微偏"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "庚午",
+    "hideGan": [
+     "丁",
+     "己"
+    ],
+    "shiShenGan": "劫财",
+    "shiShenZhi": [
+     "七杀",
+     "偏印"
+    ],
+    "naYin": "路旁土",
+    "diShi": "病",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "壬午",
+    "hideGan": [
+     "丁",
+     "己"
+    ],
+    "shiShenGan": "伤官",
+    "shiShenZhi": [
+     "七杀",
+     "偏印"
+    ],
+    "naYin": "杨柳木",
+    "diShi": "病",
+    "xunKong": "申酉"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "辛亥",
+    "hideGan": [
+     "壬",
+     "甲"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "伤官",
+     "正财"
+    ],
+    "naYin": "钗钏金",
+    "diShi": "沐浴",
+    "xunKong": "寅卯"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "丙申",
+    "hideGan": [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    "shiShenGan": "正官",
+    "shiShenZhi": [
+     "劫财",
+     "伤官",
+     "正印"
+    ],
+    "naYin": "山下火",
+    "diShi": "帝旺",
+    "xunKong": "辰巳"
+   }
+  ],
+  "taiYuan": "癸酉（剑锋金）",
+  "mingGong": "己卯（城头土）",
+  "shenGong": "己卯（城头土）",
+  "prevJieQi": "芒种 1990-06-06 06:46:18",
+  "nextJieQi": "小暑 1990-07-07 17:00:28",
+  "qiYunStartSolar": "1997-10-25 15:30:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 1990,
+    "endYear": 1996,
+    "startAge": 1,
+    "endAge": 7
+   },
+   {
+    "index": 1,
+    "ganZhi": "癸未",
+    "startYear": 1997,
+    "endYear": 2006,
+    "startAge": 8,
+    "endAge": 17
+   },
+   {
+    "index": 2,
+    "ganZhi": "甲申",
+    "startYear": 2007,
+    "endYear": 2016,
+    "startAge": 18,
+    "endAge": 27
+   },
+   {
+    "index": 3,
+    "ganZhi": "乙酉",
+    "startYear": 2017,
+    "endYear": 2026,
+    "startAge": 28,
+    "endAge": 37
+   },
+   {
+    "index": 4,
+    "ganZhi": "丙戌",
+    "startYear": 2027,
+    "endYear": 2036,
+    "startAge": 38,
+    "endAge": 47
+   },
+   {
+    "index": 5,
+    "ganZhi": "丁亥",
+    "startYear": 2037,
+    "endYear": 2046,
+    "startAge": 48,
+    "endAge": 57
+   },
+   {
+    "index": 6,
+    "ganZhi": "戊子",
+    "startYear": 2047,
+    "endYear": 2056,
+    "startAge": 58,
+    "endAge": 67
+   },
+   {
+    "index": 7,
+    "ganZhi": "己丑",
+    "startYear": 2057,
+    "endYear": 2066,
+    "startAge": 68,
+    "endAge": 77
+   },
+   {
+    "index": 8,
+    "ganZhi": "庚寅",
+    "startYear": 2067,
+    "endYear": 2076,
+    "startAge": 78,
+    "endAge": 87
+   },
+   {
+    "index": 9,
+    "ganZhi": "辛卯",
+    "startYear": 2077,
+    "endYear": 2086,
+    "startAge": 88,
+    "endAge": 97
+   }
+  ],
+  "correctedText": "1990-06-15 15:30:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "海外纽约"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "辛巳",
+    "hideGan": [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    "shiShenGan": "偏财",
+    "shiShenZhi": [
+     "劫财",
+     "正财",
+     "伤官"
+    ],
+    "naYin": "白蜡金",
+    "diShi": "帝旺",
+    "xunKong": "申酉"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "丁酉",
+    "hideGan": [
+     "辛"
+    ],
+    "shiShenGan": "比肩",
+    "shiShenZhi": [
+     "偏财"
+    ],
+    "naYin": "山下火",
+    "diShi": "长生",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "丁丑",
+    "hideGan": [
+     "己",
+     "癸",
+     "辛"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "食神",
+     "七杀",
+     "偏财"
+    ],
+    "naYin": "涧下水",
+    "diShi": "墓",
+    "xunKong": "申酉"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "甲辰",
+    "hideGan": [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    "shiShenGan": "正印",
+    "shiShenZhi": [
+     "伤官",
+     "偏印",
+     "七杀"
+    ],
+    "naYin": "覆灯火",
+    "diShi": "衰",
+    "xunKong": "寅卯"
+   }
+  ],
+  "taiYuan": "戊子（霹雳火）",
+  "mingGong": "壬辰（长流水）",
+  "shenGong": "庚寅（松柏木）",
+  "prevJieQi": "白露 2001-09-07 21:46:11",
+  "nextJieQi": "寒露 2001-10-08 13:25:01",
+  "qiYunStartSolar": "2010-10-11 08:48:52",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2001,
+    "endYear": 2009,
+    "startAge": 1,
+    "endAge": 9
+   },
+   {
+    "index": 1,
+    "ganZhi": "戊戌",
+    "startYear": 2010,
+    "endYear": 2019,
+    "startAge": 10,
+    "endAge": 19
+   },
+   {
+    "index": 2,
+    "ganZhi": "己亥",
+    "startYear": 2020,
+    "endYear": 2029,
+    "startAge": 20,
+    "endAge": 29
+   },
+   {
+    "index": 3,
+    "ganZhi": "庚子",
+    "startYear": 2030,
+    "endYear": 2039,
+    "startAge": 30,
+    "endAge": 39
+   },
+   {
+    "index": 4,
+    "ganZhi": "辛丑",
+    "startYear": 2040,
+    "endYear": 2049,
+    "startAge": 40,
+    "endAge": 49
+   },
+   {
+    "index": 5,
+    "ganZhi": "壬寅",
+    "startYear": 2050,
+    "endYear": 2059,
+    "startAge": 50,
+    "endAge": 59
+   },
+   {
+    "index": 6,
+    "ganZhi": "癸卯",
+    "startYear": 2060,
+    "endYear": 2069,
+    "startAge": 60,
+    "endAge": 69
+   },
+   {
+    "index": 7,
+    "ganZhi": "甲辰",
+    "startYear": 2070,
+    "endYear": 2079,
+    "startAge": 70,
+    "endAge": 79
+   },
+   {
+    "index": 8,
+    "ganZhi": "乙巳",
+    "startYear": 2080,
+    "endYear": 2089,
+    "startAge": 80,
+    "endAge": 89
+   },
+   {
+    "index": 9,
+    "ganZhi": "丙午",
+    "startYear": 2090,
+    "endYear": 2099,
+    "startAge": 90,
+    "endAge": 99
+   }
+  ],
+  "correctedText": "2001-09-11 08:48:52",
+  "trueSolarOffsetSeconds": -28628.014401672368,
+  "name": "海外伦敦真太阳"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "己丑",
+    "hideGan": [
+     "己",
+     "癸",
+     "辛"
+    ],
+    "shiShenGan": "正印",
+    "shiShenZhi": [
+     "正印",
+     "伤官",
+     "劫财"
+    ],
+    "naYin": "霹雳火",
+    "diShi": "墓",
+    "xunKong": "午未"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "丙子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "七杀",
+    "shiShenZhi": [
+     "伤官"
+    ],
+    "naYin": "涧下水",
+    "diShi": "死",
+    "xunKong": "申酉"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "庚戌",
+    "hideGan": [
+     "戊",
+     "辛",
+     "丁"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "偏印",
+     "劫财",
+     "正官"
+    ],
+    "naYin": "钗钏金",
+    "diShi": "衰",
+    "xunKong": "寅卯"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "戊子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "偏印",
+    "shiShenZhi": [
+     "伤官"
+    ],
+    "naYin": "霹雳火",
+    "diShi": "死",
+    "xunKong": "午未"
+   }
+  ],
+  "taiYuan": "丁卯（炉中火）",
+  "mingGong": "己巳（大林木）",
+  "shenGong": "丁丑（涧下水）",
+  "prevJieQi": "大雪 2009-12-07 07:52:14",
+  "nextJieQi": "小寒 2010-01-05 19:08:47",
+  "qiYunStartSolar": "2018-03-10 23:30:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2009,
+    "endYear": 2017,
+    "startAge": 1,
+    "endAge": 9
+   },
+   {
+    "index": 1,
+    "ganZhi": "乙亥",
+    "startYear": 2018,
+    "endYear": 2027,
+    "startAge": 10,
+    "endAge": 19
+   },
+   {
+    "index": 2,
+    "ganZhi": "甲戌",
+    "startYear": 2028,
+    "endYear": 2037,
+    "startAge": 20,
+    "endAge": 29
+   },
+   {
+    "index": 3,
+    "ganZhi": "癸酉",
+    "startYear": 2038,
+    "endYear": 2047,
+    "startAge": 30,
+    "endAge": 39
+   },
+   {
+    "index": 4,
+    "ganZhi": "壬申",
+    "startYear": 2048,
+    "endYear": 2057,
+    "startAge": 40,
+    "endAge": 49
+   },
+   {
+    "index": 5,
+    "ganZhi": "辛未",
+    "startYear": 2058,
+    "endYear": 2067,
+    "startAge": 50,
+    "endAge": 59
+   },
+   {
+    "index": 6,
+    "ganZhi": "庚午",
+    "startYear": 2068,
+    "endYear": 2077,
+    "startAge": 60,
+    "endAge": 69
+   },
+   {
+    "index": 7,
+    "ganZhi": "己巳",
+    "startYear": 2078,
+    "endYear": 2087,
+    "startAge": 70,
+    "endAge": 79
+   },
+   {
+    "index": 8,
+    "ganZhi": "戊辰",
+    "startYear": 2088,
+    "endYear": 2097,
+    "startAge": 80,
+    "endAge": 89
+   },
+   {
+    "index": 9,
+    "ganZhi": "丁卯",
+    "startYear": 2098,
+    "endYear": 2107,
+    "startAge": 90,
+    "endAge": 99
+   }
+  ],
+  "correctedText": "2009-12-31 23:30:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "海外东京"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "壬申",
+    "hideGan": [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    "shiShenGan": "正官",
+    "shiShenZhi": [
+     "正财",
+     "正官",
+     "伤官"
+    ],
+    "naYin": "剑锋金",
+    "diShi": "沐浴",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "辛亥",
+    "hideGan": [
+     "壬",
+     "甲"
+    ],
+    "shiShenGan": "偏财",
+    "shiShenZhi": [
+     "正官",
+     "正印"
+    ],
+    "naYin": "钗钏金",
+    "diShi": "胎",
+    "xunKong": "寅卯"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "丁亥",
+    "hideGan": [
+     "壬",
+     "甲"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "正官",
+     "正印"
+    ],
+    "naYin": "屋上土",
+    "diShi": "胎",
+    "xunKong": "午未"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "己酉",
+    "hideGan": [
+     "辛"
+    ],
+    "shiShenGan": "食神",
+    "shiShenZhi": [
+     "偏财"
+    ],
+    "naYin": "大驿土",
+    "diShi": "长生",
+    "xunKong": "寅卯"
+   }
+  ],
+  "taiYuan": "壬寅（金箔金）",
+  "mingGong": "己酉（大驿土）",
+  "shenGong": "己酉（大驿土）",
+  "prevJieQi": "立冬 1992-11-07 11:57:02",
+  "nextJieQi": "大雪 1992-12-07 04:44:12",
+  "qiYunStartSolar": "1992-12-09 16:20:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 1992,
+    "endYear": 1991,
+    "startAge": 1,
+    "endAge": 0
+   },
+   {
+    "index": 1,
+    "ganZhi": "庚戌",
+    "startYear": 1992,
+    "endYear": 2001,
+    "startAge": 1,
+    "endAge": 10
+   },
+   {
+    "index": 2,
+    "ganZhi": "己酉",
+    "startYear": 2002,
+    "endYear": 2011,
+    "startAge": 11,
+    "endAge": 20
+   },
+   {
+    "index": 3,
+    "ganZhi": "戊申",
+    "startYear": 2012,
+    "endYear": 2021,
+    "startAge": 21,
+    "endAge": 30
+   },
+   {
+    "index": 4,
+    "ganZhi": "丁未",
+    "startYear": 2022,
+    "endYear": 2031,
+    "startAge": 31,
+    "endAge": 40
+   },
+   {
+    "index": 5,
+    "ganZhi": "丙午",
+    "startYear": 2032,
+    "endYear": 2041,
+    "startAge": 41,
+    "endAge": 50
+   },
+   {
+    "index": 6,
+    "ganZhi": "乙巳",
+    "startYear": 2042,
+    "endYear": 2051,
+    "startAge": 51,
+    "endAge": 60
+   },
+   {
+    "index": 7,
+    "ganZhi": "甲辰",
+    "startYear": 2052,
+    "endYear": 2061,
+    "startAge": 61,
+    "endAge": 70
+   },
+   {
+    "index": 8,
+    "ganZhi": "癸卯",
+    "startYear": 2062,
+    "endYear": 2071,
+    "startAge": 71,
+    "endAge": 80
+   },
+   {
+    "index": 9,
+    "ganZhi": "壬寅",
+    "startYear": 2072,
+    "endYear": 2081,
+    "startAge": 81,
+    "endAge": 90
+   }
+  ],
+  "correctedText": "1992-11-07 18:20:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "大运分钟法女逆行"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "壬申",
+    "hideGan": [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    "shiShenGan": "正官",
+    "shiShenZhi": [
+     "正财",
+     "正官",
+     "伤官"
+    ],
+    "naYin": "剑锋金",
+    "diShi": "沐浴",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "辛亥",
+    "hideGan": [
+     "壬",
+     "甲"
+    ],
+    "shiShenGan": "偏财",
+    "shiShenZhi": [
+     "正官",
+     "正印"
+    ],
+    "naYin": "钗钏金",
+    "diShi": "胎",
+    "xunKong": "寅卯"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "丁亥",
+    "hideGan": [
+     "壬",
+     "甲"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "正官",
+     "正印"
+    ],
+    "naYin": "屋上土",
+    "diShi": "胎",
+    "xunKong": "午未"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "己酉",
+    "hideGan": [
+     "辛"
+    ],
+    "shiShenGan": "食神",
+    "shiShenZhi": [
+     "偏财"
+    ],
+    "naYin": "大驿土",
+    "diShi": "长生",
+    "xunKong": "寅卯"
+   }
+  ],
+  "taiYuan": "壬寅（金箔金）",
+  "mingGong": "己酉（大驿土）",
+  "shenGong": "己酉（大驿土）",
+  "prevJieQi": "立冬 1992-11-07 11:57:02",
+  "nextJieQi": "大雪 1992-12-07 04:44:12",
+  "qiYunStartSolar": "2002-08-27 18:20:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 1992,
+    "endYear": 2001,
+    "startAge": 1,
+    "endAge": 10
+   },
+   {
+    "index": 1,
+    "ganZhi": "壬子",
+    "startYear": 2002,
+    "endYear": 2011,
+    "startAge": 11,
+    "endAge": 20
+   },
+   {
+    "index": 2,
+    "ganZhi": "癸丑",
+    "startYear": 2012,
+    "endYear": 2021,
+    "startAge": 21,
+    "endAge": 30
+   },
+   {
+    "index": 3,
+    "ganZhi": "甲寅",
+    "startYear": 2022,
+    "endYear": 2031,
+    "startAge": 31,
+    "endAge": 40
+   },
+   {
+    "index": 4,
+    "ganZhi": "乙卯",
+    "startYear": 2032,
+    "endYear": 2041,
+    "startAge": 41,
+    "endAge": 50
+   },
+   {
+    "index": 5,
+    "ganZhi": "丙辰",
+    "startYear": 2042,
+    "endYear": 2051,
+    "startAge": 51,
+    "endAge": 60
+   },
+   {
+    "index": 6,
+    "ganZhi": "丁巳",
+    "startYear": 2052,
+    "endYear": 2061,
+    "startAge": 61,
+    "endAge": 70
+   },
+   {
+    "index": 7,
+    "ganZhi": "戊午",
+    "startYear": 2062,
+    "endYear": 2071,
+    "startAge": 71,
+    "endAge": 80
+   },
+   {
+    "index": 8,
+    "ganZhi": "己未",
+    "startYear": 2072,
+    "endYear": 2081,
+    "startAge": 81,
+    "endAge": 90
+   },
+   {
+    "index": 9,
+    "ganZhi": "庚申",
+    "startYear": 2082,
+    "endYear": 2091,
+    "startAge": 91,
+    "endAge": 100
+   }
+  ],
+  "correctedText": "1992-11-07 18:20:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "大运日时法男顺行"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "甲辰",
+    "hideGan": [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    "shiShenGan": "七杀",
+    "shiShenZhi": [
+     "比肩",
+     "正官",
+     "正财"
+    ],
+    "naYin": "覆灯火",
+    "diShi": "冠带",
+    "xunKong": "寅卯"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "丙寅",
+    "hideGan": [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    "shiShenGan": "偏印",
+    "shiShenZhi": [
+     "七杀",
+     "偏印",
+     "比肩"
+    ],
+    "naYin": "炉中火",
+    "diShi": "长生",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "戊辰",
+    "hideGan": [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "比肩",
+     "正官",
+     "正财"
+    ],
+    "naYin": "大林木",
+    "diShi": "冠带",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "丁巳",
+    "hideGan": [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    "shiShenGan": "正印",
+    "shiShenZhi": [
+     "偏印",
+     "食神",
+     "比肩"
+    ],
+    "naYin": "沙中土",
+    "diShi": "临官",
+    "xunKong": "子丑"
+   }
+  ],
+  "taiYuan": "丁巳（沙中土）",
+  "mingGong": "甲戌（山头火）",
+  "shenGong": "壬申（剑锋金）",
+  "prevJieQi": "立春 2024-02-04 16:27:07",
+  "nextJieQi": "惊蛰 2024-03-05 10:22:45",
+  "qiYunStartSolar": "2024-03-05 10:22:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2024,
+    "endYear": 2023,
+    "startAge": 1,
+    "endAge": 0
+   },
+   {
+    "index": 1,
+    "ganZhi": "丁卯",
+    "startYear": 2024,
+    "endYear": 2033,
+    "startAge": 1,
+    "endAge": 10
+   },
+   {
+    "index": 2,
+    "ganZhi": "戊辰",
+    "startYear": 2034,
+    "endYear": 2043,
+    "startAge": 11,
+    "endAge": 20
+   },
+   {
+    "index": 3,
+    "ganZhi": "己巳",
+    "startYear": 2044,
+    "endYear": 2053,
+    "startAge": 21,
+    "endAge": 30
+   },
+   {
+    "index": 4,
+    "ganZhi": "庚午",
+    "startYear": 2054,
+    "endYear": 2063,
+    "startAge": 31,
+    "endAge": 40
+   },
+   {
+    "index": 5,
+    "ganZhi": "辛未",
+    "startYear": 2064,
+    "endYear": 2073,
+    "startAge": 41,
+    "endAge": 50
+   },
+   {
+    "index": 6,
+    "ganZhi": "壬申",
+    "startYear": 2074,
+    "endYear": 2083,
+    "startAge": 51,
+    "endAge": 60
+   },
+   {
+    "index": 7,
+    "ganZhi": "癸酉",
+    "startYear": 2084,
+    "endYear": 2093,
+    "startAge": 61,
+    "endAge": 70
+   },
+   {
+    "index": 8,
+    "ganZhi": "甲戌",
+    "startYear": 2094,
+    "endYear": 2103,
+    "startAge": 71,
+    "endAge": 80
+   },
+   {
+    "index": 9,
+    "ganZhi": "乙亥",
+    "startYear": 2104,
+    "endYear": 2113,
+    "startAge": 81,
+    "endAge": 90
+   }
+  ],
+  "correctedText": "2024-03-05 10:22:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "惊蛰交界2024-03-05"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "甲辰",
+    "hideGan": [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    "shiShenGan": "七杀",
+    "shiShenZhi": [
+     "比肩",
+     "正官",
+     "正财"
+    ],
+    "naYin": "覆灯火",
+    "diShi": "冠带",
+    "xunKong": "寅卯"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "丁卯",
+    "hideGan": [
+     "乙"
+    ],
+    "shiShenGan": "正印",
+    "shiShenZhi": [
+     "正官"
+    ],
+    "naYin": "炉中火",
+    "diShi": "沐浴",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "戊辰",
+    "hideGan": [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "比肩",
+     "正官",
+     "正财"
+    ],
+    "naYin": "大林木",
+    "diShi": "冠带",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "丁巳",
+    "hideGan": [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    "shiShenGan": "正印",
+    "shiShenZhi": [
+     "偏印",
+     "食神",
+     "比肩"
+    ],
+    "naYin": "沙中土",
+    "diShi": "临官",
+    "xunKong": "子丑"
+   }
+  ],
+  "taiYuan": "戊午（天上火）",
+  "mingGong": "癸酉（剑锋金）",
+  "shenGong": "癸酉（剑锋金）",
+  "prevJieQi": "惊蛰 2024-03-05 10:22:45",
+  "nextJieQi": "清明 2024-04-04 15:02:17",
+  "qiYunStartSolar": "2034-04-05 10:24:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2024,
+    "endYear": 2033,
+    "startAge": 1,
+    "endAge": 10
+   },
+   {
+    "index": 1,
+    "ganZhi": "戊辰",
+    "startYear": 2034,
+    "endYear": 2043,
+    "startAge": 11,
+    "endAge": 20
+   },
+   {
+    "index": 2,
+    "ganZhi": "己巳",
+    "startYear": 2044,
+    "endYear": 2053,
+    "startAge": 21,
+    "endAge": 30
+   },
+   {
+    "index": 3,
+    "ganZhi": "庚午",
+    "startYear": 2054,
+    "endYear": 2063,
+    "startAge": 31,
+    "endAge": 40
+   },
+   {
+    "index": 4,
+    "ganZhi": "辛未",
+    "startYear": 2064,
+    "endYear": 2073,
+    "startAge": 41,
+    "endAge": 50
+   },
+   {
+    "index": 5,
+    "ganZhi": "壬申",
+    "startYear": 2074,
+    "endYear": 2083,
+    "startAge": 51,
+    "endAge": 60
+   },
+   {
+    "index": 6,
+    "ganZhi": "癸酉",
+    "startYear": 2084,
+    "endYear": 2093,
+    "startAge": 61,
+    "endAge": 70
+   },
+   {
+    "index": 7,
+    "ganZhi": "甲戌",
+    "startYear": 2094,
+    "endYear": 2103,
+    "startAge": 71,
+    "endAge": 80
+   },
+   {
+    "index": 8,
+    "ganZhi": "乙亥",
+    "startYear": 2104,
+    "endYear": 2113,
+    "startAge": 81,
+    "endAge": 90
+   },
+   {
+    "index": 9,
+    "ganZhi": "丙子",
+    "startYear": 2114,
+    "endYear": 2123,
+    "startAge": 91,
+    "endAge": 100
+   }
+  ],
+  "correctedText": "2024-03-05 10:24:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "惊蛰后2024-03-05"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "癸卯",
+    "hideGan": [
+     "乙"
+    ],
+    "shiShenGan": "正印",
+    "shiShenZhi": [
+     "劫财"
+    ],
+    "naYin": "金箔金",
+    "diShi": "帝旺",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "甲子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "比肩",
+    "shiShenZhi": [
+     "正印"
+    ],
+    "naYin": "海中金",
+    "diShi": "沐浴",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "甲寅",
+    "hideGan": [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "比肩",
+     "食神",
+     "偏财"
+    ],
+    "naYin": "大溪水",
+    "diShi": "临官",
+    "xunKong": "子丑"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "庚午",
+    "hideGan": [
+     "丁",
+     "己"
+    ],
+    "shiShenGan": "七杀",
+    "shiShenZhi": [
+     "伤官",
+     "正财"
+    ],
+    "naYin": "路旁土",
+    "diShi": "死",
+    "xunKong": "戌亥"
+   }
+  ],
+  "taiYuan": "乙卯（大溪水）",
+  "mingGong": "癸亥（大海水）",
+  "shenGong": "己未（天上火）",
+  "prevJieQi": "大雪 2023-12-07 17:32:55",
+  "nextJieQi": "小寒 2024-01-06 04:49:22",
+  "qiYunStartSolar": "2028-11-11 11:27:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2023,
+    "endYear": 2027,
+    "startAge": 1,
+    "endAge": 5
+   },
+   {
+    "index": 1,
+    "ganZhi": "乙丑",
+    "startYear": 2028,
+    "endYear": 2037,
+    "startAge": 6,
+    "endAge": 15
+   },
+   {
+    "index": 2,
+    "ganZhi": "丙寅",
+    "startYear": 2038,
+    "endYear": 2047,
+    "startAge": 16,
+    "endAge": 25
+   },
+   {
+    "index": 3,
+    "ganZhi": "丁卯",
+    "startYear": 2048,
+    "endYear": 2057,
+    "startAge": 26,
+    "endAge": 35
+   },
+   {
+    "index": 4,
+    "ganZhi": "戊辰",
+    "startYear": 2058,
+    "endYear": 2067,
+    "startAge": 36,
+    "endAge": 45
+   },
+   {
+    "index": 5,
+    "ganZhi": "己巳",
+    "startYear": 2068,
+    "endYear": 2077,
+    "startAge": 46,
+    "endAge": 55
+   },
+   {
+    "index": 6,
+    "ganZhi": "庚午",
+    "startYear": 2078,
+    "endYear": 2087,
+    "startAge": 56,
+    "endAge": 65
+   },
+   {
+    "index": 7,
+    "ganZhi": "辛未",
+    "startYear": 2088,
+    "endYear": 2097,
+    "startAge": 66,
+    "endAge": 75
+   },
+   {
+    "index": 8,
+    "ganZhi": "壬申",
+    "startYear": 2098,
+    "endYear": 2107,
+    "startAge": 76,
+    "endAge": 85
+   },
+   {
+    "index": 9,
+    "ganZhi": "癸酉",
+    "startYear": 2108,
+    "endYear": 2117,
+    "startAge": 86,
+    "endAge": 95
+   }
+  ],
+  "correctedText": "2023-12-22 11:27:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "冬至交界2023"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "甲辰",
+    "hideGan": [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    "shiShenGan": "比肩",
+    "shiShenZhi": [
+     "偏财",
+     "劫财",
+     "正印"
+    ],
+    "naYin": "覆灯火",
+    "diShi": "衰",
+    "xunKong": "寅卯"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "丙寅",
+    "hideGan": [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    "shiShenGan": "食神",
+    "shiShenZhi": [
+     "比肩",
+     "食神",
+     "偏财"
+    ],
+    "naYin": "炉中火",
+    "diShi": "临官",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "甲辰",
+    "hideGan": [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "偏财",
+     "劫财",
+     "正印"
+    ],
+    "naYin": "覆灯火",
+    "diShi": "衰",
+    "xunKong": "寅卯"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "甲子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "比肩",
+    "shiShenZhi": [
+     "正印"
+    ],
+    "naYin": "海中金",
+    "diShi": "沐浴",
+    "xunKong": "戌亥"
+   }
+  ],
+  "taiYuan": "丁巳（沙中土）",
+  "mingGong": "丁卯（炉中火）",
+  "shenGong": "丁卯（炉中火）",
+  "prevJieQi": "立春 2024-02-04 16:27:07",
+  "nextJieQi": "惊蛰 2024-03-05 10:22:45",
+  "qiYunStartSolar": "2032-03-30 00:00:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2024,
+    "endYear": 2031,
+    "startAge": 1,
+    "endAge": 8
+   },
+   {
+    "index": 1,
+    "ganZhi": "丁卯",
+    "startYear": 2032,
+    "endYear": 2041,
+    "startAge": 9,
+    "endAge": 18
+   },
+   {
+    "index": 2,
+    "ganZhi": "戊辰",
+    "startYear": 2042,
+    "endYear": 2051,
+    "startAge": 19,
+    "endAge": 28
+   },
+   {
+    "index": 3,
+    "ganZhi": "己巳",
+    "startYear": 2052,
+    "endYear": 2061,
+    "startAge": 29,
+    "endAge": 38
+   },
+   {
+    "index": 4,
+    "ganZhi": "庚午",
+    "startYear": 2062,
+    "endYear": 2071,
+    "startAge": 39,
+    "endAge": 48
+   },
+   {
+    "index": 5,
+    "ganZhi": "辛未",
+    "startYear": 2072,
+    "endYear": 2081,
+    "startAge": 49,
+    "endAge": 58
+   },
+   {
+    "index": 6,
+    "ganZhi": "壬申",
+    "startYear": 2082,
+    "endYear": 2091,
+    "startAge": 59,
+    "endAge": 68
+   },
+   {
+    "index": 7,
+    "ganZhi": "癸酉",
+    "startYear": 2092,
+    "endYear": 2101,
+    "startAge": 69,
+    "endAge": 78
+   },
+   {
+    "index": 8,
+    "ganZhi": "甲戌",
+    "startYear": 2102,
+    "endYear": 2111,
+    "startAge": 79,
+    "endAge": 88
+   },
+   {
+    "index": 9,
+    "ganZhi": "乙亥",
+    "startYear": 2112,
+    "endYear": 2121,
+    "startAge": 89,
+    "endAge": 98
+   }
+  ],
+  "correctedText": "2024-02-10 00:00:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "农历春节2024正月初一"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "癸卯",
+    "hideGan": [
+     "乙"
+    ],
+    "shiShenGan": "偏印",
+    "shiShenZhi": [
+     "比肩"
+    ],
+    "naYin": "金箔金",
+    "diShi": "临官",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "甲子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "劫财",
+    "shiShenZhi": [
+     "偏印"
+    ],
+    "naYin": "海中金",
+    "diShi": "病",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "乙丑",
+    "hideGan": [
+     "己",
+     "癸",
+     "辛"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "偏财",
+     "偏印",
+     "七杀"
+    ],
+    "naYin": "海中金",
+    "diShi": "衰",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "丙子",
+    "hideGan": [
+     "癸"
+    ],
+    "shiShenGan": "伤官",
+    "shiShenZhi": [
+     "偏印"
+    ],
+    "naYin": "涧下水",
+    "diShi": "病",
+    "xunKong": "申酉"
+   }
+  ],
+  "taiYuan": "乙卯（大溪水）",
+  "mingGong": "丁巳（沙中土）",
+  "shenGong": "乙丑（海中金）",
+  "prevJieQi": "大雪 2023-12-07 17:32:55",
+  "nextJieQi": "小寒 2024-01-06 04:49:22",
+  "qiYunStartSolar": "2032-05-21 23:12:44",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 2024,
+    "endYear": 2031,
+    "startAge": 1,
+    "endAge": 8
+   },
+   {
+    "index": 1,
+    "ganZhi": "癸亥",
+    "startYear": 2032,
+    "endYear": 2041,
+    "startAge": 9,
+    "endAge": 18
+   },
+   {
+    "index": 2,
+    "ganZhi": "壬戌",
+    "startYear": 2042,
+    "endYear": 2051,
+    "startAge": 19,
+    "endAge": 28
+   },
+   {
+    "index": 3,
+    "ganZhi": "辛酉",
+    "startYear": 2052,
+    "endYear": 2061,
+    "startAge": 29,
+    "endAge": 38
+   },
+   {
+    "index": 4,
+    "ganZhi": "庚申",
+    "startYear": 2062,
+    "endYear": 2071,
+    "startAge": 39,
+    "endAge": 48
+   },
+   {
+    "index": 5,
+    "ganZhi": "己未",
+    "startYear": 2072,
+    "endYear": 2081,
+    "startAge": 49,
+    "endAge": 58
+   },
+   {
+    "index": 6,
+    "ganZhi": "戊午",
+    "startYear": 2082,
+    "endYear": 2091,
+    "startAge": 59,
+    "endAge": 68
+   },
+   {
+    "index": 7,
+    "ganZhi": "丁巳",
+    "startYear": 2092,
+    "endYear": 2101,
+    "startAge": 69,
+    "endAge": 78
+   },
+   {
+    "index": 8,
+    "ganZhi": "丙辰",
+    "startYear": 2102,
+    "endYear": 2111,
+    "startAge": 79,
+    "endAge": 88
+   },
+   {
+    "index": 9,
+    "ganZhi": "乙卯",
+    "startYear": 2112,
+    "endYear": 2121,
+    "startAge": 89,
+    "endAge": 98
+   }
+  ],
+  "correctedText": "2024-01-01 23:12:44",
+  "trueSolarOffsetSeconds": 1364.078231722667,
+  "name": "真太阳跨子时临界哈尔滨"
+ },
+ {
+  "pillars": [
+   {
+    "label": "年柱",
+    "ganZhi": "辛丑",
+    "hideGan": [
+     "己",
+     "癸",
+     "辛"
+    ],
+    "shiShenGan": "伤官",
+    "shiShenZhi": [
+     "劫财",
+     "正财",
+     "伤官"
+    ],
+    "naYin": "壁上土",
+    "diShi": "养",
+    "xunKong": "辰巳"
+   },
+   {
+    "label": "月柱",
+    "ganZhi": "庚寅",
+    "hideGan": [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    "shiShenGan": "食神",
+    "shiShenZhi": [
+     "七杀",
+     "偏印",
+     "比肩"
+    ],
+    "naYin": "松柏木",
+    "diShi": "长生",
+    "xunKong": "午未"
+   },
+   {
+    "label": "日柱",
+    "ganZhi": "戊辰",
+    "hideGan": [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    "shiShenGan": "日主",
+    "shiShenZhi": [
+     "比肩",
+     "正官",
+     "正财"
+    ],
+    "naYin": "大林木",
+    "diShi": "冠带",
+    "xunKong": "戌亥"
+   },
+   {
+    "label": "时柱",
+    "ganZhi": "戊午",
+    "hideGan": [
+     "丁",
+     "己"
+    ],
+    "shiShenGan": "比肩",
+    "shiShenZhi": [
+     "正印",
+     "劫财"
+    ],
+    "naYin": "天上火",
+    "diShi": "帝旺",
+    "xunKong": "子丑"
+   }
+  ],
+  "taiYuan": "辛巳（白蜡金）",
+  "mingGong": "丁酉（山下火）",
+  "shenGong": "丁酉（山下火）",
+  "prevJieQi": "立春 1901-02-04 19:39:52",
+  "nextJieQi": "惊蛰 1901-03-06 14:10:53",
+  "qiYunStartSolar": "1906-03-01 12:00:00",
+  "daYun": [
+   {
+    "index": 0,
+    "ganZhi": "起运前",
+    "startYear": 1901,
+    "endYear": 1905,
+    "startAge": 1,
+    "endAge": 5
+   },
+   {
+    "index": 1,
+    "ganZhi": "辛卯",
+    "startYear": 1906,
+    "endYear": 1915,
+    "startAge": 6,
+    "endAge": 15
+   },
+   {
+    "index": 2,
+    "ganZhi": "壬辰",
+    "startYear": 1916,
+    "endYear": 1925,
+    "startAge": 16,
+    "endAge": 25
+   },
+   {
+    "index": 3,
+    "ganZhi": "癸巳",
+    "startYear": 1926,
+    "endYear": 1935,
+    "startAge": 26,
+    "endAge": 35
+   },
+   {
+    "index": 4,
+    "ganZhi": "甲午",
+    "startYear": 1936,
+    "endYear": 1945,
+    "startAge": 36,
+    "endAge": 45
+   },
+   {
+    "index": 5,
+    "ganZhi": "乙未",
+    "startYear": 1946,
+    "endYear": 1955,
+    "startAge": 46,
+    "endAge": 55
+   },
+   {
+    "index": 6,
+    "ganZhi": "丙申",
+    "startYear": 1956,
+    "endYear": 1965,
+    "startAge": 56,
+    "endAge": 65
+   },
+   {
+    "index": 7,
+    "ganZhi": "丁酉",
+    "startYear": 1966,
+    "endYear": 1975,
+    "startAge": 66,
+    "endAge": 75
+   },
+   {
+    "index": 8,
+    "ganZhi": "戊戌",
+    "startYear": 1976,
+    "endYear": 1985,
+    "startAge": 76,
+    "endAge": 85
+   },
+   {
+    "index": 9,
+    "ganZhi": "己亥",
+    "startYear": 1986,
+    "endYear": 1995,
+    "startAge": 86,
+    "endAge": 95
+   }
+  ],
+  "correctedText": "1901-02-19 12:00:00",
+  "trueSolarOffsetSeconds": null,
+  "name": "1901节气年"
+ }
+]

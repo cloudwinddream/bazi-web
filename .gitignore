@@ -3,3 +3,4 @@ dist
 tests/.build
 *.local
 .DS_Store
+tests/js-results.json

@@ -9,8 +9,11 @@ const form = ref({
   gender: 'male' as 'male' | 'female',
   city: '北京',
   longitude: 116.40,
+  second: 0,
+  timeZoneOffset: 8,
   useTrueSolarTime: true,
   ziSect: 1 as 1 | 2,
+  daYunSect: 1 as 1 | 2,
   lunarLeap: false,
 })
 
@@ -21,9 +24,11 @@ const errorMsg = ref('')
 const WX_COLORS: Record<string, string> = { 木: 'var(--wx-mu)', 火: 'var(--wx-huo)', 土: 'var(--wx-tu)', 金: 'var(--wx-jin)', 水: 'var(--wx-shui)' }
 const currentYear = new Date().getFullYear()
 
+const CITY_TZ: Record<string, number> = { 纽约: -5, 伦敦: 0, 东京: 9, 悉尼: 10 }
 function onCityChange() {
   const c = CITIES.find((x) => x.name === form.value.city)
   if (c) form.value.longitude = c.lng
+  form.value.timeZoneOffset = CITY_TZ[form.value.city] ?? 8
 }
 
 function run() {
@@ -34,10 +39,12 @@ function run() {
     const month = form.value.calendar === 'lunar' && form.value.lunarLeap ? -m : m
     const input: BirthInput = {
       calendar: form.value.calendar, year: y, month, day: d,
-      hour: hh, minute: mm, gender: form.value.gender,
+      hour: hh, minute: mm, second: Number(form.value.second) || 0, gender: form.value.gender,
       longitude: Number(form.value.longitude),
+      timeZoneOffset: Number(form.value.timeZoneOffset),
       useTrueSolarTime: form.value.useTrueSolarTime,
       ziSect: form.value.ziSect,
+      daYunSect: form.value.daYunSect,
     }
     result.value = calcBazi(input)
     // 默认选中包含今年的大运
@@ -97,6 +104,21 @@ run()
           <label>经度（可手改）</label>
           <input type="number" step="0.01" v-model="form.longitude" />
         </div>
+        <div class="field">
+          <label>秒（可选，精确排盘）</label>
+          <input type="number" min="0" max="59" v-model="form.second" />
+        </div>
+        <div class="field">
+          <label>出生地时区（UTC偏移）</label>
+          <select v-model.number="form.timeZoneOffset">
+            <option :value="8">UTC+8 中国</option>
+            <option :value="9">UTC+9 东京</option>
+            <option :value="10">UTC+10 悉尼</option>
+            <option :value="0">UTC+0 伦敦</option>
+            <option :value="-5">UTC-5 纽约(标准时)</option>
+            <option :value="-8">UTC-8 洛杉矶(标准时)</option>
+          </select>
+        </div>
       </div>
       <div class="switches">
         <label><input type="checkbox" v-model="form.useTrueSolarTime" /> 真太阳时</label>
@@ -105,6 +127,12 @@ run()
           <select v-model.number="form.ziSect">
             <option :value="1">晚子换日（23点）</option>
             <option :value="2">子时不换日</option>
+          </select>
+        </label>
+        <label>起运：
+          <select v-model.number="form.daYunSect">
+            <option :value="1">日时法（三天折一年）</option>
+            <option :value="2">分钟精算法</option>
           </select>
         </label>
       </div>
@@ -116,8 +144,10 @@ run()
       <section class="card">
         <h2>四柱命盘</h2>
         <p class="meta">
-          公历 {{ result.solarText }}<span v-if="result.trueSolarOffsetMinutes !== null"> → 真太阳时 {{ result.correctedText }}（{{ result.trueSolarOffsetMinutes >= 0 ? '+' : '' }}{{ result.trueSolarOffsetMinutes }} 分钟）</span><br />
-          农历 {{ result.lunarText }} · 日主 {{ result.dayGan }}（{{ result.dayMasterStrength }}）
+          公历 {{ result.solarText }}（输入时区）→ 北京时间 {{ result.beijingText }}<span v-if="result.trueSolarOffsetSeconds !== null"> → 真太阳时 {{ result.correctedText }}（{{ result.trueSolarOffsetSeconds >= 0 ? '+' : '' }}{{ Math.round(result.trueSolarOffsetSeconds) }} 秒）</span><br />
+          农历 {{ result.lunarText }} · 日主 {{ result.dayGan }}（{{ result.dayMasterStrength }}）<br />
+          胎元 {{ result.taiYuan }} · 命宫 {{ result.mingGong }} · 身宫 {{ result.shenGong }}<br />
+          节气 {{ result.prevJieQi }} → {{ result.nextJieQi }}
         </p>
         <div class="scroll-x">
           <table class="pan">
@@ -130,6 +160,7 @@ run()
               <tr><th>藏干</th><td v-for="p in result.pillars" :key="p.label">{{ p.hideGan.join(' ') }}<br /><span class="small">{{ p.shiShenZhi.join(' · ') }}</span></td></tr>
               <tr><th>纳音</th><td v-for="p in result.pillars" :key="p.label">{{ p.naYin }}</td></tr>
               <tr><th>地势</th><td v-for="p in result.pillars" :key="p.label">{{ p.diShi }}</td></tr>
+              <tr><th>旬空</th><td v-for="p in result.pillars" :key="p.label">{{ p.xunKong }}</td></tr>
             </tbody>
           </table>
         </div>
