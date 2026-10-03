@@ -18,11 +18,12 @@ const form = ref({
 })
 
 const result = ref<BaziResult | null>(null)
-const selectedDaYun = ref(2)
+const selectedDaYun = ref(1)
 const errorMsg = ref('')
 
-const WX_COLORS: Record<string, string> = { 木: 'var(--wx-mu)', 火: 'var(--wx-huo)', 土: 'var(--wx-tu)', 金: 'var(--wx-jin)', 水: 'var(--wx-shui)' }
+const WX_BAR: Record<string, string> = { 木: '#4e7a51', 火: '#b3352b', 土: '#a97b1f', 金: '#b8860b', 水: '#35618e' }
 const currentYear = new Date().getFullYear()
+const todayStr = new Date().toISOString().slice(0, 10)
 
 const CITY_TZ: Record<string, number> = { 纽约: -5, 伦敦: 0, 东京: 9, 悉尼: 10 }
 function onCityChange() {
@@ -45,10 +46,10 @@ function run() {
       useTrueSolarTime: form.value.useTrueSolarTime,
       ziSect: form.value.ziSect,
       daYunSect: form.value.daYunSect,
+      placeName: form.value.city,
     }
     result.value = calcBazi(input)
-    // 默认选中包含今年的大运
-    const idx = result.value.daYun.findIndex((dy) => currentYear >= dy.startYear && currentYear <= dy.endYear)
+    const idx = result.value.daYun.findIndex((dy) => dy.index > 0 && todayStr >= dy.startDate && todayStr <= dy.endDate)
     selectedDaYun.value = idx >= 0 ? idx : 1
   } catch (e: any) {
     errorMsg.value = '输入有误或日期超出支持范围，请检查后重试。'
@@ -58,6 +59,48 @@ function run() {
 
 const maxWx = computed(() => (result.value ? Math.max(...result.value.wuXing.map((w) => w.score), 1) : 1))
 const activeDaYun = computed(() => (result.value ? result.value.daYun[selectedDaYun.value] : null))
+function isCurrentDy(dy: any) { return dy.index > 0 && todayStr >= dy.startDate && todayStr <= dy.endDate }
+
+// ---- 五行分阴阳配色 ----
+// 规则：同五行同色系；阳（干：甲丙戊庚壬 / 支：子寅辰午申戌）用饱和明亮本色，阴用同色系柔和偏浅色。
+const GAN_LIST = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸']
+const ZHI_LIST = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥']
+const GAN_WX: Record<string, string> = { 甲: '木', 乙: '木', 丙: '火', 丁: '火', 戊: '土', 己: '土', 庚: '金', 辛: '金', 壬: '水', 癸: '水' }
+const ZHI_WX: Record<string, string> = { 子: '水', 丑: '土', 寅: '木', 卯: '木', 辰: '土', 巳: '火', 午: '火', 未: '土', 申: '金', 酉: '金', 戌: '土', 亥: '水' }
+// 深色盘面用色（亮）
+const DARK_COLORS: Record<string, { yang: string; yin: string }> = {
+  木: { yang: '#58c96b', yin: '#a9c98a' },
+  火: { yang: '#ff3d1f', yin: '#ff9d8a' },
+  土: { yang: '#e6a83c', yin: '#dbc08b' },
+  金: { yang: '#ffd21f', yin: '#eee09b' },
+  水: { yang: '#45a7f5', yin: '#a9cbe8' },
+}
+// 浅色表格用色（深，保证白底可读）
+const LIGHT_COLORS: Record<string, { yang: string; yin: string }> = {
+  木: { yang: '#2e7d32', yin: '#7aa95f' },
+  火: { yang: '#cf2a1f', yin: '#e07a6a' },
+  土: { yang: '#8f5d14', yin: '#b28c4d' },
+  金: { yang: '#9c7600', yin: '#bfa94e' },
+  水: { yang: '#1565c0', yin: '#6f9fd0' },
+}
+function isYangGan(g: string) { const i = GAN_LIST.indexOf(g); return i >= 0 && i % 2 === 0 }
+function isYangZhi(z: string) { const i = ZHI_LIST.indexOf(z); return i >= 0 && i % 2 === 0 }
+function darkGanStyle(g: string, isDay = false) {
+  if (isDay) return { color: '#ffffff', textShadow: '0 0 10px rgba(255,255,255,.35)' }
+  const c = DARK_COLORS[GAN_WX[g]]; return { color: isYangGan(g) ? c.yang : c.yin }
+}
+function darkZhiStyle(z: string) { const c = DARK_COLORS[ZHI_WX[z]]; return { color: isYangZhi(z) ? c.yang : c.yin } }
+function lightGanStyle(g: string) { const c = LIGHT_COLORS[GAN_WX[g]]; return { color: isYangGan(g) ? c.yang : c.yin } }
+function lightZhiStyle(z: string) { const c = LIGHT_COLORS[ZHI_WX[z]]; return { color: isYangZhi(z) ? c.yang : c.yin } }
+function lightHideStyle(g: string) { return lightGanStyle(g) }
+function darkHideStyle(g: string) { return darkGanStyle(g) }
+
+// 十神简称（藏干下方小字，仿参考图单字风格；全称在十神行展示）
+const SS_SHORT: Record<string, string> = {
+  比肩: '比', 劫财: '劫', 食神: '食', 伤官: '伤', 偏财: '才', 正财: '财',
+  七杀: '杀', 正官: '官', 偏印: '枭', 正印: '印', 日主: '日',
+}
+const shortSS = (s: string) => SS_SHORT[s] || s
 
 run()
 </script>
@@ -82,41 +125,26 @@ run()
         <div class="field">
           <label>性别</label>
           <div class="seg">
-            <button :class="{ on: form.gender === 'male' }" @click="form.gender = 'male'">男</button>
-            <button :class="{ on: form.gender === 'female' }" @click="form.gender = 'female'">女</button>
+            <button :class="{ on: form.gender === 'male' }" @click="form.gender = 'male'">男 · 乾造</button>
+            <button :class="{ on: form.gender === 'female' }" @click="form.gender = 'female'">女 · 坤造</button>
           </div>
         </div>
-        <div class="field">
-          <label>出生日期</label>
-          <input type="date" v-model="form.date" min="1900-01-01" max="2100-12-31" />
-        </div>
-        <div class="field">
-          <label>出生时间</label>
-          <input type="time" v-model="form.time" />
-        </div>
+        <div class="field"><label>出生日期</label><input type="date" v-model="form.date" min="1900-01-01" max="2100-12-31" /></div>
+        <div class="field"><label>出生时间</label><input type="time" v-model="form.time" /></div>
         <div class="field">
           <label>出生地（带出经度）</label>
           <select v-model="form.city" @change="onCityChange">
             <option v-for="c in CITIES" :key="c.name" :value="c.name">{{ c.name }}（{{ c.lng }}°E）</option>
           </select>
         </div>
-        <div class="field">
-          <label>经度（可手改）</label>
-          <input type="number" step="0.01" v-model="form.longitude" />
-        </div>
-        <div class="field">
-          <label>秒（可选，精确排盘）</label>
-          <input type="number" min="0" max="59" v-model="form.second" />
-        </div>
+        <div class="field"><label>经度（可手改）</label><input type="number" step="0.01" v-model="form.longitude" /></div>
+        <div class="field"><label>秒（可选，精确排盘）</label><input type="number" min="0" max="59" v-model="form.second" /></div>
         <div class="field">
           <label>出生地时区（UTC偏移）</label>
           <select v-model.number="form.timeZoneOffset">
-            <option :value="8">UTC+8 中国</option>
-            <option :value="9">UTC+9 东京</option>
-            <option :value="10">UTC+10 悉尼</option>
-            <option :value="0">UTC+0 伦敦</option>
-            <option :value="-5">UTC-5 纽约(标准时)</option>
-            <option :value="-8">UTC-8 洛杉矶(标准时)</option>
+            <option :value="8">UTC+8 中国</option><option :value="9">UTC+9 东京</option>
+            <option :value="10">UTC+10 悉尼</option><option :value="0">UTC+0 伦敦</option>
+            <option :value="-5">UTC-5 纽约(标准时)</option><option :value="-8">UTC-8 洛杉矶(标准时)</option>
           </select>
         </div>
       </div>
@@ -124,16 +152,10 @@ run()
         <label><input type="checkbox" v-model="form.useTrueSolarTime" /> 真太阳时</label>
         <label v-if="form.calendar === 'lunar'"><input type="checkbox" v-model="form.lunarLeap" /> 闰月</label>
         <label>子时：
-          <select v-model.number="form.ziSect">
-            <option :value="1">晚子换日（23点）</option>
-            <option :value="2">子时不换日</option>
-          </select>
+          <select v-model.number="form.ziSect"><option :value="1">晚子换日（23点）</option><option :value="2">子时不换日</option></select>
         </label>
         <label>起运：
-          <select v-model.number="form.daYunSect">
-            <option :value="1">日时法（三天折一年）</option>
-            <option :value="2">分钟精算法</option>
-          </select>
+          <select v-model.number="form.daYunSect"><option :value="1">日时法（三天折一年）</option><option :value="2">分钟精算法</option></select>
         </label>
       </div>
       <button class="btn" @click="run">排 盘</button>
@@ -141,28 +163,85 @@ run()
     </section>
 
     <template v-if="result">
+      <!-- 顶部信息行（图1） -->
+      <section class="card info-card">
+        <table class="info-table">
+          <tbody>
+            <tr><th>日期</th><td>{{ result.solarText }}（农历 {{ result.lunarText }}）</td></tr>
+            <tr><th>真太阳时</th><td>{{ result.trueSolarOffsetSeconds !== null ? `${result.correctedText}（${result.placeName || '出生地'}，偏移 ${result.trueSolarOffsetSeconds >= 0 ? '+' : ''}${Math.round(result.trueSolarOffsetSeconds)} 秒）` : `${result.beijingText}（北京时间，未启用真太阳时）` }}</td></tr>
+            <tr><th>节气</th><td>{{ result.jieQiTermText || `${result.prevJieQiName}后${result.jieQiFromPrevText}，${result.nextJieQiName}前${result.jieQiToNextText}` }}<span class="small">（{{ result.prevJieQi }} → {{ result.nextJieQi }}）</span></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 深色四柱大盘面（图2） -->
+      <section class="dark-pan">
+        <div class="dark-head">
+          <span class="qiankun">{{ result.genderLabel }}</span>
+          <span class="dark-sub">日主 {{ result.dayGan }} · {{ result.dayMasterStrength }}</span>
+        </div>
+        <div class="dark-cols">
+          <div v-for="p in result.pillars" :key="p.label" class="dark-col" :class="{ 'is-day': p.label === '日柱' }">
+            <div class="dark-pillar-label">{{ p.label.replace('柱', '') }}</div>
+            <div class="dark-shishen">{{ p.label === '日柱' ? '日元' : p.shiShenGan }}</div>
+            <div class="dark-gan" :style="darkGanStyle(p.gan, p.label === '日柱')">{{ p.gan }}</div>
+            <div class="dark-zhi" :style="darkZhiStyle(p.zhi)">{{ p.zhi }}</div>
+            <div class="dark-divider"></div>
+            <div class="dark-hide">
+              <div v-for="(hg, i) in p.hideGan" :key="i" class="dark-hide-item">
+                <div class="dark-hide-gan" :style="darkHideStyle(hg)">{{ hg }}</div>
+                <div class="dark-hide-ss">{{ shortSS(p.shiShenZhi[i]) }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="legend">
+          配色：同五行同色系，<b>阳</b>用饱和本色、<b>阴</b>用同系柔色（干：甲丙戊庚壬阳 / 乙丁己辛癸阴；支：子寅辰午申戌阳 / 丑卯巳未酉亥阴）。日干白字高亮。
+        </div>
+      </section>
+
+      <!-- 浅色明细表（图1） -->
       <section class="card">
-        <h2>四柱命盘</h2>
-        <p class="meta">
-          公历 {{ result.solarText }}（输入时区）→ 北京时间 {{ result.beijingText }}<span v-if="result.trueSolarOffsetSeconds !== null"> → 真太阳时 {{ result.correctedText }}（{{ result.trueSolarOffsetSeconds >= 0 ? '+' : '' }}{{ Math.round(result.trueSolarOffsetSeconds) }} 秒）</span><br />
-          农历 {{ result.lunarText }} · 日主 {{ result.dayGan }}（{{ result.dayMasterStrength }}）<br />
-          胎元 {{ result.taiYuan }} · 命宫 {{ result.mingGong }} · 身宫 {{ result.shenGong }}<br />
-          节气 {{ result.prevJieQi }} → {{ result.nextJieQi }}
-        </p>
+        <h2>命盘明细 · {{ result.genderLabel }}</h2>
         <div class="scroll-x">
           <table class="pan">
             <thead>
               <tr><th></th><th v-for="p in result.pillars" :key="p.label" :class="{ 'day-highlight': p.label === '日柱' }">{{ p.label }}</th></tr>
             </thead>
             <tbody>
-              <tr><th>干支</th><td v-for="p in result.pillars" :key="p.label" :class="{ 'day-highlight': p.label === '日柱' }"><span class="gz">{{ p.ganZhi }}</span></td></tr>
-              <tr><th>十神</th><td v-for="p in result.pillars" :key="p.label">{{ p.label === '日柱' ? '日主' : p.shiShenGan }}</td></tr>
-              <tr><th>藏干</th><td v-for="p in result.pillars" :key="p.label">{{ p.hideGan.join(' ') }}<br /><span class="small">{{ p.shiShenZhi.join(' · ') }}</span></td></tr>
+              <tr><th>十神</th><td v-for="p in result.pillars" :key="p.label">{{ p.label === '日柱' ? '日元（日主）' : p.shiShenGan }}</td></tr>
+              <tr>
+                <th>{{ result.genderLabel }}</th>
+                <td v-for="p in result.pillars" :key="p.label" :class="{ 'day-highlight': p.label === '日柱' }">
+                  <div class="gz-stack">
+                    <span class="gz-big" :style="lightGanStyle(p.gan)">{{ p.gan }}</span>
+                    <span class="gz-big" :style="lightZhiStyle(p.zhi)">{{ p.zhi }}</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th>藏干</th>
+                <td v-for="p in result.pillars" :key="p.label">
+                  <div class="hide-wrap light">
+                    <div v-for="(hg, i) in p.hideGan" :key="i" class="hide-item">
+                      <div class="hide-gan" :style="lightHideStyle(hg)">{{ hg }}</div>
+                      <div class="hide-ss">{{ shortSS(p.shiShenZhi[i]) }}<span class="hide-full">{{ p.shiShenZhi[i] }}</span></div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
               <tr><th>纳音</th><td v-for="p in result.pillars" :key="p.label">{{ p.naYin }}</td></tr>
               <tr><th>地势</th><td v-for="p in result.pillars" :key="p.label">{{ p.diShi }}</td></tr>
-              <tr><th>旬空</th><td v-for="p in result.pillars" :key="p.label">{{ p.xunKong }}</td></tr>
+              <tr><th>自坐</th><td v-for="p in result.pillars" :key="p.label">{{ p.ziZuo }}</td></tr>
+              <tr><th>空亡</th><td v-for="p in result.pillars" :key="p.label">{{ p.xunKong }}<span class="small">（{{ p.xun }}旬）</span></td></tr>
+              <tr><th>神煞</th><td colspan="4" class="left-note">引擎（lunar-javascript 1.7.7 EightChar）未提供神煞接口，本版不展示，避免编造；后续按标准神煞表补入。</td></tr>
             </tbody>
           </table>
+        </div>
+        <div class="gong-row">
+          <div class="gong-box"><div class="gong-label">胎元</div><div class="gz-stack sm"><span :style="lightGanStyle(result.taiYuanGanZhi.charAt(0))">{{ result.taiYuanGanZhi.charAt(0) }}</span><span :style="lightZhiStyle(result.taiYuanGanZhi.charAt(1))">{{ result.taiYuanGanZhi.charAt(1) }}</span></div><div class="small">{{ result.taiYuan }}</div></div>
+          <div class="gong-box"><div class="gong-label">命宫</div><div class="gz-stack sm"><span :style="lightGanStyle(result.mingGongGanZhi.charAt(0))">{{ result.mingGongGanZhi.charAt(0) }}</span><span :style="lightZhiStyle(result.mingGongGanZhi.charAt(1))">{{ result.mingGongGanZhi.charAt(1) }}</span></div><div class="small">{{ result.mingGong }}</div></div>
+          <div class="gong-box"><div class="gong-label">身宫</div><div class="gz-stack sm"><span :style="lightGanStyle(result.shenGongGanZhi.charAt(0))">{{ result.shenGongGanZhi.charAt(0) }}</span><span :style="lightZhiStyle(result.shenGongGanZhi.charAt(1))">{{ result.shenGongGanZhi.charAt(1) }}</span></div><div class="small">{{ result.shenGong }}</div></div>
         </div>
       </section>
 
@@ -170,31 +249,62 @@ run()
         <h2>五行分布（藏干加权）</h2>
         <div class="wx-row" v-for="w in result.wuXing" :key="w.name">
           <span class="nm">{{ w.name }}</span>
-          <div class="wx-bar"><div class="wx-fill" :style="{ width: (w.score / maxWx * 100) + '%', background: WX_COLORS[w.name] }"></div></div>
+          <div class="wx-bar"><div class="wx-fill" :style="{ width: (w.score / maxWx * 100) + '%', background: WX_BAR[w.name] }"></div></div>
           <span class="sc">{{ w.score.toFixed(1) }}</span>
         </div>
         <p class="meta">日主 {{ result.dayGan }}：{{ result.dayMasterStrength }}（同党占比粗判，仅供参考）</p>
       </section>
 
       <section class="card">
-        <h2>大运</h2>
-        <p class="meta">{{ result.qiYunText }}</p>
-        <div class="timeline">
-          <div v-for="dy in result.daYun" :key="dy.index" class="dy" :class="{ on: selectedDaYun === dy.index }" @click="selectedDaYun = dy.index">
-            <div class="gz2">{{ dy.ganZhi }}</div>
-            <div class="yr">{{ dy.startYear }}–{{ dy.endYear }}<br />{{ dy.startAge }}–{{ dy.endAge }} 岁</div>
+        <h2>大运 · 交运</h2>
+        <p class="jiao">{{ result.jiaoYunText }}。首步交运：{{ result.qiYunStartSolar }}（{{ result.qiYunStartDate }}）。</p>
+        <div class="dy-scroll">
+          <div v-for="dy in result.daYun" :key="dy.index" class="dy-card" :class="{ on: selectedDaYun === dy.index, cur: isCurrentDy(dy) }" @click="selectedDaYun = dy.index">
+            <div class="dy-years">{{ dy.startYear }}–{{ dy.endYear }}</div>
+            <template v-if="dy.index === 0">
+              <div class="dy-before">起运前</div><div class="dy-date">{{ dy.startDate }} 起</div>
+            </template>
+            <template v-else>
+              <div class="gz-stack dy-gz">
+                <span :style="lightGanStyle(dy.gan)">{{ dy.gan }}</span>
+                <span :style="lightZhiStyle(dy.zhi)">{{ dy.zhi }}</span>
+              </div>
+              <div class="dy-ss">{{ dy.shiShenGan }} · {{ dy.shiShenZhiMain }}</div>
+              <div class="hide-wrap light dy-hide">
+                <div v-for="(hg, i) in dy.hideGan" :key="i" class="hide-item">
+                  <div class="hide-gan" :style="lightHideStyle(hg)">{{ hg }}</div>
+                  <div class="hide-ss">{{ shortSS(dy.shiShenZhi[i]) }}</div>
+                </div>
+              </div>
+              <div class="dy-date">{{ dy.startDate }} 起交<br />至 {{ dy.endDate }}<br />起运 {{ dy.startAgeText }}<span v-if="isCurrentDy(dy)"> · 当前大运</span></div>
+            </template>
           </div>
         </div>
-        <div v-if="activeDaYun" class="ln-grid">
-          <div v-for="ln in activeDaYun.liuNian" :key="ln.year" class="ln" :class="{ cur: ln.year === currentYear }">
-            {{ ln.year }}<br />{{ ln.ganZhi }} · {{ ln.age }}岁
+
+        <div v-if="activeDaYun && activeDaYun.index > 0" class="ln-head">流年 · {{ activeDaYun.ganZhi }}大运（{{ activeDaYun.startDate }} ～ {{ activeDaYun.endDate }}）</div>
+        <div v-if="activeDaYun" class="ln-grid2">
+          <div v-for="ln in activeDaYun.liuNian" :key="ln.year" class="ln-card" :class="{ cur: ln.year === currentYear }">
+            <div class="ln-year">{{ ln.year }} · {{ ln.age }}岁</div>
+            <div class="gz-stack ln-gz">
+              <span :style="lightGanStyle(ln.gan)">{{ ln.gan }}</span>
+              <span :style="lightZhiStyle(ln.zhi)">{{ ln.zhi }}</span>
+            </div>
+            <div class="ln-ss">{{ ln.shiShenGan }} · {{ ln.shiShenZhiMain }}</div>
+            <div class="hide-wrap light ln-hide">
+              <div v-for="(hg, i) in ln.hideGan" :key="i" class="hide-item">
+                <div class="hide-gan" :style="lightHideStyle(hg)">{{ hg }}</div>
+                <div class="hide-ss">{{ shortSS(ln.shiShenZhi[i]) }}</div>
+              </div>
+            </div>
           </div>
         </div>
+        <p class="meta">大运/流年十神口径：天干十神 + 地支本气（藏干首位）十神；藏干小字为地支全部藏干及其对日主十神（简称）。</p>
       </section>
     </template>
 
     <footer>
       <div v-if="result">计算口径：{{ result.caliber.join('；') }}</div>
+      <div v-if="result">配色口径：同五行同色系，阳（干甲丙戊庚壬、支子寅辰午申戌）饱和本色，阴同系柔色；藏干颜色按其天干五行阴阳。自坐按库 CHANG_SHENG 同表以柱干坐柱支计算。</div>
       <div>本站所有计算均在您的浏览器本地完成，不上传任何数据。</div>
       <div>仅供传统文化研究与娱乐参考，不构成任何决策依据。</div>
     </footer>

@@ -7,7 +7,7 @@
 // - 大运起运 sect 入参：1=日时法（三天折一年），2=分钟精算法（库 Yun 原生两法）
 // - 输入时区入参：先按输入时区换算为北京时间再排盘（库 Solar 口径为北京时间），海外出生可正确对齐节气
 // - 藏干/十神/纳音/地势/胎元/命宫/身宫全部取库原生表
-import { Solar, Lunar } from 'lunar-javascript'
+import { Solar, Lunar, LunarUtil } from 'lunar-javascript'
 
 export interface BirthInput {
   calendar: 'solar' | 'lunar'
@@ -23,6 +23,7 @@ export interface BirthInput {
   useTrueSolarTime: boolean
   ziSect: 1 | 2 // 子时流派：1=晚子时换日(23:00)，2=早晚子时均属当日（库 sect 定义）
   daYunSect?: 1 | 2 // 大运起运：1=日时法（三天折一年），2=分钟精算法
+  placeName?: string // 出生地名称（仅展示用）
 }
 
 export interface Pillar {
@@ -30,22 +31,35 @@ export interface Pillar {
   ganZhi: string
   gan: string
   zhi: string
+  ganWx: string
+  zhiWx: string
   hideGan: string[]
   shiShenGan: string
   shiShenZhi: string[]
   naYin: string
   diShi: string
+  ziZuo: string
+  xun: string
   xunKong: string
 }
 
-export interface LiuNianItem { year: number; age: number; ganZhi: string }
+export interface LiuNianItem { year: number; age: number; ganZhi: string; gan: string; zhi: string; shiShenGan: string; shiShenZhiMain: string; hideGan: string[]; shiShenZhi: string[] }
 export interface DaYunItem {
   index: number
   startYear: number
   endYear: number
   startAge: number
   endAge: number
+  startDate: string
+  endDate: string
+  startAgeText: string
   ganZhi: string
+  gan: string
+  zhi: string
+  shiShenGan: string
+  shiShenZhiMain: string
+  hideGan: string[]
+  shiShenZhi: string[]
   liuNian: LiuNianItem[]
 }
 
@@ -66,8 +80,20 @@ export interface BaziResult {
   prevJieQi: string
   nextJieQi: string
   taiYuan: string
+  taiYuanGanZhi: string
   mingGong: string
+  mingGongGanZhi: string
   shenGong: string
+  shenGongGanZhi: string
+  genderLabel: string
+  placeName: string
+  prevJieQiName: string
+  nextJieQiName: string
+  jieQiFromPrevText: string
+  jieQiToNextText: string
+  qiYunStartDate: string
+  jiaoYunText: string
+  jieQiTermText: string
   caliber: string[]
 }
 
@@ -76,6 +102,32 @@ const GAN_WUXING: Record<string, string> = {
   己: '土', 庚: '金', 辛: '金', 壬: '水', 癸: '水',
 }
 const ORDER = ['木', '火', '土', '金', '水']
+const ZHI_WUXING: Record<string, string> = {
+  子: '水', 丑: '土', 寅: '木', 卯: '木', 辰: '土', 巳: '火',
+  午: '火', 未: '土', 申: '金', 酉: '金', 戌: '土', 亥: '水',
+}
+const GAN_LIST = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸']
+const ZHI_LIST = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥']
+// 自坐：以柱干自身的十二长生落在柱支的位置，与库 _getDiShi 同一 CHANG_SHENG 表/偏移公式（库未单独暴露此接口，故按同表计算）
+function ziZuoOf(gan: string, zhi: string): string {
+  const offset = (LunarUtil as any).CHANG_SHENG_OFFSET[gan]
+  const ganIndex = GAN_LIST.indexOf(gan)
+  const zhiIndex = ZHI_LIST.indexOf(zhi)
+  if (offset === undefined || ganIndex < 0 || zhiIndex < 0) return ''
+  let index = offset + (ganIndex % 2 === 0 ? zhiIndex : -zhiIndex)
+  index = ((index % 12) + 12) % 12
+  return (LunarUtil as any).CHANG_SHENG[index]
+}
+function shiShenOf(dayGan: string, targetGan: string): string {
+  return (LunarUtil as any).SHI_SHEN[dayGan + targetGan] || ''
+}
+function mainHideGan(zhi: string): string {
+  const arr = (LunarUtil as any).ZHI_HIDE_GAN[zhi]
+  return Array.isArray(arr) && arr.length ? arr[0] : ''
+}
+function solarYmd(solar: any): string {
+  return `${solar.getYear()}-${pad(solar.getMonth())}-${pad(solar.getDay())}`
+}
 // 藏干权重：本气 1.0 / 中气 0.5 / 余气 0.3；天干本柱另计 1.0（分析层口径，非排盘事实）
 const HIDE_WEIGHTS = [1.0, 0.5, 0.3]
 
@@ -175,15 +227,20 @@ export function calcBazi(input: BirthInput): BaziResult {
   const ec = lunar.getEightChar()
   ec.setSect(input.ziSect)
 
-  const mk = (label: string, gz: string, hide: string[], ssg: string, ssz: string[], nayin: string, dishi: string, xunkong: string): Pillar => ({
-    label, ganZhi: gz, gan: gz.charAt(0), zhi: gz.charAt(1),
-    hideGan: hide, shiShenGan: ssg, shiShenZhi: ssz, naYin: nayin, diShi: dishi, xunKong: xunkong,
-  })
+  const mk = (label: string, gz: string, hide: string[], ssg: string, ssz: string[], nayin: string, dishi: string, xun: string, xunkong: string): Pillar => {
+    const gan = gz.charAt(0); const zhi = gz.charAt(1)
+    return {
+      label, ganZhi: gz, gan, zhi,
+      ganWx: GAN_WUXING[gan], zhiWx: ZHI_WUXING[zhi],
+      hideGan: hide, shiShenGan: ssg, shiShenZhi: ssz, naYin: nayin, diShi: dishi,
+      ziZuo: ziZuoOf(gan, zhi), xun, xunKong: xunkong,
+    }
+  }
   const pillars: Pillar[] = [
-    mk('年柱', ec.getYear(), ec.getYearHideGan(), ec.getYearShiShenGan(), ec.getYearShiShenZhi(), ec.getYearNaYin(), ec.getYearDiShi(), ec.getYearXunKong()),
-    mk('月柱', ec.getMonth(), ec.getMonthHideGan(), ec.getMonthShiShenGan(), ec.getMonthShiShenZhi(), ec.getMonthNaYin(), ec.getMonthDiShi(), ec.getMonthXunKong()),
-    mk('日柱', ec.getDay(), ec.getDayHideGan(), ec.getDayShiShenGan(), ec.getDayShiShenZhi(), ec.getDayNaYin(), ec.getDayDiShi(), ec.getDayXunKong()),
-    mk('时柱', ec.getTime(), ec.getTimeHideGan(), ec.getTimeShiShenGan(), ec.getTimeShiShenZhi(), ec.getTimeNaYin(), ec.getTimeDiShi(), ec.getTimeXunKong()),
+    mk('年柱', ec.getYear(), ec.getYearHideGan(), ec.getYearShiShenGan(), ec.getYearShiShenZhi(), ec.getYearNaYin(), ec.getYearDiShi(), ec.getYearXun(), ec.getYearXunKong()),
+    mk('月柱', ec.getMonth(), ec.getMonthHideGan(), ec.getMonthShiShenGan(), ec.getMonthShiShenZhi(), ec.getMonthNaYin(), ec.getMonthDiShi(), ec.getMonthXun(), ec.getMonthXunKong()),
+    mk('日柱', ec.getDay(), ec.getDayHideGan(), ec.getDayShiShenGan(), ec.getDayShiShenZhi(), ec.getDayNaYin(), ec.getDayDiShi(), ec.getDayXun(), ec.getDayXunKong()),
+    mk('时柱', ec.getTime(), ec.getTimeHideGan(), ec.getTimeShiShenGan(), ec.getTimeShiShenZhi(), ec.getTimeNaYin(), ec.getTimeDiShi(), ec.getTimeXun(), ec.getTimeXunKong()),
   ]
 
   // 5. 五行加权（分析层口径：天干 1.0 + 藏干本/中/余气，非排盘事实本身）
@@ -204,24 +261,74 @@ export function calcBazi(input: BirthInput): BaziResult {
 
   // 6. 大运（sect 入参：1 日时法 / 2 分钟精算法）
   const yun = ec.getYun(input.gender === 'male' ? 1 : 0, daYunSect)
-  const daYun: DaYunItem[] = yun.getDaYun().map((d: any, i: number) => ({
-    index: i,
-    startYear: d.getStartYear(),
-    endYear: d.getEndYear(),
-    startAge: d.getStartAge(),
-    endAge: d.getEndAge(),
-    ganZhi: i === 0 ? '起运前' : d.getGanZhi(),
-    liuNian: d.getLiuNian().map((ln: any) => ({ year: ln.getYear(), age: ln.getAge(), ganZhi: ln.getGanZhi() })),
-  }))
-  const qiYunText = `出生后 ${yun.getStartYear()} 年 ${yun.getStartMonth()} 个月 ${yun.getStartDay()} 天${daYunSect === 2 ? ` ${yun.getStartHour()} 小时` : ''}起运（${yun.isForward() ? '顺行' : '逆行'}）`
-  const qiYunStartSolar = solarFmt(yun.getStartSolar())
+  const qiYunStartObj: any = yun.getStartSolar()
+  const daYunRaw: any[] = yun.getDaYun()
+  const dayGanForYun = dayGan
+  const stepStartObj = (i: number): any => {
+    if (i <= 0) return workSolar
+    if (i === 1) return qiYunStartObj
+    return qiYunStartObj.nextYear((i - 1) * 10)
+  }
+  const daYun: DaYunItem[] = daYunRaw.map((d: any, i: number) => {
+    const gz = i === 0 ? '' : d.getGanZhi()
+    const gan = gz ? gz.charAt(0) : ''
+    const zhi = gz ? gz.charAt(1) : ''
+    const sObj = stepStartObj(i)
+    // 末步无下一步对象时以本步+10年-1日为结束
+    let endObj: any
+    try { endObj = (i >= daYunRaw.length - 1 ? sObj.nextYear(10) : stepStartObj(i + 1)).next(-1) } catch { endObj = sObj }
+    const elapsedY = yun.getStartYear() + (i > 0 ? (i - 1) * 10 : 0)
+    return {
+      index: i,
+      startYear: d.getStartYear(),
+      endYear: d.getEndYear(),
+      startAge: d.getStartAge(),
+      endAge: d.getEndAge(),
+      startDate: solarYmd(sObj),
+      endDate: solarYmd(endObj),
+      startAgeText: i === 0 ? '出生' : `${elapsedY}岁${yun.getStartMonth()}个月${yun.getStartDay()}天${daYunSect === 2 && yun.getStartHour() ? `${yun.getStartHour()}小时` : ''}`,
+      ganZhi: i === 0 ? '起运前' : gz,
+      gan, zhi,
+      shiShenGan: gan ? shiShenOf(dayGanForYun, gan) : '',
+      shiShenZhiMain: zhi ? shiShenOf(dayGanForYun, mainHideGan(zhi)) : '',
+      hideGan: zhi ? (((LunarUtil as any).ZHI_HIDE_GAN[zhi] as string[]) || []) : [],
+      shiShenZhi: zhi ? ((((LunarUtil as any).ZHI_HIDE_GAN[zhi] as string[]) || []).map((g: string) => shiShenOf(dayGanForYun, g))) : [],
+      liuNian: d.getLiuNian().map((ln: any) => {
+        const lgz = ln.getGanZhi(); const lg = lgz.charAt(0); const lz = lgz.charAt(1)
+        const lh: string[] = ((LunarUtil as any).ZHI_HIDE_GAN[lz] as string[]) || []
+        return { year: ln.getYear(), age: ln.getAge(), ganZhi: lgz, gan: lg, zhi: lz, shiShenGan: shiShenOf(dayGanForYun, lg), shiShenZhiMain: shiShenOf(dayGanForYun, mainHideGan(lz)), hideGan: lh, shiShenZhi: lh.map((g: string) => shiShenOf(dayGanForYun, g)) }
+      }),
+    }
+  })
+  const qiYunText = `出生后 ${yun.getStartYear()} 年 ${yun.getStartMonth()} 个月 ${yun.getStartDay()} 天${daYunSect === 2 ? ` ${yun.getStartHour()} 小时` : ''}起大运（${yun.isForward() ? '顺行' : '逆行'}），交运时间 ${solarFmt(qiYunStartObj)}`
+  const qiYunStartSolar = solarFmt(qiYunStartObj)
+  const jiaoYunText = (() => {
+    try {
+      const sLunar = qiYunStartObj.getLunar()
+      const yGan = sLunar.getYearGanExact ? sLunar.getYearGanExact() : ''
+      return `出生后${yun.getStartYear()}年${yun.getStartMonth()}个月${yun.getStartDay()}天起大运，每逢${yGan}年${qiYunStartObj.getMonth()}月${qiYunStartObj.getDay()}日前后交运（逐到日见大运表）`
+    } catch { return qiYunText }
+  })()
 
   // 节气精确时刻（库原生，到秒）
-  let prevJieQi = '', nextJieQi = ''
+  let prevJieQi = '', nextJieQi = '', prevJieQiName = '', nextJieQiName = '', jieQiFromPrevText = '', jieQiToNextText = '', jieQiTermText = ''
   try {
     const prev = lunar.getPrevJie(); const next = lunar.getNextJie()
+    prevJieQiName = prev.getName(); nextJieQiName = next.getName()
     prevJieQi = `${prev.getName()} ${solarFmt(prev.getSolar())}`
     nextJieQi = `${next.getName()} ${solarFmt(next.getSolar())}`
+    const toMs = (s: any) => Date.UTC(s.getYear(), s.getMonth() - 1, s.getDay(), s.getHour(), s.getMinute(), s.getSecond())
+    const birthMs = toMs(workSolar)
+    const fmtDiff = (ms: number) => {
+      const totalH = Math.floor(Math.abs(ms) / 3600000)
+      return `${Math.floor(totalH / 24)}天${totalH % 24}小时`
+    }
+    jieQiFromPrevText = fmtDiff(birthMs - toMs(prev.getSolar()))
+    jieQiToNextText = fmtDiff(toMs(next.getSolar()) - birthMs)
+    try {
+      const pT = (lunar as any).getPrevJieQi(); const nT = (lunar as any).getNextJieQi()
+      jieQiTermText = `${pT.getName()}后${fmtDiff(birthMs - toMs(pT.getSolar()))}，${nT.getName()}前${fmtDiff(toMs(nT.getSolar()) - birthMs)}`
+    } catch { jieQiTermText = '' }
   } catch { /* 老年份节气表异常时留空 */ }
 
   const offsetMinText = offsetSeconds !== null ? `${offsetSeconds >= 0 ? '+' : ''}${(offsetSeconds / 60).toFixed(2)} 分钟（${Math.round(offsetSeconds)} 秒）` : ''
@@ -245,8 +352,16 @@ export function calcBazi(input: BirthInput): BaziResult {
     wuXing, dayMasterStrength, qiYunText, qiYunStartSolar, daYun,
     prevJieQi, nextJieQi,
     taiYuan: `${ec.getTaiYuan()}（${ec.getTaiYuanNaYin()}）`,
+    taiYuanGanZhi: ec.getTaiYuan(),
     mingGong: `${ec.getMingGong()}（${ec.getMingGongNaYin()}）`,
+    mingGongGanZhi: ec.getMingGong(),
     shenGong: `${ec.getShenGong()}（${ec.getShenGongNaYin()}）`,
+    shenGongGanZhi: ec.getShenGong(),
+    genderLabel: input.gender === 'male' ? '乾造' : '坤造',
+    placeName: input.placeName || '',
+    prevJieQiName, nextJieQiName, jieQiFromPrevText, jieQiToNextText,
+    qiYunStartDate: solarYmd(qiYunStartObj),
+    jiaoYunText, jieQiTermText,
     caliber,
   }
 }
