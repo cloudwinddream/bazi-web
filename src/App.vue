@@ -1,6 +1,26 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { calcBazi, calcFromPillars, CITIES, type BirthInput, type BaziResult } from './engine/bazi'
+
+// ---- 主题（浅色默认，记 localStorage） ----
+type Theme = 'light' | 'dark'
+function initTheme(): Theme {
+  try {
+    const saved = localStorage.getItem('bazi-theme')
+    if (saved === 'dark' || saved === 'light') return saved
+  } catch { /* ignore */ }
+  return 'light'
+}
+const theme = ref<Theme>(initTheme())
+function applyTheme(t: Theme) {
+  try {
+    document.documentElement.setAttribute('data-theme', t)
+    localStorage.setItem('bazi-theme', t)
+  } catch { /* ignore */ }
+}
+applyTheme(theme.value)
+watch(theme, (t) => applyTheme(t))
+function toggleTheme() { theme.value = theme.value === 'light' ? 'dark' : 'light' }
 
 const form = ref({
   calendar: 'solar' as 'solar' | 'lunar',
@@ -59,6 +79,12 @@ const selectedDaYun = ref(1)
 const errorMsg = ref('')
 
 const WX_BAR: Record<string, string> = { 木: '#4e7a51', 火: '#b3352b', 土: '#a97b1f', 金: '#b8860b', 水: '#35618e' }
+function wxBarColor(name: string) {
+  if (theme.value === 'dark') {
+    const c = DARK_COLORS[name]; return c ? c.yang : WX_BAR[name]
+  }
+  return WX_BAR[name]
+}
 const currentYear = new Date().getFullYear()
 const todayStr = new Date().toISOString().slice(0, 10)
 
@@ -122,15 +148,20 @@ const LIGHT_COLORS: Record<string, { yang: string; yin: string }> = {
 }
 function isYangGan(g: string) { const i = GAN_LIST.indexOf(g); return i >= 0 && i % 2 === 0 }
 function isYangZhi(z: string) { const i = ZHI_LIST.indexOf(z); return i >= 0 && i % 2 === 0 }
-function darkGanStyle(g: string, isDay = false) {
-  if (isDay) return { color: '#ffffff', textShadow: '0 0 10px rgba(255,255,255,.35)' }
-  const c = DARK_COLORS[GAN_WX[g]]; return { color: isYangGan(g) ? c.yang : c.yin }
+// 统一五行阴阳着色：随主题选色板——浅色主题用深版色（白底可读），深色主题用亮版色（暗底可读）
+// 日元干在两套主题下都额外加粗描边/光晕，保证可辨识（列背景高亮另见 .day-highlight）
+function ganStyle(g: string, isDay = false) {
+  const palette = theme.value === 'dark' ? DARK_COLORS : LIGHT_COLORS
+  const c = palette[GAN_WX[g]]
+  const base: Record<string, string> = { color: isYangGan(g) ? c.yang : c.yin }
+  if (isDay) {
+    base.fontWeight = '800'
+    base.textShadow = theme.value === 'dark' ? '0 0 10px rgba(255,255,255,.45)' : '0 0 6px rgba(179,53,43,.35)'
+  }
+  return base
 }
-function darkZhiStyle(z: string) { const c = DARK_COLORS[ZHI_WX[z]]; return { color: isYangZhi(z) ? c.yang : c.yin } }
-function lightGanStyle(g: string) { const c = LIGHT_COLORS[GAN_WX[g]]; return { color: isYangGan(g) ? c.yang : c.yin } }
-function lightZhiStyle(z: string) { const c = LIGHT_COLORS[ZHI_WX[z]]; return { color: isYangZhi(z) ? c.yang : c.yin } }
-function lightHideStyle(g: string) { return lightGanStyle(g) }
-function darkHideStyle(g: string) { return darkGanStyle(g) }
+function zhiStyle(z: string) { const palette = theme.value === 'dark' ? DARK_COLORS : LIGHT_COLORS; const c = palette[ZHI_WX[z]]; return { color: isYangZhi(z) ? c.yang : c.yin } }
+function hideStyle(g: string) { return ganStyle(g) }
 
 // 十神简称（藏干下方小字，仿参考图单字风格；全称在十神行展示）
 const SS_SHORT: Record<string, string> = {
@@ -147,6 +178,9 @@ run()
     <header class="top">
       <h1>云八字</h1>
       <p>纯前端排盘 · 本地计算 · 生辰不上传</p>
+      <button class="theme-toggle" type="button" @click="toggleTheme" :aria-label="theme === 'light' ? '切换到深色主题' : '切换到浅色主题'">
+        {{ theme === 'light' ? '🌙 深色' : '☀️ 浅色' }}
+      </button>
     </header>
 
     <section class="card">
@@ -246,33 +280,7 @@ run()
         </table>
       </section>
 
-      <!-- 深色四柱大盘面（图2） -->
-      <section class="dark-pan">
-        <div class="dark-head">
-          <span class="qiankun">{{ result.genderLabel }}</span>
-          <span class="dark-sub">日主 {{ result.dayGan }} · {{ result.dayMasterStrength }}</span>
-        </div>
-        <div class="dark-cols">
-          <div v-for="p in result.pillars" :key="p.label" class="dark-col" :class="{ 'is-day': p.label === '日柱' }">
-            <div class="dark-pillar-label">{{ p.label.replace('柱', '') }}</div>
-            <div class="dark-shishen">{{ p.label === '日柱' ? '日元' : p.shiShenGan }}</div>
-            <div class="dark-gan" :style="darkGanStyle(p.gan, p.label === '日柱')">{{ p.gan }}</div>
-            <div class="dark-zhi" :style="darkZhiStyle(p.zhi)">{{ p.zhi }}</div>
-            <div class="dark-divider"></div>
-            <div class="dark-hide">
-              <div v-for="(hg, i) in p.hideGan" :key="i" class="dark-hide-item">
-                <div class="dark-hide-gan" :style="darkHideStyle(hg)">{{ hg }}</div>
-                <div class="dark-hide-ss">{{ shortSS(p.shiShenZhi[i]) }}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="legend">
-          配色：同五行同色系，<b>阳</b>用饱和本色、<b>阴</b>用同系柔色（干：甲丙戊庚壬阳 / 乙丁己辛癸阴；支：子寅辰午申戌阳 / 丑卯巳未酉亥阴）。日干白字高亮。
-        </div>
-      </section>
-
-      <!-- 浅色明细表（图1） -->
+      <!-- 命盘明细表（统一主题） -->
       <section class="card">
         <h2>命盘明细 · {{ result.genderLabel }}</h2>
         <div class="scroll-x">
@@ -286,8 +294,8 @@ run()
                 <th>{{ result.genderLabel }}</th>
                 <td v-for="p in result.pillars" :key="p.label" :class="{ 'day-highlight': p.label === '日柱' }">
                   <div class="gz-stack">
-                    <span class="gz-big" :style="lightGanStyle(p.gan)">{{ p.gan }}</span>
-                    <span class="gz-big" :style="lightZhiStyle(p.zhi)">{{ p.zhi }}</span>
+                    <span class="gz-big" :style="ganStyle(p.gan, p.label === '日柱')">{{ p.gan }}</span>
+                    <span class="gz-big" :style="zhiStyle(p.zhi)">{{ p.zhi }}</span>
                   </div>
                 </td>
               </tr>
@@ -296,7 +304,7 @@ run()
                 <td v-for="p in result.pillars" :key="p.label">
                   <div class="hide-wrap light">
                     <div v-for="(hg, i) in p.hideGan" :key="i" class="hide-item">
-                      <div class="hide-gan" :style="lightHideStyle(hg)">{{ hg }}</div>
+                      <div class="hide-gan" :style="hideStyle(hg)">{{ hg }}</div>
                       <div class="hide-ss">{{ shortSS(p.shiShenZhi[i]) }}<span class="hide-full">{{ p.shiShenZhi[i] }}</span></div>
                     </div>
                   </div>
@@ -311,17 +319,18 @@ run()
           </table>
         </div>
         <div class="gong-row">
-          <div class="gong-box"><div class="gong-label">胎元</div><div class="gz-stack sm"><span :style="lightGanStyle(result.taiYuanGanZhi.charAt(0))">{{ result.taiYuanGanZhi.charAt(0) }}</span><span :style="lightZhiStyle(result.taiYuanGanZhi.charAt(1))">{{ result.taiYuanGanZhi.charAt(1) }}</span></div><div class="small">{{ result.taiYuan }}</div></div>
-          <div class="gong-box"><div class="gong-label">命宫</div><div class="gz-stack sm"><span :style="lightGanStyle(result.mingGongGanZhi.charAt(0))">{{ result.mingGongGanZhi.charAt(0) }}</span><span :style="lightZhiStyle(result.mingGongGanZhi.charAt(1))">{{ result.mingGongGanZhi.charAt(1) }}</span></div><div class="small">{{ result.mingGong }}</div></div>
-          <div class="gong-box"><div class="gong-label">身宫</div><div class="gz-stack sm"><span :style="lightGanStyle(result.shenGongGanZhi.charAt(0))">{{ result.shenGongGanZhi.charAt(0) }}</span><span :style="lightZhiStyle(result.shenGongGanZhi.charAt(1))">{{ result.shenGongGanZhi.charAt(1) }}</span></div><div class="small">{{ result.shenGong }}</div></div>
+          <div class="gong-box"><div class="gong-label">胎元</div><div class="gz-stack sm"><span :style="ganStyle(result.taiYuanGanZhi.charAt(0))">{{ result.taiYuanGanZhi.charAt(0) }}</span><span :style="zhiStyle(result.taiYuanGanZhi.charAt(1))">{{ result.taiYuanGanZhi.charAt(1) }}</span></div><div class="small">{{ result.taiYuan }}</div></div>
+          <div class="gong-box"><div class="gong-label">命宫</div><div class="gz-stack sm"><span :style="ganStyle(result.mingGongGanZhi.charAt(0))">{{ result.mingGongGanZhi.charAt(0) }}</span><span :style="zhiStyle(result.mingGongGanZhi.charAt(1))">{{ result.mingGongGanZhi.charAt(1) }}</span></div><div class="small">{{ result.mingGong }}</div></div>
+          <div class="gong-box"><div class="gong-label">身宫</div><div class="gz-stack sm"><span :style="ganStyle(result.shenGongGanZhi.charAt(0))">{{ result.shenGongGanZhi.charAt(0) }}</span><span :style="zhiStyle(result.shenGongGanZhi.charAt(1))">{{ result.shenGongGanZhi.charAt(1) }}</span></div><div class="small">{{ result.shenGong }}</div></div>
         </div>
+        <p class="legend-inline">配色：同五行同色系，<b>阳</b>饱和本色、<b>阴</b>同系柔色（木绿·火红·土黄褐·金黄·水蓝；干：甲丙戊庚壬阳 / 乙丁己辛癸阴，支：子寅辰午申戌阳 / 丑卯巳未酉亥阴）。日柱列底色高亮、日干加粗。右上角可切换深 / 浅主题，两套下均为可读色板。</p>
       </section>
 
       <section class="card">
         <h2>五行分布（藏干加权）</h2>
         <div class="wx-row" v-for="w in result.wuXing" :key="w.name">
           <span class="nm">{{ w.name }}</span>
-          <div class="wx-bar"><div class="wx-fill" :style="{ width: (w.score / maxWx * 100) + '%', background: WX_BAR[w.name] }"></div></div>
+          <div class="wx-bar"><div class="wx-fill" :style="{ width: (w.score / maxWx * 100) + '%', background: wxBarColor(w.name) }"></div></div>
           <span class="sc">{{ w.score.toFixed(1) }}</span>
         </div>
         <p class="meta">日主 {{ result.dayGan }}：{{ result.dayMasterStrength }}（同党占比粗判，仅供参考）</p>
@@ -342,13 +351,13 @@ run()
             </template>
             <template v-else>
               <div class="gz-stack dy-gz">
-                <span :style="lightGanStyle(dy.gan)">{{ dy.gan }}</span>
-                <span :style="lightZhiStyle(dy.zhi)">{{ dy.zhi }}</span>
+                <span :style="ganStyle(dy.gan)">{{ dy.gan }}</span>
+                <span :style="zhiStyle(dy.zhi)">{{ dy.zhi }}</span>
               </div>
               <div class="dy-ss">{{ dy.shiShenGan }} · {{ dy.shiShenZhiMain }}</div>
               <div class="hide-wrap light dy-hide">
                 <div v-for="(hg, i) in dy.hideGan" :key="i" class="hide-item">
-                  <div class="hide-gan" :style="lightHideStyle(hg)">{{ hg }}</div>
+                  <div class="hide-gan" :style="hideStyle(hg)">{{ hg }}</div>
                   <div class="hide-ss">{{ shortSS(dy.shiShenZhi[i]) }}</div>
                 </div>
               </div>
@@ -362,13 +371,13 @@ run()
           <div v-for="ln in activeDaYun.liuNian" :key="ln.year" class="ln-card" :class="{ cur: ln.year === currentYear }">
             <div class="ln-year">{{ ln.year }} · {{ ln.age }}岁</div>
             <div class="gz-stack ln-gz">
-              <span :style="lightGanStyle(ln.gan)">{{ ln.gan }}</span>
-              <span :style="lightZhiStyle(ln.zhi)">{{ ln.zhi }}</span>
+              <span :style="ganStyle(ln.gan)">{{ ln.gan }}</span>
+              <span :style="zhiStyle(ln.zhi)">{{ ln.zhi }}</span>
             </div>
             <div class="ln-ss">{{ ln.shiShenGan }} · {{ ln.shiShenZhiMain }}</div>
             <div class="hide-wrap light ln-hide">
               <div v-for="(hg, i) in ln.hideGan" :key="i" class="hide-item">
-                <div class="hide-gan" :style="lightHideStyle(hg)">{{ hg }}</div>
+                <div class="hide-gan" :style="hideStyle(hg)">{{ hg }}</div>
                 <div class="hide-ss">{{ shortSS(ln.shiShenZhi[i]) }}</div>
               </div>
             </div>
