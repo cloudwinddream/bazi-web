@@ -2,7 +2,7 @@
 // 蓝本：zaoxu001/tianzhi-core（MIT）strength.py 成分连乘模型，前端 TS 等价移植
 // 成分 = 4 天干 + 4 地支藏干展开；权重 = 基础分 × 根气 × 纯气 × 月令 × 司令 × 贴身 × 虚透
 // ratio = 同党/(同党+异党)，五档阈值 0.26/0.35/0.48/0.61（3000 随机盘分位数标定，原样保留）
-// 专旺/从格走双轨：ratio 硬闸只作极端提示，结构闸另判「疑似」，不自动反转喜忌
+// 专旺/从格走双轨：ratio 极端占比只作提示，结构条件另判「疑似」，不自动反转喜忌
 // month_siling 默认 null（不加司令权），与真实盘测试口径一致；司令仅在得令展开中展示
 // 动态关系修正（L3，本站口径，工程取值非典籍定数）：关系不另发明分数，只对受影响成分的
 //   现有加权分做系数修正——化气成立时化气成分增力、非化气成分减力；未化只增力或合绊减力；
@@ -120,6 +120,7 @@ export interface StrengthResult {
   elementPower: { wuxing: Wx; weighted: number }[]
   monthState: MonthStateRow[]
   deling: { badge: string; monthZhi: string; silingGan: string | null; silingTenGod: string | null; daysAfterJie: number | null; dmChangSheng: string; jieqiFromPrev: string | null }
+  yinHint: { triggered: boolean; yinWeighted: number; yinShareTotal: number; yinShareSupport: number; text: string }
   gates: {
     ratioWeak: boolean; ratioStrong: boolean
     cong: { suspect: boolean; kind: string | null; conditions: { label: string; met: boolean }[] }
@@ -375,9 +376,13 @@ export function analyzeStrength(quad: Quad, opts?: { monthSiling?: string | null
     if (!wx) continue
     usedGanHe.add(i); usedGanHe.add(j)
     const adjacent = Math.abs(i - j) === 1
+    // P1 收紧（2026-10-04 修订）：阵营转移（转营）只在化神当令——月支同气（旺）——时才全转；
+    // 月令仅生化神（相）或不支援时只记合绊、不转营。此前「生气即转营」在临界盘单条可推跨档（哨兵例见修订计划 P1）。
+    const dangling = ZHI_WX[monthZhi] === wx
     const conds = [
       { label: '两干相邻（贴合）', met: adjacent },
       { label: `月令支持化${wx}`, met: ZHI_WX[monthZhi] === wx || SHENG[ZHI_WX[monthZhi]] === wx },
+      { label: `化神${wx}当令（月支${monthZhi}同气为旺，非仅相生）`, met: dangling },
       { label: '无争合/妒合（同合干不重复出现）', met: stems.filter((g) => g === stems[i]).length === 1 && stems.filter((g) => g === stems[j]).length === 1 },
     ]
     const isHua = conds.every((c) => c.met)
@@ -397,8 +402,8 @@ export function analyzeStrength(quad: Quad, opts?: { monthSiling?: string | null
       applyAdj({
         relation: `${stems[i]}${stems[j]}天干五合`, type: '天干合', category: '合绊',
         participants: [`${POS_CN[POS[i]]}干${stems[i]}`, `${POS_CN[POS[j]]}干${stems[j]}`],
-        verdict: '合绊（未化）', conditions: conds,
-        note: '合而不化：两干受绊减力（×0.85），不改五行归属',
+        verdict: '合绊（未化/不当令不转营）', conditions: conds,
+        note: '合而不化或化神不当令：两干受绊减力（×0.85），不转营、不改五行归属（P1 收紧口径）',
       }, targets.map((c) => ({ c, factor: 0.85 })))
     }
   }
@@ -536,7 +541,23 @@ export function analyzeStrength(quad: Quad, opts?: { monthSiling?: string | null
     const drainElems = elementPower.filter((e) => ['食伤', '财', '官杀'].includes(relation(e.wuxing, dayWx))).sort((a, b) => b.weighted - a.weighted)
     congKind = drainElems.length ? `从${relation(drainElems[0].wuxing, dayWx)}` : '从格'
   }
+  // P3 印重防埋提示（纯展示，不改分不改档）：印为五关系最大、占同党六成以上、占全局三成五以上，且修正后 ratio 已达偏旺/身旺侧时触发（中和及以下不提示，避免对本已平衡的印重盘误报）
+  const relAdjSum = (r: string) => contribs.filter((c) => c.relation === r).reduce((a, c) => a + (adjW.get(c.id) || 0), 0)
+  const yinW = relAdjSum('印')
+  const relSums = ['比劫', '印', '食伤', '财', '官杀'].map((r) => relAdjSum(r))
+  const yinIsMax = yinW > 0 && yinW === Math.max(...relSums)
+  const yinShareTotal = support + drain > 0 ? yinW / (support + drain) : 0
+  const yinShareSupport = support > 0 ? yinW / support : 0
+  const yinTriggered = yinIsMax && yinShareSupport >= 0.6 && yinShareTotal >= 0.35 && ratio >= 0.48
+  const yinHint = {
+    triggered: yinTriggered,
+    yinWeighted: Math.round(yinW * 1000) / 1000,
+    yinShareTotal: Math.round(yinShareTotal * 10000) / 10000,
+    yinShareSupport: Math.round(yinShareSupport * 10000) / 10000,
+    text: yinTriggered ? `印重防埋：印（生我）加权 ${yinW.toFixed(1)} 分，占同党 ${(yinShareSupport * 100).toFixed(0)}%、占全局 ${(yinShareTotal * 100).toFixed(0)}% 且为五关系最大——印过旺成病时（土重金埋型）强弱分仅供参考，此提示不改分不改档` : '',
+  }
   return {
+    yinHint,
     grade, ratio: Math.round(ratio * 10000) / 10000,
     support: Math.round(support * 1000) / 1000, drain: Math.round(drain * 1000) / 1000,
     baseGrade, baseRatio: Math.round(baseRatio * 10000) / 10000,

@@ -1,12 +1,17 @@
 // 后续推导阶段：调候 → 格局 → 命局多寡 → 最终用神（均为候选层，不混进强弱分）
 // 口径声明：
-// - 调候：按《穷通宝鉴》「冬需火暖、夏需水润」总纲做气候定性与候选（未做十干×十二月 120 格逐格查表，候选层注明）
+// - 调候：按《穷通宝鉴》十干×十二月 120 格逐格查表（tianzhi-core 核对版数据，MIT，见 tiaohou-data.ts）
+//   + 病药剔除（全盘最旺五行为病，古表用神正为病者剔除，全剔时保留首用兜底）；气候定性仅作季节标签展示
 // - 格局：按《子平真诠》月令取格——月支本气十神为格，透干为引线；建禄/羊刃另列。成破只列判定条件，不硬断
 // - 用神：三路汇合（扶抑/调候/格局顺逆），冲突时优先级：气候极端时调候优先，否则格局为主、扶抑校验；从格疑似不自动反转
 import { GAN_WX, ZHI_WX, HIDDEN, relation, tenGod, type Quad, type StrengthResult, type Wx, WX_ORDER } from './strength.js'
+import { TIAOHOU_TABLE } from './tiaohou-data.js'
 
 export interface StageCheck { label: string; met: boolean; note?: string }
-export interface TiaoHouResult { climate: string; season: string; need: string[]; needText: string; present: boolean; presentText: string; checks: StageCheck[]; extreme: boolean }
+export interface TiaoHouResult {
+  climate: string; season: string; need: string[]; needText: string; present: boolean; presentText: string; checks: StageCheck[]; extreme: boolean
+  gods: string[]; primaryGod: string; kept: string[]; dropped: string[]; bing: string; fallback: boolean; tableText: string
+}
 export interface GeJuResult { name: string; basis: string; touText: string; yongfa: string; checks: StageCheck[]; suspectNote: string | null }
 export interface DuoGuaRow { wuxing: Wx; weighted: number; share: number; count: number; level: string; relation: string }
 export interface YongShenResult {
@@ -22,29 +27,42 @@ export function analyzeStages(quad: Quad, strength: StrengthResult): { tiaohou: 
   const stems = [quad.year[0], quad.month[0], quad.day[0], quad.hour[0]]
   const zhis = [quad.year[1], quad.month[1], quad.day[1], quad.hour[1]]
   const elem = (wx: Wx) => strength.elementPower.find((e) => e.wuxing === wx)?.weighted || 0
-  // ---- 调候 ----
+  // ---- 调候（120 格查表 + 病药剔除） ----
   const season = '亥子丑'.includes(monthZhi) ? '冬' : '巳午未'.includes(monthZhi) ? '夏' : '寅卯辰'.includes(monthZhi) ? '春' : '秋'
   const fire = elem('火'), water = elem('水')
   const wetCnt = zhis.filter((z) => '亥子辰丑'.includes(z)).length
   const dryCnt = zhis.filter((z) => '巳午戌未'.includes(z)).length
   let climate = '气候中和'
-  let need: Wx[] = []
-  let extreme = false
-  if (season === '冬' || (water > fire * 1.6 && season !== '夏')) { climate = season === '冬' ? '命局偏寒（冬生）' : '命局偏寒（水旺火弱，非冬季按水火比定性）'; need = ['火']; extreme = season === '冬' }
-  else if (season === '夏' || fire > water * 1.8) { climate = '命局偏暖燥（夏生/火旺）'; need = ['水']; extreme = season === '夏' }
-  else if (dryCnt >= 3 && water < 15) { climate = '偏燥（燥支多、水弱）'; need = ['水'] }
-  else if (wetCnt >= 3 && fire < 15) { climate = '偏湿寒（湿支多、火弱）'; need = ['火'] }
-  const needGans = need.flatMap((wx) => Object.entries(GAN_WX).filter(([, w]) => w === wx).map(([g]) => g))
+  if (season === '冬') climate = '命局偏寒（冬生）'
+  else if (season === '夏') climate = '命局偏暖燥（夏生）'
+  else if (dryCnt >= 3 && water < 15) climate = '偏燥（燥支多、水弱）'
+  else if (wetCnt >= 3 && fire < 15) climate = '偏湿寒（湿支多、火弱）'
+  const gods: string[] = (TIAOHOU_TABLE[dayGan] || {})[monthZhi] || []
+  const primaryGod = gods[0] || ''
+  const godElems: Wx[] = []
+  for (const g of gods) { const w = GAN_WX[g]; if (!godElems.includes(w)) godElems.push(w) }
+  const bing = (strength.elementPower.reduce((a, e) => (e.weighted > a.weighted ? e : a), strength.elementPower[0])?.wuxing || '') as Wx
+  const keptElems = godElems.filter((w) => w !== bing)
+  const droppedElems = godElems.filter((w) => w === bing)
+  const fallback = keptElems.length === 0 && godElems.length > 0
+  const kept = fallback ? godElems.slice(0, 1) : keptElems
+  const dropped = fallback ? [] as Wx[] : droppedElems
+  const need: Wx[] = [...kept]
+  const extreme = season === '冬' || season === '夏'
+  const needGans = gods.filter((g) => kept.includes(GAN_WX[g]))
   const presentStem = stems.some((g) => needGans.includes(g))
   const presentRoot = zhis.some((z) => HIDDEN[z].some(([hg]) => needGans.includes(hg)))
   const present = presentStem || presentRoot
   const tiaohou: TiaoHouResult = {
-    climate, season: `${season}生（${monthZhi}月）`, need, needText: need.length ? `调候候选：${need.join('')}（${needGans.join('/')}）` : '无急切调候需求，以扶抑/格局为主',
+    climate, season: `${season}生（${monthZhi}月）`, need, needText: need.length ? `调候取用（120格）：${gods.join('')}→剔病后喜${need.join('')}（${needGans.join('/') || primaryGod}）` : '120 格无取用记录',
     present, presentText: need.length ? (presentStem ? '调候之气已透干' : presentRoot ? '调候之气藏支有根、未透' : '调候之气局中缺如') : '—',
     extreme,
+    gods, primaryGod, kept: kept.map(String), dropped: dropped.map(String), bing: String(bing), fallback,
+    tableText: `${dayGan}日${monthZhi}月穷通取用：${gods.join('、') || '—'}（首用${primaryGod || '—'}）${dropped.length ? `；病（最旺）为${bing}，剔除${dropped.join('')}` : `；病为${bing}，无剔除`}${fallback ? '；全数犯病，保留首用兜底' : ''}`,
     checks: [
-      { label: `季节定性：${season}生`, met: true, note: `火 ${fire.toFixed(1)} / 水 ${water.toFixed(1)}，湿支 ${wetCnt}、燥支 ${dryCnt}` },
-      { label: need.length ? `需${need.join('')}调候（穷通总纲）` : '寒暖不极，无调候急需', met: need.length > 0 },
+      { label: `查表：${dayGan}日生${monthZhi}月，穷通取用 ${gods.join('') || '—'}（首用${primaryGod}）`, met: gods.length > 0, note: '120 格逐格表，非季节粗判' },
+      { label: `病药剔除：病为${bing}${dropped.length ? `，剔除${dropped.join('')}` : '，无剔除'}${fallback ? '（全剔，首用兜底）' : ''}`, met: true, note: `火 ${fire.toFixed(1)} / 水 ${water.toFixed(1)}，湿支 ${wetCnt}、燥支 ${dryCnt}` },
+      { label: `气候定性：${climate}`, met: true },
       { label: '调候气透干', met: presentStem },
       { label: '调候气藏根', met: presentRoot },
     ],

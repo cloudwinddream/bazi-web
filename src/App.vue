@@ -417,8 +417,9 @@ run()
           <span class="small">强根：{{ result.strength.hasRoot ? '有（' + result.strength.rootNotes.join('、') + '）' : '无' }}</span>
           <span v-if="result.strength.gates.zhuan.suspect" class="suspect">专旺疑似（结构闸）</span>
           <span v-if="result.strength.gates.cong.suspect" class="suspect">疑似{{ result.strength.gates.cong.kind }}（结构闸）</span>
-          <span v-if="result.strength.gates.ratioStrong" class="suspect">占比极高（≥0.88 硬闸）</span>
-          <span v-if="result.strength.gates.ratioWeak" class="suspect">占比极低（≤0.12 硬闸）</span>
+          <span v-if="result.strength.gates.ratioStrong" class="suspect">占比极高（≥0.88，极端占比提示）</span>
+          <span v-if="result.strength.gates.ratioWeak" class="suspect">占比极低（≤0.12，极端占比提示）</span>
+          <span v-if="result.strength.yinHint.triggered" class="suspect">⚠ {{ result.strength.yinHint.text }}</span>
         </div>
         <p class="small">口径：量化打分派 · tianzhi-core 连乘权重（MIT）。点开每层可逐行验算；专旺/从格只标疑似，不自动反转喜忌。</p>
 
@@ -516,18 +517,19 @@ run()
             <div v-for="(c, i) in result.strength.gates.cong.conditions" :key="'c'+i" class="gate-row">{{ c.met ? '☑' : '☐' }} {{ c.label }}</div>
             <div class="gate-title">专旺门槛（结构闸）</div>
             <div v-for="(c, i) in result.strength.gates.zhuan.conditions" :key="'z'+i" class="gate-row">{{ c.met ? '☑' : '☐' }} {{ c.label }}</div>
-            <p class="small">两闸全过才标「疑似」，仍需人工复核，不自动改判喜忌。ratio 硬闸：≥0.88 有根 / ≤0.12 无根，只作极端提示。</p>
+            <p class="small">两闸全过才标「疑似」，仍需人工复核，不自动改判喜忌。极端占比提示：ratio ≥0.88 / ≤0.12 只作提示，不构成判定（本站 69 例金标准上专旺极端占比 1/16、从格 0/2，判别力不足）。</p>
           </div>
         </div>
-        <p class="trace small">{{ result.strength.trace }} 算法来源：zaoxu001/tianzhi-core（MIT）连乘模型 TS 移植，权重原样：基础 天干10/地支12、根气 本1.0/中0.5/余0.3、纯气×1.6、月令×2.0、贴身×1.2、虚透×0.5。关系修正为本站工程口径（化气严条件、冲定向削根、刑害只削本气、封顶防翻盘），系数逐条见 L3，不冒充古籍原值。</p>
+        <p class="trace small">{{ result.strength.trace }} 算法来源：zaoxu001/tianzhi-core（MIT）连乘模型 TS 移植，权重原样：基础 天干10/地支12、根气 本1.0/中0.5/余0.3、纯气×1.6、月令×2.0、贴身×1.2、虚透×0.5。关系修正为本站工程口径（化气严条件、冲定向削根、刑害只削本气、封顶防翻盘），系数逐条见 L3，不冒充古籍原值。天干合化转营已收紧：仅化神当令（月支同气）才全转营，否则只合绊（P1，2026-10-04）。五档阈值 0.26/0.35/0.48/0.61 与连乘权重本轮明确未动。</p>
       </section>
 
 
       <section v-if="drawerTab === 'tiaohou'" class="stage-panel">
         <h3>调候判定</h3>
         <p><b>{{ result.tiaohou.climate }}</b>（{{ result.tiaohou.season }}）</p>
+        <p class="small">{{ result.tiaohou.tableText }}</p>
         <div v-for="(c, i) in result.tiaohou.checks" :key="i" class="gate-row">{{ c.met ? '☑' : '☐' }} {{ c.label }}<span v-if="c.note" class="small"> · {{ c.note }}</span></div>
-        <p class="small">口径：《穷通宝鉴》总纲——冬生寒需火暖、夏生暑需水润；燥湿看火水与燥湿支。此为气候候选层，未做十干分月 120 格逐格查表；调候不计入强弱分。</p>
+        <p class="small">口径：《穷通宝鉴》十干×十二月 120 格逐格查表（tianzhi-core 核对版数据，MIT）+ 病药剔除——全盘最旺五行为病，古表用神正为病者剔除，全剔保留首用兜底；气候定性仅作季节标签。调候为独立一路进最终用神汇合，不计入强弱分。</p>
       </section>
       <section v-if="drawerTab === 'geju'" class="stage-panel">
         <h3>格局判定</h3>
@@ -612,7 +614,7 @@ run()
     <footer>
       <div v-if="result">计算口径：{{ result.caliber.join('；') }}</div>
       <div v-if="result">配色口径：同五行同色系，阳（干甲丙戊庚壬、支子寅辰午申戌）饱和本色，阴同系柔色；藏干颜色按其天干五行阴阳。自坐按库 CHANG_SHENG 同表以柱干坐柱支计算。</div>
-      <div v-if="result">神煞口径：据《三命通会》通行口诀自建查表（lunar 1.7.7 无神煞接口），只展示释义、不计强弱分；调候按《穷通宝鉴》总纲为候选层，格局按《子平真诠》月令取格，用神三路汇合冲突注明。</div>
+      <div v-if="result">神煞口径：据《三命通会》通行口诀自建查表（lunar 1.7.7 无神煞接口），只展示释义、不计强弱分；调候按《穷通宝鉴》十干十二月 120 格查表（tianzhi-core MIT 数据）+病药剔除，格局按《子平真诠》月令取格，用神三路汇合冲突注明。</div>
       <div>本站所有计算均在您的浏览器本地完成，不上传任何数据。</div>
       <div>仅供传统文化研究与娱乐参考，不构成任何决策依据。</div>
     </footer>
