@@ -80,11 +80,11 @@ table.pan th { background: var(--table-head); font-weight: 600; color: var(--tab
 .legend-inline { font-size: 11px; color: var(--muted2); line-height: 1.65; margin: 10px 0 0; }
 
 /* 五行条 */
-.wx-row { display: flex; align-items: center; gap: 8px; margin: 7px 0; font-size: 14px; }
-.wx-row .nm { width: 20px; text-align: center; font-weight: 700; }
-.wx-bar { flex: 1; height: 14px; background: var(--wx-track); border-radius: 7px; overflow: hidden; }
-.wx-fill { height: 100%; border-radius: 7px; transition: width .4s; }
-.wx-row .sc { width: 34px; text-align: right; }
+.wx-row { display: flex; align-items: center; gap: 10px; margin: 12px 0; font-size: 16px; }
+.wx-row .nm { width: 24px; text-align: center; font-weight: 800; font-size: 19px; }
+.wx-bar { flex: 1; height: 24px; background: var(--wx-track); border-radius: 12px; overflow: hidden; }
+.wx-fill { height: 100%; border-radius: 12px; transition: width .4s; }
+.wx-row .sc { width: 52px; text-align: right; font-size: 18px; font-weight: 800; }
 
 /* 大运 / 流年 */
 .jiao { font-size: 14px; line-height: 1.75; background: var(--jiao-bg); border: 1px solid var(--jiao-line); border-radius: 10px; padding: 10px 12px; }
@@ -136,16 +136,21 @@ footer { margin-top: 22px; font-size: 12px; color: var(--muted2); line-height: 1
 .state-table, .contrib-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
 .state-table th, .state-table td, .contrib-table th, .contrib-table td { border: 1px solid var(--line); padding: 5px 4px; text-align: center; }
 .status-chip { border: 1px solid; border-radius: 6px; padding: 1px 7px; font-weight: 700; }
-.wx-chart { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
-@media (min-width: 620px) { .wx-chart { grid-template-columns: 300px 1fr; align-items: center; } }
-.wx-svg { width: 100%; max-width: 340px; margin: 0 auto; display: block; }
-.wx-bg { fill: var(--box-bg); stroke: var(--line); }
+.wx-chart { display: flex; flex-direction: column; gap: 14px; margin-top: 10px; }
+.wx-svg { width: 100%; max-width: 560px; margin: 0 auto; display: block; }
+.wx-bg { fill: var(--box-bg); stroke: var(--line); stroke-width: 2.5; }
+.wx-divide { stroke: var(--muted); stroke-width: 2.5; opacity: .85; }
+.wx-camp { font-size: 14px; font-weight: 800; paint-order: stroke; stroke: var(--box-bg); stroke-width: 4; }
+.wx-camp.ally { fill: #2e7d32; }
+.wx-camp.enemy { fill: #b03a2e; }
+:root[data-theme="dark"] .wx-camp.ally { fill: #7ed491; }
+:root[data-theme="dark"] .wx-camp.enemy { fill: #ff9d8a; }
 .wx-node { cursor: pointer; }
-.wx-name { font-size: 21px; font-weight: 700; }
-.wx-stat { font-size: 11.5px; fill: var(--ink); }
-.wx-god { font-size: 11px; fill: var(--muted); }
-.wx-center { font-size: 17px; font-weight: 700; fill: var(--ink); }
-.wx-center-sub { font-size: 12px; fill: var(--muted); }
+.wx-name { font-size: 27px; font-weight: 800; paint-order: stroke; stroke: var(--box-bg); stroke-width: 3; }
+.wx-stat { font-size: 14px; font-weight: 700; fill: var(--ink); }
+.wx-god { font-size: 13.5px; font-weight: 600; fill: var(--ink); opacity: .78; }
+.wx-center { font-size: 21px; font-weight: 800; fill: var(--ink); paint-order: stroke; stroke: var(--box-bg); stroke-width: 5; }
+.wx-center-sub { font-size: 14px; font-weight: 700; fill: var(--ink); opacity: .85; paint-order: stroke; stroke: var(--box-bg); stroke-width: 4; }
 .btn.sub { background: var(--card); color: var(--red); border: 1px solid var(--red); letter-spacing: 1px; font-size: 14px; padding: 9px; }
 .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
 .chip.on { background: var(--red); color: #fff; border-color: var(--red); }

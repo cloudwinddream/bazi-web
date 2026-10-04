@@ -138,6 +138,14 @@ const circleItems = computed(() => {
     return { row, namePt: pt(108), statPt: pt(163), godPt: pt(214), isDay: row.wuxing === dayWx }
   })
 })
+// 敌我分界：排布恒为日主置顶、按生序环排。同党=日主五行(顶)+生我五行(左上)为连续弧，
+// 两处真实分界角为 -54°（同党/我生侧间）与 162°（克我/生我间）。五块奇数，一条直穿线必切一块，
+// 故用从圆心出发的两条斜射线分开两阵营（与用户原图斜线划分同义、位置更准）。
+const _cpt = (deg: number, rad: number) => ({ x: 250 + rad * Math.cos(deg * Math.PI / 180), y: 250 + rad * Math.sin(deg * Math.PI / 180) })
+const divideP1 = _cpt(-54, 238)
+const divideP2 = _cpt(162, 238)
+const allyLabel = _cpt(-126, 78)
+const enemyLabel = _cpt(54, 78)
 const maxElem = computed(() => (result.value ? Math.max(...result.value.strength.elementPower.map((e) => e.weighted), 1) : 1))
 const STATUS_COLOR: Record<string, string> = { 旺: '#cf2a1f', 相: '#d97a16', 休: '#7a6a55', 囚: '#35618e', 死: '#4a4a6a' }
 const statusStyle = (s: string) => ({ color: STATUS_COLOR[s], borderColor: STATUS_COLOR[s] })
@@ -398,13 +406,17 @@ run()
               <div class="wx-chart">
                 <svg viewBox="0 0 500 500" class="wx-svg" role="img" aria-label="五行旺衰圆图">
                   <circle cx="250" cy="250" r="238" class="wx-bg" />
+                  <line :x1="divideP1.x" :y1="divideP1.y" x2="250" y2="250" class="wx-divide" />
+                  <line x1="250" y1="250" :x2="divideP2.x" :y2="divideP2.y" class="wx-divide" />
+                  <text :x="allyLabel.x" :y="allyLabel.y" text-anchor="middle" class="wx-camp ally">同党·我方</text>
+                  <text :x="enemyLabel.x" :y="enemyLabel.y" text-anchor="middle" class="wx-camp enemy">异党·敌方</text>
                   <g v-for="it in circleItems" :key="it.row.wuxing" class="wx-node" @click="wxFilter = wxFilter === it.row.wuxing ? null : it.row.wuxing; showL2 = true">
                     <text :x="it.namePt.x" :y="it.namePt.y" text-anchor="middle" class="wx-name" :fill="wxBarColor(it.row.wuxing)">{{ it.row.wuxing }}{{ it.isDay ? '·日主' : '' }}</text>
                     <text :x="it.statPt.x" :y="it.statPt.y" text-anchor="middle" class="wx-stat">{{ it.row.weighted.toFixed(1) }}分 · {{ it.row.status }} · {{ it.row.counts.main }}({{ it.row.counts.hidden }})</text>
                     <text :x="it.godPt.x" :y="it.godPt.y" text-anchor="middle" class="wx-god">{{ it.row.tenGodPair[0] }}{{ it.row.tenGodPair[1] }} {{ it.row.tenGodPair[2] }}{{ it.row.tenGodPair[3] }}</text>
                   </g>
-                  <text x="250" y="244" text-anchor="middle" class="wx-center">{{ result.dayGan }}日主</text>
-                  <text x="250" y="266" text-anchor="middle" class="wx-center-sub">{{ result.strength.grade }} · {{ result.strength.ratio.toFixed(3) }}</text>
+                  <text x="250" y="242" text-anchor="middle" class="wx-center">{{ result.dayGan }}日主</text>
+                  <text x="250" y="268" text-anchor="middle" class="wx-center-sub">{{ result.strength.grade }} · {{ result.strength.ratio.toFixed(3) }}</text>
                 </svg>
                 <div class="wx-bars">
                   <div v-for="e in result.strength.elementPower" :key="e.wuxing" class="wx-row">
