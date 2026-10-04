@@ -182,7 +182,7 @@ export function analyzeStages(quad: Quad, strength: StrengthResult): { tiaohou: 
     routes,
     priorityText: extremePriority ? '本盘气候偏极且调候缺如：调候优先，格局次之，扶抑校验（已声明口径）；裁决只定一个主用神' : '格局为主、扶抑同权校验、调候为辅；三路冲突按路序裁决出唯一主用神，余者降为喜神（已声明口径）',
     conflictText: controversial ? `争议·三路冲突：${conflictWithJi ? `主用神 ${primaryWx} 与扶抑忌层相撞` : usedFallback ? '三路无 2 票以上共识，扶抑兜底' : '多路首选不一致且票面同分'}，主用神仍只定一个（${primaryWx}），请结合大运流年人工复核` : (conflict.length ? `附注：${conflict.join('、')} 在扶抑为忌、在格局/调候为喜，已按优先级裁定（主用神 ${primaryWx}），未入选者降喜神层并在此注明` : null),
-    finalText: `主用神：${primaryWx}（${primaryRel}）${controversial ? '·争议' : ''}；喜神（辅助）：${auxXi.join('、') || '—'}；忌神：${ji.join('、') || '—'}。主用神只定一个，余皆分层；需结合大运流年复核${strength.gates.cong.suspect || strength.gates.zhuan.suspect ? '；特殊格疑似未自动反转喜忌' : ''}`,
+    finalText: `主用神：${primaryWx}（${primaryRel}）${controversial ? '·争议' : ''}；喜神（辅助）：${auxXi.join('、') || '—'}；忌神：${ji.join('、') || '—'}。主用神只定一个、本命定死不随运变，大运只论得力受损（见大运五层分析）${strength.gates.cong.suspect || strength.gates.zhuan.suspect ? '；特殊格疑似未自动反转喜忌' : ''}`,
     adjudication, votes: ranked, controversial,
   }
   return { tiaohou, geju, duogua, yongshen }

@@ -18,7 +18,8 @@
     "preview": "vite preview",
     "test:cases": "node tests/build-engine.mjs && node tests/run-cases.mjs && node tests/direct-cases.mjs",
     "test:cross": "node tests/build-engine.mjs && node tests/dump-js.mjs && python3 tests/cross_check.py check",
-    "test:strength": "npx tsc src/engine/strength.ts --outDir tests/.build --module esnext --target es2020 --moduleResolution bundler --skipLibCheck && node tests/strength-cases.mjs"
+    "test:strength": "npx tsc src/engine/strength.ts --outDir tests/.build --module esnext --target es2020 --moduleResolution bundler --skipLibCheck && node tests/strength-cases.mjs",
+    "test:dayun": "npx tsc src/engine/dayun.ts src/engine/stages.ts src/engine/strength.ts --outDir tests/.build --module esnext --target es2020 --moduleResolution bundler --skipLibCheck && node tests/dayun-regression.mjs"
   },
   "type": "module",
   "version": "1.0.0"

@@ -100,7 +100,7 @@ function runDirect() {
 }
 const result = ref<BaziResult | null>(null)
 // ---- 结论先行：推导抽屉 ----
-type DrawerTab = 'strength' | 'tiaohou' | 'geju' | 'yongshen' | 'shensha'
+type DrawerTab = 'strength' | 'tiaohou' | 'geju' | 'yongshen' | 'shensha' | 'dayun'
 const drawerTab = ref<DrawerTab | null>(null)
 function openDrawer(t: DrawerTab) { drawerTab.value = t }
 function closeDrawer() { drawerTab.value = null }
@@ -182,6 +182,8 @@ const maxElem = computed(() => (result.value ? Math.max(...result.value.strength
 const STATUS_COLOR: Record<string, string> = { 旺: '#cf2a1f', 相: '#d97a16', 休: '#7a6a55', 囚: '#35618e', 死: '#4a4a6a' }
 const statusStyle = (s: string) => ({ color: STATUS_COLOR[s], borderColor: STATUS_COLOR[s] })
 const activeDaYun = computed(() => (result.value ? result.value.daYun[selectedDaYun.value] : null))
+const activeDaYunAnalysis = computed(() => (result.value ? result.value.daYunAnalysis.find((a) => a.index === selectedDaYun.value) || null : null))
+function dyAnalysisOf(idx: number) { return result.value ? result.value.daYunAnalysis.find((a) => a.index === idx) || null : null }
 function isCurrentDy(dy: any) { return dy.index > 0 && todayStr >= dy.startDate && todayStr <= dy.endDate }
 
 // ---- 五行分阴阳配色 ----
@@ -416,8 +418,9 @@ run()
           <button class="concl-bar" @click="openDrawer('geju')"><span class="concl-k">格局</span><span class="concl-v">{{ result.geju.name }} · {{ result.geju.basis }}</span><span class="concl-go">推导 ›</span></button>
           <button class="concl-bar" @click="openDrawer('yongshen')"><span class="concl-k">多寡/用神</span><span class="concl-v">主用神 {{ result.yongshen.primary.text }}<span v-if="result.yongshen.controversial" class="cross"> · 争议</span> · 喜 {{ result.yongshen.xi.join('、') || '—' }} · 忌 {{ result.yongshen.ji.join('、') || '—' }}</span><span class="concl-go">推导 ›</span></button>
           <button class="concl-bar" @click="openDrawer('shensha')"><span class="concl-k">神煞</span><span class="concl-v">{{ result.shensha.all.length ? [...new Set(result.shensha.all.map(a => a.hit.name))].join('、') : '无常用神煞命中' }}</span><span class="concl-go">释义 ›</span></button>
+          <button v-if="result.daYunAnalysis.length" class="concl-bar" @click="openDrawer('dayun')"><span class="concl-k">大运</span><span class="concl-v">{{ activeDaYunAnalysis ? `${activeDaYunAnalysis.ganZhi}运底色${activeDaYunAnalysis.l1.stance} · ${activeDaYunAnalysis.l1.text}` : '点大运卡选运后看本步底色' }}</span><span class="concl-go">五层推导 ›</span></button>
         </div>
-        <p class="small">主页只留结论；全部推导（强弱四层、关系修正逐条、调候/格局判定、多寡双口径、神煞释义）在抽屉里逐项可验算。</p>
+        <p class="small">主页只留结论；全部推导（强弱四层、关系修正逐条、调候/格局判定、多寡双口径、神煞释义、大运五层）在抽屉里逐项可验算。大运逐年相对分经《滴天髓阐微》行运断例回归未达标（见大运推导说明），本站不展示总分，只给 L1–L4 事实层。</p>
       </section>
 
       <section class="card">
@@ -441,6 +444,7 @@ run()
               <button :class="{ on: drawerTab === 'geju' }" @click="drawerTab = 'geju'">格局·多寡</button>
               <button :class="{ on: drawerTab === 'yongshen' }" @click="drawerTab = 'yongshen'">最终用神</button>
               <button :class="{ on: drawerTab === 'shensha' }" @click="drawerTab = 'shensha'">神煞释义</button>
+              <button v-if="result.daYunAnalysis.length" :class="{ on: drawerTab === 'dayun' }" @click="drawerTab = 'dayun'">大运五层</button>
             </div>
             <button class="drawer-close" @click="closeDrawer">✕</button>
           </div>
@@ -602,6 +606,27 @@ run()
         <p v-if="result.pillars.some(pp => pp.xunKong.includes(pp.zhi))" class="small">另有空亡位见命盘明细空亡行（旬空按库旬空表，不在此重复释义）。</p>
         <details class="sha-dict"><summary>查表口径说明（非本盘辞典，未命中不释义）</summary><p class="small">神煞据《三命通会》通行口诀自建查表：天乙/文昌/禄/羊刃/金舆/学堂按日干起，三合桃花/驿马/华盖/将星/劫煞/亡神/灾煞按年支·日支起，天德/月德按月支起，红鸾/天喜/孤辰/寡宿按年支起，词馆/魁罡按干支对。每条依据由代码实际查表路径生成（起法→查得何值→何柱见何字）。只展示命中释义，不计入强弱分，不作吉凶断言。</p></details>
       </section>
+      <section v-if="drawerTab === 'dayun'" class="stage-panel">
+        <h3>大运五层推导 · {{ activeDaYunAnalysis ? activeDaYunAnalysis.ganZhi + '运' : '' }}</h3>
+        <p v-if="!result.daYunAnalysis.length" class="small">直接输入模式无大运，此层不可用（不假排）。</p>
+        <template v-else-if="activeDaYunAnalysis">
+          <p><b>L1 喜忌底色：</b>{{ activeDaYunAnalysis.l1.text }}</p>
+          <p class="small">{{ activeDaYunAnalysis.l1.jinbuhuan }}</p>
+          <p v-for="(n, i) in activeDaYunAnalysis.l1.climateNotes" :key="'c'+i" class="small">调候运提示：{{ n }}</p>
+          <p><b>L2 运局引动：</b>{{ activeDaYunAnalysis.l2.text }}</p>
+          <div v-for="(r, i) in activeDaYunAnalysis.l2.zhiRelations" :key="'z'+i" class="gate-row">{{ r.target }}{{ r.kind }}{{ r.pillarCn }}支{{ r.zhi }}<span v-if="r.transformNote" class="small"> · 合化{{ r.transform }}：{{ r.transformNote }}</span><span v-if="r.heavy" class="small"> · 引动月令/日支，加重看</span></div>
+          <div v-for="(r, i) in activeDaYunAnalysis.l2.ganRelations" :key="'g'+i" class="gate-row">{{ r.target }}{{ r.kind }}{{ r.pillarCn }}干{{ r.gan }}<span v-if="r.transformNote" class="small"> · 合化{{ r.transform }}：{{ r.transformNote }}</span></div>
+          <p><b>L3 干支分期（一家之言）：</b></p>
+          <div class="gate-row">{{ activeDaYunAnalysis.l3.ganPeriod }}</div>
+          <div class="gate-row">{{ activeDaYunAnalysis.l3.zhiPeriod }}</div>
+          <p class="small">{{ activeDaYunAnalysis.l3.note }}</p>
+          <p><b>L4 交运节点：</b>{{ activeDaYunAnalysis.l4.text }}</p>
+          <p><b>L5 流年评分：</b>未展示总分。《滴天髓阐微》行运断例回归集 45 条（四柱+大运步+原文定论）用 tianzhi score 权重口径跑方向，命中 15/45＝33.3%，未达 ≥70% 展示线，故本站只展示 L1–L4 事实层与交运年关系标签，不给逐年相对分（基准 50、本盘内相对、不可跨盘比的口径与权重已在引擎保留，未为过关调权重）。</p>
+          <div class="gate-row" v-for="y in activeDaYunAnalysis.years.filter(y => y.jiaoyunTag)" :key="'jy'+y.year">{{ y.year }} {{ y.ganZhi }}（{{ y.tenGod }}）{{ y.jiaoyunTag }}</div>
+          <p class="small">口径：用神本命定死、大运只论得力受损；金不换大运表 tianzhi 数据尚未逐格核对（如实标注）；合化拿不准给「待定」不断化成；交运过渡期长短只作经验提示。直接输入模式无生日，大运不可用照旧提示。</p>
+        </template>
+        <p v-else class="small">先在大运表点选一步大运，这里显示该步五层。</p>
+      </section>
           </div>
         </div>
       </div>
@@ -631,6 +656,7 @@ run()
                 </div>
               </div>
               <div class="dy-ss-main small">地支本气：<span :style="hideSSStyle(dy.hideGan[0])">{{ dy.shiShenZhiMain }}</span></div>
+              <div v-if="dyAnalysisOf(dy.index)" class="dy-stance small">底色{{ dyAnalysisOf(dy.index)!.l1.stance }} · 干{{ dyAnalysisOf(dy.index)!.l1.ganTag }}/支{{ dyAnalysisOf(dy.index)!.l1.zhiTag }}</div>
               <div class="dy-date">{{ dy.startDate }} 起交<br />至 {{ dy.endDate }}<br />起运 {{ dy.startAgeText }}<span v-if="isCurrentDy(dy)"> · 当前大运</span></div>
             </template>
           </div>
@@ -655,6 +681,7 @@ run()
           </div>
         </div>
         <p class="meta">大运/流年排版口径：天干十神在天干上方、地支藏干在地支下方且每个藏干十神紧贴其下；干、支、十神颜色均按五行分阴阳（阳饱和、阴柔色，与命盘明细同规则），藏干十神用对应藏干的五行色弱化显示。</p>
+        <p class="meta">大运分析口径：卡面「底色」为 L1 喜忌底色（运干/运支查本命主用神+喜/忌五分）；点选大运后点结论条「大运」或抽屉「大运五层」看 L1–L4 推导（金不换调候运、运局引动合化三值、干支分期一家之言、交运差集）。L5 逐年相对分经行运断例回归未达标，本站不展示总分。</p>
       </section>
     </template>
 

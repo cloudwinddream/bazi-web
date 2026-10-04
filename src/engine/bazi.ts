@@ -11,6 +11,7 @@ import { Solar, Lunar, LunarUtil } from 'lunar-javascript'
 import { analyzeStrength, type StrengthResult, type Quad } from './strength.js'
 import { calcShenSha, type ShenShaHit } from './shensha.js'
 import { analyzeStages, type TiaoHouResult, type GeJuResult, type DuoGuaRow, type YongShenResult } from './stages.js'
+import { analyzeDaYun, type DaYunAnalysis } from './dayun.js'
 
 export interface BirthInput {
   calendar: 'solar' | 'lunar'
@@ -106,6 +107,7 @@ export interface BaziResult {
   geju: GeJuResult
   duogua: DuoGuaRow[]
   yongshen: YongShenResult
+  daYunAnalysis: DaYunAnalysis[]
 }
 
 const GAN_WUXING: Record<string, string> = {
@@ -362,6 +364,7 @@ export function calcBazi(input: BirthInput): BaziResult {
     `大运起运 sect=${daYunSect}（${daYunSect === 1 ? '日时法·三天折一年' : '分钟精算法'}），起运点 ${qiYunStartSolar}`,
     `节气：${prevJieQi} → ${nextJieQi}`,
   ]
+  const stagesResult = analyzeStages(quad, strength)
 
   return {
     pillars, dayGan,
@@ -385,7 +388,8 @@ export function calcBazi(input: BirthInput): BaziResult {
     caliber,
     strength,
     shensha: calcShenSha(quad),
-    ...analyzeStages(quad, strength),
+    ...stagesResult,
+    daYunAnalysis: analyzeDaYun(quad, stagesResult.yongshen, stagesResult.tiaohou, daYun),
   }
 }
 
@@ -480,6 +484,7 @@ export function calcFromPillars(pillarsInput: string[], gender: 'male' | 'female
       strength: analyzeStrength({ year: [ygz.charAt(0), ygz.charAt(1)], month: [mgz.charAt(0), mgz.charAt(1)], day: [dgz.charAt(0), dgz.charAt(1)], hour: [tgz.charAt(0), tgz.charAt(1)] }),
       shensha: calcShenSha({ year: [ygz.charAt(0), ygz.charAt(1)], month: [mgz.charAt(0), mgz.charAt(1)], day: [dgz.charAt(0), dgz.charAt(1)], hour: [tgz.charAt(0), tgz.charAt(1)] }),
       ...analyzeStages({ year: [ygz.charAt(0), ygz.charAt(1)], month: [mgz.charAt(0), mgz.charAt(1)], day: [dgz.charAt(0), dgz.charAt(1)], hour: [tgz.charAt(0), tgz.charAt(1)] }, analyzeStrength({ year: [ygz.charAt(0), ygz.charAt(1)], month: [mgz.charAt(0), mgz.charAt(1)], day: [dgz.charAt(0), dgz.charAt(1)], hour: [tgz.charAt(0), tgz.charAt(1)] })),
+      daYunAnalysis: [],
     }
   }
   const lunar = found.getLunar()
@@ -524,5 +529,6 @@ export function calcFromPillars(pillarsInput: string[], gender: 'male' | 'female
     strength: analyzeStrength({ year: [pillars[0].gan, pillars[0].zhi], month: [pillars[1].gan, pillars[1].zhi], day: [pillars[2].gan, pillars[2].zhi], hour: [pillars[3].gan, pillars[3].zhi] }),
     shensha: calcShenSha({ year: [pillars[0].gan, pillars[0].zhi], month: [pillars[1].gan, pillars[1].zhi], day: [pillars[2].gan, pillars[2].zhi], hour: [pillars[3].gan, pillars[3].zhi] }),
     ...analyzeStages({ year: [pillars[0].gan, pillars[0].zhi], month: [pillars[1].gan, pillars[1].zhi], day: [pillars[2].gan, pillars[2].zhi], hour: [pillars[3].gan, pillars[3].zhi] }, analyzeStrength({ year: [pillars[0].gan, pillars[0].zhi], month: [pillars[1].gan, pillars[1].zhi], day: [pillars[2].gan, pillars[2].zhi], hour: [pillars[3].gan, pillars[3].zhi] })),
+    daYunAnalysis: [],
   }
 }
