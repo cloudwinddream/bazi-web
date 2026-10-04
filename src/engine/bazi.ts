@@ -9,6 +9,8 @@
 // - 藏干/十神/纳音/地势/胎元/命宫/身宫全部取库原生表
 import { Solar, Lunar, LunarUtil } from 'lunar-javascript'
 import { analyzeStrength, type StrengthResult, type Quad } from './strength.js'
+import { calcShenSha, type ShenShaHit } from './shensha.js'
+import { analyzeStages, type TiaoHouResult, type GeJuResult, type DuoGuaRow, type YongShenResult } from './stages.js'
 
 export interface BirthInput {
   calendar: 'solar' | 'lunar'
@@ -99,6 +101,11 @@ export interface BaziResult {
   reverseSolarText?: string
   caliber: string[]
   strength: StrengthResult
+  shensha: { perPillar: Record<string, ShenShaHit[]>; all: { pillar: string; hit: ShenShaHit }[] }
+  tiaohou: TiaoHouResult
+  geju: GeJuResult
+  duogua: DuoGuaRow[]
+  yongshen: YongShenResult
 }
 
 const GAN_WUXING: Record<string, string> = {
@@ -377,6 +384,8 @@ export function calcBazi(input: BirthInput): BaziResult {
     jiaoYunText, jieQiTermText,
     caliber,
     strength,
+    shensha: calcShenSha(quad),
+    ...analyzeStages(quad, strength),
   }
 }
 
@@ -469,6 +478,8 @@ export function calcFromPillars(pillarsInput: string[], gender: 'male' | 'female
       directMode: true, reverseSolarText: '',
       caliber: ['直接输入四柱（备用计算八字·比对用），与生辰模式同库表口径（lunar-javascript 1.7.7）', '此四柱反查无对应真实公历（见警告），本命字段按库表由四柱直接推算', ...warns, '大运未排：直接输入无生辰信息，性别仅影响大运顺逆说明，本命盘不变'],
       strength: analyzeStrength({ year: [ygz.charAt(0), ygz.charAt(1)], month: [mgz.charAt(0), mgz.charAt(1)], day: [dgz.charAt(0), dgz.charAt(1)], hour: [tgz.charAt(0), tgz.charAt(1)] }),
+      shensha: calcShenSha({ year: [ygz.charAt(0), ygz.charAt(1)], month: [mgz.charAt(0), mgz.charAt(1)], day: [dgz.charAt(0), dgz.charAt(1)], hour: [tgz.charAt(0), tgz.charAt(1)] }),
+      ...analyzeStages({ year: [ygz.charAt(0), ygz.charAt(1)], month: [mgz.charAt(0), mgz.charAt(1)], day: [dgz.charAt(0), dgz.charAt(1)], hour: [tgz.charAt(0), tgz.charAt(1)] }, analyzeStrength({ year: [ygz.charAt(0), ygz.charAt(1)], month: [mgz.charAt(0), mgz.charAt(1)], day: [dgz.charAt(0), dgz.charAt(1)], hour: [tgz.charAt(0), tgz.charAt(1)] })),
     }
   }
   const lunar = found.getLunar()
@@ -511,5 +522,7 @@ export function calcFromPillars(pillarsInput: string[], gender: 'male' | 'female
       '大运未排：直接输入无生辰信息，性别仅影响大运顺逆说明，本命盘不变',
     ],
     strength: analyzeStrength({ year: [pillars[0].gan, pillars[0].zhi], month: [pillars[1].gan, pillars[1].zhi], day: [pillars[2].gan, pillars[2].zhi], hour: [pillars[3].gan, pillars[3].zhi] }),
+    shensha: calcShenSha({ year: [pillars[0].gan, pillars[0].zhi], month: [pillars[1].gan, pillars[1].zhi], day: [pillars[2].gan, pillars[2].zhi], hour: [pillars[3].gan, pillars[3].zhi] }),
+    ...analyzeStages({ year: [pillars[0].gan, pillars[0].zhi], month: [pillars[1].gan, pillars[1].zhi], day: [pillars[2].gan, pillars[2].zhi], hour: [pillars[3].gan, pillars[3].zhi] }, analyzeStrength({ year: [pillars[0].gan, pillars[0].zhi], month: [pillars[1].gan, pillars[1].zhi], day: [pillars[2].gan, pillars[2].zhi], hour: [pillars[3].gan, pillars[3].zhi] })),
   }
 }

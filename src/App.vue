@@ -75,6 +75,14 @@ function runDirect() {
   }
 }
 const result = ref<BaziResult | null>(null)
+// ---- 结论先行：推导抽屉 ----
+type DrawerTab = 'strength' | 'tiaohou' | 'geju' | 'yongshen' | 'shensha'
+const drawerTab = ref<DrawerTab | null>(null)
+function openDrawer(t: DrawerTab) { drawerTab.value = t }
+function closeDrawer() { drawerTab.value = null }
+const PILLAR_KEYS = ['year', 'month', 'day', 'hour']
+const openAdj = ref<Set<number>>(new Set())
+function toggleAdj(i: number) { const n = new Set(openAdj.value); n.has(i) ? n.delete(i) : n.add(i); openAdj.value = n }
 const selectedDaYun = ref(1)
 const errorMsg = ref('')
 
@@ -342,7 +350,13 @@ run()
               <tr><th>地势</th><td v-for="p in result.pillars" :key="p.label">{{ p.diShi }}</td></tr>
               <tr><th>自坐</th><td v-for="p in result.pillars" :key="p.label">{{ p.ziZuo }}</td></tr>
               <tr><th>空亡</th><td v-for="p in result.pillars" :key="p.label">{{ p.xunKong }}<span class="small">（{{ p.xun }}旬）</span></td></tr>
-              <tr><th>神煞</th><td colspan="4" class="left-note">引擎（lunar-javascript 1.7.7 EightChar）未提供神煞接口，本版不展示，避免编造；后续按标准神煞表补入。</td></tr>
+              <tr><th>神煞</th>
+                <td v-for="(p, idx) in result.pillars" :key="p.label">
+                  <span v-if="!result.shensha.perPillar[PILLAR_KEYS[idx]].length" class="small">—</span>
+                  <button v-for="h in result.shensha.perPillar[PILLAR_KEYS[idx]]" :key="h.name" class="sha-chip" :title="h.meaning" @click="openDrawer('shensha')">{{ h.name }}</button>
+                  <button v-if="p.xunKong.includes(p.zhi)" class="sha-chip kong" title="旬空之位" @click="openDrawer('shensha')">空亡</button>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -352,6 +366,20 @@ run()
           <div class="gong-box"><div class="gong-label">身宫</div><div class="gz-stack sm"><span :style="ganStyle(result.shenGongGanZhi.charAt(0))">{{ result.shenGongGanZhi.charAt(0) }}</span><span :style="zhiStyle(result.shenGongGanZhi.charAt(1))">{{ result.shenGongGanZhi.charAt(1) }}</span></div><div class="small">{{ result.shenGong }}</div></div>
         </div>
         <p class="legend-inline">配色：同五行同色系，<b>阳</b>饱和本色、<b>阴</b>同系柔色（木绿·火红·土黄褐·金黄·水蓝；干：甲丙戊庚壬阳 / 乙丁己辛癸阴，支：子寅辰午申戌阳 / 丑卯巳未酉亥阴）。日柱列底色高亮、日干加粗。右上角可切换深 / 浅主题，两套下均为可读色板。</p>
+      </section>
+
+
+      <!-- 结论先行：各阶段结论条（点开进推导抽屉） -->
+      <section class="card concl-card">
+        <h2>推导结论 · 点条目看推导</h2>
+        <div class="concl-list">
+          <button class="concl-bar" @click="openDrawer('strength')"><span class="concl-k">强弱</span><span class="concl-v">{{ result.strength.grade }} · 修正后 {{ result.strength.ratio.toFixed(3) }}（基础 {{ result.strength.baseRatio.toFixed(3) }}）<span v-if="result.strength.crossGrade" class="cross"> · 关系修正跨档</span></span><span class="concl-go">推导 ›</span></button>
+          <button class="concl-bar" @click="openDrawer('tiaohou')"><span class="concl-k">调候</span><span class="concl-v">{{ result.tiaohou.climate }} · {{ result.tiaohou.needText }}</span><span class="concl-go">推导 ›</span></button>
+          <button class="concl-bar" @click="openDrawer('geju')"><span class="concl-k">格局</span><span class="concl-v">{{ result.geju.name }} · {{ result.geju.basis }}</span><span class="concl-go">推导 ›</span></button>
+          <button class="concl-bar" @click="openDrawer('yongshen')"><span class="concl-k">多寡/用神</span><span class="concl-v">喜 {{ result.yongshen.xi.join('、') }} · 忌 {{ result.yongshen.ji.join('、') || '—' }}（候选）</span><span class="concl-go">推导 ›</span></button>
+          <button class="concl-bar" @click="openDrawer('shensha')"><span class="concl-k">神煞</span><span class="concl-v">{{ result.shensha.all.length ? [...new Set(result.shensha.all.map(a => a.hit.name))].join('、') : '无常用神煞命中' }}</span><span class="concl-go">释义 ›</span></button>
+        </div>
+        <p class="small">主页只留结论；全部推导（强弱四层、关系修正逐条、调候/格局判定、多寡双口径、神煞释义）在抽屉里逐项可验算。</p>
       </section>
 
       <section class="card">
@@ -364,13 +392,28 @@ run()
         <p class="meta">日主 {{ result.dayGan }}：强弱见下方「日主强弱推导」（量化模型，不再用粗判）</p>
       </section>
 
-      <!-- 日主强弱：四层可展开推导 -->
-      <section class="card strength-card">
+
+      <!-- 推导抽屉：结论条点开，桌面侧栏/移动全屏 -->
+      <div v-if="drawerTab" class="drawer-mask" @click.self="closeDrawer">
+        <div class="drawer">
+          <div class="drawer-head">
+            <div class="drawer-tabs">
+              <button :class="{ on: drawerTab === 'strength' }" @click="drawerTab = 'strength'">强弱推导</button>
+              <button :class="{ on: drawerTab === 'tiaohou' }" @click="drawerTab = 'tiaohou'">调候</button>
+              <button :class="{ on: drawerTab === 'geju' }" @click="drawerTab = 'geju'">格局·多寡</button>
+              <button :class="{ on: drawerTab === 'yongshen' }" @click="drawerTab = 'yongshen'">最终用神</button>
+              <button :class="{ on: drawerTab === 'shensha' }" @click="drawerTab = 'shensha'">神煞释义</button>
+            </div>
+            <button class="drawer-close" @click="closeDrawer">✕</button>
+          </div>
+          <div class="drawer-body">
+      <section v-if="drawerTab === 'strength'" class="strength-card">
         <h2>日主强弱推导 · {{ result.strength.grade }}</h2>
         <div class="l0">
           <span class="grade-badge">{{ result.strength.grade }}</span>
-          <span>同党占比 ratio <b>{{ result.strength.ratio.toFixed(4) }}</b></span>
-          <span class="small">同党 {{ result.strength.support.toFixed(1) }} / 异党 {{ result.strength.drain.toFixed(1) }}</span>
+          <span>修正后 ratio <b>{{ result.strength.ratio.toFixed(4) }}</b></span>
+          <span class="small">基础（不计关系）ratio {{ result.strength.baseRatio.toFixed(4) }} · {{ result.strength.baseGrade }}｜同党 {{ result.strength.support.toFixed(1) }} / 异党 {{ result.strength.drain.toFixed(1) }}（基础 {{ result.strength.baseSupport.toFixed(1) }} / {{ result.strength.baseDrain.toFixed(1) }}）｜关系修正 Δ同 {{ result.strength.deltaSupport >= 0 ? '+' : '' }}{{ result.strength.deltaSupport.toFixed(1) }} / Δ异 {{ result.strength.deltaDrain >= 0 ? '+' : '' }}{{ result.strength.deltaDrain.toFixed(1) }}</span>
+          <span v-if="result.strength.crossGrade" class="suspect">⚠ 关系修正跨档：{{ result.strength.crossNote }}</span>
           <span class="small">强根：{{ result.strength.hasRoot ? '有（' + result.strength.rootNotes.join('、') + '）' : '无' }}</span>
           <span v-if="result.strength.gates.zhuan.suspect" class="suspect">专旺疑似（结构闸）</span>
           <span v-if="result.strength.gates.cong.suspect" class="suspect">疑似{{ result.strength.gates.cong.kind }}（结构闸）</span>
@@ -383,7 +426,7 @@ run()
           <div v-for="f in result.strength.factors" :key="f.key" class="factor">
             <button class="factor-head" @click="toggleFactor(f.key)">
               <span class="f-name">{{ f.name }}</span>
-              <span class="f-score">同 {{ f.ally.toFixed(1) }}<span v-if="f.enemy"> / 异 {{ f.enemy.toFixed(1) }}</span></span>
+              <span class="f-score">同 {{ f.ally.toFixed(1) }}<span v-if="f.enemy"> / 异 {{ f.enemy.toFixed(1) }}</span><span v-if="Math.abs(f.ally - f.allyBase) > 0.01 || Math.abs(f.enemy - f.enemyBase) > 0.01" class="adj-mark">（含关系修正，基础 同 {{ f.allyBase.toFixed(1) }} / 异 {{ f.enemyBase.toFixed(1) }}）</span></span>
               <span class="f-toggle">{{ openFactors.has(f.key) ? '收起' : '展开' }}</span>
             </button>
             <div class="f-text">{{ f.text }}</div>
@@ -437,7 +480,7 @@ run()
         <div v-if="showL2" class="scroll-x">
           <div class="chip-row"><button class="chip" :class="{ on: !wxFilter }" @click="wxFilter = null">全部</button><button v-for="w in ['木','火','土','金','水']" :key="w" class="chip" :class="{ on: wxFilter === w }" @click="wxFilter = w">{{ w }}</button></div>
           <table class="contrib-table">
-            <thead><tr><th>柱</th><th>成分</th><th>十神</th><th>阵营</th><th>基础分</th><th>权重连乘</th><th>加权分</th></tr></thead>
+            <thead><tr><th>柱</th><th>成分</th><th>十神</th><th>阵营</th><th>基础分</th><th>权重连乘</th><th>加权分</th><th>修正后</th></tr></thead>
             <tbody>
               <tr v-for="c in result.strength.contributions.filter(c => !wxFilter || c.wuxing === wxFilter)" :key="c.id">
                 <td>{{ c.pillar }}</td><td>{{ c.source }}</td><td>{{ c.tenGod }}</td>
@@ -445,29 +488,76 @@ run()
                 <td>{{ c.base }}</td>
                 <td class="small">{{ c.multipliers.map(m => m.label).join(' × ') }}</td>
                 <td><b>{{ c.weighted.toFixed(2) }}</b></td>
+                <td><b v-if="Math.abs(c.adjustedWeighted - c.weighted) > 0.005" class="adj-mark">{{ c.adjustedWeighted.toFixed(2) }}</b><span v-else class="small">=</span></td>
               </tr>
             </tbody>
           </table>
-          <p class="small">验算：加权分 = 基础分 × 各权重。同党合计 {{ result.strength.support.toFixed(3) }}，异党 {{ result.strength.drain.toFixed(3) }}，ratio = 同/(同+异)。</p>
+          <p class="small">验算：加权分 = 基础分 × 各权重；「修正后」为关系修正逐条作用后的值（阵营按修正后计）。基础 同 {{ result.strength.baseSupport.toFixed(3) }} / 异 {{ result.strength.baseDrain.toFixed(3) }} → 修正后 {{ result.strength.support.toFixed(3) }} / {{ result.strength.drain.toFixed(3) }}。</p>
         </div>
 
-        <button class="btn sub" @click="showL3 = !showL3">{{ showL3 ? '收起' : '展开' }} L3 关系修正与门槛</button>
+        <button class="btn sub" @click="showL3 = !showL3">{{ showL3 ? '收起' : '展开' }} L3 关系修正（逐条可展开验算）</button>
         <div v-if="showL3">
+          <p class="small">修正作用于已有成分的分值（倍率缩放/阵营转移），不新造分数。封顶：单条 |Δ|≤18、总修正≤基础总分20%（18–32）、单成分累计倍率 0.45–1.45。档位以修正后为准，基础值保留对照。</p>
           <div v-if="result.strength.adjustments.length" class="adj-list">
-            <div v-for="(a, i) in result.strength.adjustments" :key="i" class="adj"><b>{{ a.relation }}</b> <span class="small">{{ a.participants.join(' · ') }}｜{{ a.applied ? '已计入 ' + a.delta : '仅提示，不计分' }}｜{{ a.note }}</span></div>
+            <div v-for="(a, i) in result.strength.adjustments" :key="i" class="adj" :class="{ cross: a.crossGrade }">
+              <button class="adj-head" @click="toggleAdj(i)"><b>{{ a.crossGrade ? '★' : '' }}{{ a.relation }}</b><span class="small">{{ a.type }} · {{ a.verdict }} · Δ同 {{ a.deltaSupport >= 0 ? '+' : '' }}{{ a.deltaSupport.toFixed(1) }} / Δ异 {{ a.deltaDrain >= 0 ? '+' : '' }}{{ a.deltaDrain.toFixed(1) }}<span v-if="a.capped">（已封顶）</span><span v-if="a.crossGrade"> · 本条跨档</span></span><span class="f-toggle">{{ openAdj.has(i) ? '收起' : '判定与加减' }}</span></button>
+              <div v-if="openAdj.has(i)" class="adj-detail small">
+                <div>涉及：{{ a.participants.join(' · ') }}</div>
+                <div v-for="(c, ci) in a.conditions" :key="ci">{{ c.met ? '☑' : '☐' }} {{ c.label }}</div>
+                <div class="adj-note">{{ a.note }}</div>
+                <div v-for="(af, ai) in a.affects" :key="ai" class="adj-aff">{{ af.source }}：{{ af.before.toFixed(2) }} → {{ af.after.toFixed(2) }}（{{ af.delta >= 0 ? '+' : '' }}{{ af.delta.toFixed(2) }}）</div>
+                <div v-if="!a.affects.length" class="small">本条无分值作用（仅提示）。</div>
+              </div>
+            </div>
           </div>
-          <p v-else class="small">无三合/三会/六合/冲/刑/害关系。</p>
+          <p v-else class="small">无三会/三合/六合/天干合/冲/刑/害关系。</p>
           <div class="gate-box">
             <div class="gate-title">从格门槛（结构闸）</div>
-            <div v-for="(c, i) in result.strength.gates.cong.conditions" :key="i" class="gate-row">{{ c.met ? '☑' : '☐' }} {{ c.label }}</div>
+            <div v-for="(c, i) in result.strength.gates.cong.conditions" :key="'c'+i" class="gate-row">{{ c.met ? '☑' : '☐' }} {{ c.label }}</div>
             <div class="gate-title">专旺门槛（结构闸）</div>
-            <div v-for="(c, i) in result.strength.gates.zhuan.conditions" :key="i" class="gate-row">{{ c.met ? '☑' : '☐' }} {{ c.label }}</div>
+            <div v-for="(c, i) in result.strength.gates.zhuan.conditions" :key="'z'+i" class="gate-row">{{ c.met ? '☑' : '☐' }} {{ c.label }}</div>
             <p class="small">两闸全过才标「疑似」，仍需人工复核，不自动改判喜忌。ratio 硬闸：≥0.88 有根 / ≤0.12 无根，只作极端提示。</p>
           </div>
         </div>
-        <p class="trace small">{{ result.strength.trace }} 算法来源：zaoxu001/tianzhi-core（MIT）连乘模型 TS 移植，权重原样：基础 天干10/地支12、根气 本1.0/中0.5/余0.3、纯气×1.6、月令×2.0、贴身×1.2、虚透×0.5。</p>
+        <p class="trace small">{{ result.strength.trace }} 算法来源：zaoxu001/tianzhi-core（MIT）连乘模型 TS 移植，权重原样：基础 天干10/地支12、根气 本1.0/中0.5/余0.3、纯气×1.6、月令×2.0、贴身×1.2、虚透×0.5。关系修正为本站工程口径（化气严条件、冲定向削根、刑害只削本气、封顶防翻盘），系数逐条见 L3，不冒充古籍原值。</p>
       </section>
 
+
+      <section v-if="drawerTab === 'tiaohou'" class="stage-panel">
+        <h3>调候判定</h3>
+        <p><b>{{ result.tiaohou.climate }}</b>（{{ result.tiaohou.season }}）</p>
+        <div v-for="(c, i) in result.tiaohou.checks" :key="i" class="gate-row">{{ c.met ? '☑' : '☐' }} {{ c.label }}<span v-if="c.note" class="small"> · {{ c.note }}</span></div>
+        <p class="small">口径：《穷通宝鉴》总纲——冬生寒需火暖、夏生暑需水润；燥湿看火水与燥湿支。此为气候候选层，未做十干分月 120 格逐格查表；调候不计入强弱分。</p>
+      </section>
+      <section v-if="drawerTab === 'geju'" class="stage-panel">
+        <h3>格局判定</h3>
+        <p><b>{{ result.geju.name }}</b> · {{ result.geju.basis }}</p>
+        <p class="small">{{ result.geju.touText }}；{{ result.geju.yongfa }}</p>
+        <div v-for="(c, i) in result.geju.checks" :key="i" class="gate-row">{{ c.met ? '☑' : '☐' }} {{ c.label }}<span v-if="c.note" class="small"> · {{ c.note }}</span></div>
+        <p v-if="result.geju.suspectNote" class="suspect">{{ result.geju.suspectNote }}</p>
+        <p class="small">口径：《子平真诠》月令取格——月支本气十神为格、透干为引线，建禄/羊刃另列；成破只列条件，不硬断成败。</p>
+        <h3>命局多寡（双口径）</h3>
+        <table class="state-table"><thead><tr><th>五行</th><th>与日主</th><th>加权分</th><th>占比</th><th>个数</th><th>判读</th></tr></thead>
+        <tbody><tr v-for="d in result.duogua" :key="d.wuxing"><td><b :style="{ color: wxBarColor(d.wuxing) }">{{ d.wuxing }}</b></td><td>{{ d.relation }}</td><td>{{ d.weighted.toFixed(1) }}</td><td>{{ (d.share * 100).toFixed(1) }}%</td><td>{{ d.count }}</td><td>{{ d.level }}</td></tr></tbody></table>
+        <p class="small">加权分与强弱同源（连乘权重），个数为干支字数口径；缺/弱/旺仅描述分布，不单独断吉凶。</p>
+      </section>
+      <section v-if="drawerTab === 'yongshen'" class="stage-panel">
+        <h3>最终用神 · 三路汇合</h3>
+        <div v-for="r in result.yongshen.routes" :key="r.name" class="route-box"><b>{{ r.name }}</b>：喜 {{ r.xi.join('、') || '—' }}<span v-if="r.ji.length"> · 忌 {{ r.ji.join('、') }}</span><div class="small">{{ r.text }}</div></div>
+        <p><b>{{ result.yongshen.finalText }}</b></p>
+        <p class="small">优先级口径：{{ result.yongshen.priorityText }}</p>
+        <p v-if="result.yongshen.conflictText" class="suspect">{{ result.yongshen.conflictText }}</p>
+        <p class="small">三路来源：扶抑（强弱扶抑）、调候（穷通气候）、格局（子平顺用/逆用）。每路贡献如上可追溯；均为候选，需结合大运流年复核。</p>
+      </section>
+      <section v-if="drawerTab === 'shensha'" class="stage-panel">
+        <h3>神煞释义（传统说法，中性表述）</h3>
+        <div v-for="(a, i) in result.shensha.all" :key="i" class="sha-row"><b>{{ a.hit.name }}</b>（{{ ['年柱','月柱','日柱','时柱'][PILLAR_KEYS.indexOf(a.pillar)] }}）<div>{{ a.hit.meaning }}</div><div class="small">{{ a.hit.now }} · 起法：{{ a.hit.method }}</div></div>
+        <p v-if="result.pillars.some(pp => pp.xunKong.includes(pp.zhi))" class="small">另有空亡位见命盘明细空亡行。</p>
+        <p class="small">神煞据《三命通会》通行口诀自建查表：天乙/文昌/禄/羊刃/金舆/学堂按日干起，三合桃花/驿马/华盖/将星/劫煞/亡神/灾煞按年支·日支起，天德/月德按月支起，红鸾/天喜/孤辰/寡宿按年支起，词馆/魁罡按干支对。只展示释义，不计入强弱分，不作吉凶断言。</p>
+      </section>
+          </div>
+        </div>
+      </div>
       <section v-if="!result.daYun.length" class="card">
         <h2>大运 · 交运</h2>
         <p class="jiao">直接输入模式默认只看本命盘，大运无法排：需补出生日期/性别并改用「生辰排盘」才能排大运。此处不假排。</p>
@@ -522,6 +612,7 @@ run()
     <footer>
       <div v-if="result">计算口径：{{ result.caliber.join('；') }}</div>
       <div v-if="result">配色口径：同五行同色系，阳（干甲丙戊庚壬、支子寅辰午申戌）饱和本色，阴同系柔色；藏干颜色按其天干五行阴阳。自坐按库 CHANG_SHENG 同表以柱干坐柱支计算。</div>
+      <div v-if="result">神煞口径：据《三命通会》通行口诀自建查表（lunar 1.7.7 无神煞接口），只展示释义、不计强弱分；调候按《穷通宝鉴》总纲为候选层，格局按《子平真诠》月令取格，用神三路汇合冲突注明。</div>
       <div>本站所有计算均在您的浏览器本地完成，不上传任何数据。</div>
       <div>仅供传统文化研究与娱乐参考，不构成任何决策依据。</div>
     </footer>

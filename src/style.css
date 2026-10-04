@@ -160,3 +160,33 @@ footer { margin-top: 22px; font-size: 12px; color: var(--muted2); line-height: 1
 .gate-title { font-weight: 700; font-size: 13px; margin: 6px 0 4px; }
 .gate-row { font-size: 13px; padding: 2px 0; }
 .trace { margin-top: 10px; line-height: 1.7; }
+
+/* 结论条 */
+.concl-list { display: flex; flex-direction: column; gap: 8px; }
+.concl-bar { display: flex; gap: 10px; align-items: center; text-align: left; width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card2, transparent); cursor: pointer; font-size: 14px; color: inherit; }
+.concl-bar:hover { border-color: var(--red); }
+.concl-k { font-weight: 700; white-space: nowrap; }
+.concl-v { flex: 1; }
+.concl-go { color: var(--red); white-space: nowrap; font-size: 12px; }
+.cross { color: var(--red); font-weight: 700; }
+/* 抽屉 */
+.drawer-mask { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 60; }
+.drawer { position: fixed; top: 0; right: 0; height: 100dvh; width: min(760px, 100vw); background: var(--bg, #fff); color: inherit; box-shadow: -8px 0 32px rgba(0,0,0,.3); display: flex; flex-direction: column; }
+.drawer-head { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.drawer-tabs { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; }
+.drawer-tabs button { padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: inherit; cursor: pointer; font-size: 13px; }
+.drawer-tabs button.on { background: var(--red); color: #fff; border-color: var(--red); }
+.drawer-close { border: none; background: transparent; font-size: 18px; cursor: pointer; color: inherit; }
+.drawer-body { overflow-y: auto; padding: 14px; }
+@media (max-width: 640px) { .drawer { width: 100vw; } }
+/* 神煞 */
+.sha-chip { display: inline-block; margin: 2px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); background: transparent; font-size: 12px; cursor: pointer; color: inherit; }
+.sha-chip.kong { border-style: dashed; opacity: .75; }
+.sha-row { padding: 8px 0; border-bottom: 1px dashed var(--line); }
+.adj { border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; margin-bottom: 8px; }
+.adj.cross { border-color: var(--red); background: rgba(179,53,43,.06); }
+.adj-head { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; width: 100%; text-align: left; background: transparent; border: none; cursor: pointer; color: inherit; font-size: 13px; }
+.adj-detail { margin-top: 6px; }
+.adj-aff { font-variant-numeric: tabular-nums; }
+.adj-mark { color: var(--red); font-weight: 700; }
+.route-box { padding: 8px 0; border-bottom: 1px dashed var(--line); }
