@@ -1,0 +1,450 @@
+[
+ {
+  "name": "滴天髓·戊土众强",
+  "gz": "戊辰乙丑戊戌辛酉",
+  "verdict": "身强",
+  "exp_side": "strong",
+  "source": "A典籍:滴天髓众寡,重重厚土伤官敌官寡",
+  "ratio": 0.456,
+  "label": "中和",
+  "has_root": true,
+  "support": 64.7,
+  "drain": 77.2,
+  "cong": "",
+  "root_note": [
+   "比劫墓库根×3"
+  ]
+ },
+ {
+  "name": "滴天髓·丁火旺极",
+  "gz": "戊午壬戌丁卯癸卯",
+  "verdict": "身强(旺极)",
+  "exp_side": "strong",
+  "source": "A典籍:滴天髓众寡,日主旺极",
+  "ratio": 0.4937,
+  "label": "偏旺",
+  "has_root": true,
+  "support": 61.4,
+  "drain": 63.0,
+  "cong": "",
+  "root_note": [
+   "year支午·临官"
+  ]
+ },
+ {
+  "name": "滴天髓·丙火强寡",
+  "gz": "癸丑壬戌丙午庚寅",
+  "verdict": "身强(强寡)",
+  "exp_side": "strong",
+  "source": "A典籍:滴天髓,坐阳刃会火局谓之强寡",
+  "ratio": 0.2829,
+  "label": "偏弱",
+  "has_root": true,
+  "support": 39.6,
+  "drain": 100.4,
+  "cong": "",
+  "root_note": [
+   "day支午·帝旺",
+   "hour支寅·长生"
+  ]
+ },
+ {
+  "name": "滴天髓·甲木嫩弱",
+  "gz": "丙寅庚寅甲申乙丑",
+  "verdict": "身弱",
+  "exp_side": "weak",
+  "source": "A典籍:滴天髓震兑,木嫩金坚",
+  "ratio": 0.4102,
+  "label": "中和",
+  "has_root": true,
+  "support": 59.2,
+  "drain": 85.1,
+  "cong": "",
+  "root_note": [
+   "year支寅·临官",
+   "month支寅·临官"
+  ]
+ },
+ {
+  "name": "滴天髓·甲木旺",
+  "gz": "庚戌己卯甲寅丁卯",
+  "verdict": "身强",
+  "exp_side": "strong",
+  "source": "A典籍:滴天髓,坐禄逢刃木旺金衰",
+  "ratio": 0.5251,
+  "label": "偏旺",
+  "has_root": true,
+  "support": 72.0,
+  "drain": 65.1,
+  "cong": "",
+  "root_note": [
+   "month支卯·帝旺",
+   "day支寅·临官"
+  ]
+ },
+ {
+  "name": "滴天髓·甲木从杀",
+  "gz": "庚戌甲申甲戌乙丑",
+  "verdict": "从杀(从格)",
+  "exp_side": "cong",
+  "source": "A典籍:滴天髓,格成从杀",
+  "ratio": 0.2175,
+  "label": "身弱",
+  "has_root": false,
+  "support": 29.0,
+  "drain": 104.3,
+  "cong": "",
+  "root_note": []
+ },
+ {
+  "name": "滴天髓注·乙木偏旺",
+  "gz": "庚寅己卯乙亥癸未",
+  "verdict": "身强(偏旺)",
+  "exp_side": "strong",
+  "source": "A典籍新注:日主偏旺亥卯未三合",
+  "ratio": 0.6575,
+  "label": "身旺",
+  "has_root": true,
+  "support": 85.6,
+  "drain": 44.6,
+  "cong": "",
+  "root_note": [
+   "year支寅·帝旺",
+   "month支卯·临官"
+  ]
+ },
+ {
+  "name": "滴天髓·甲木曲直",
+  "gz": "丁卯甲辰甲寅乙亥",
+  "verdict": "专旺(曲直)",
+  "exp_side": "zhuanwang",
+  "source": "A典籍方局:曲直仁寿/从旺",
+  "ratio": 0.6709,
+  "label": "身旺",
+  "has_root": true,
+  "support": 92.8,
+  "drain": 45.5,
+  "cong": "",
+  "root_note": [
+   "year支卯·帝旺",
+   "day支寅·临官"
+  ]
+ },
+ {
+  "name": "曲直例·甲木",
+  "gz": "癸卯乙卯甲寅乙亥",
+  "verdict": "专旺(曲直)",
+  "exp_side": "zhuanwang",
+  "source": "A教材例:曲直格无金破格",
+  "ratio": 0.9137,
+  "label": "身旺",
+  "has_root": true,
+  "support": 122.0,
+  "drain": 11.5,
+  "cong": "专旺/从强疑似(闸过)",
+  "root_note": [
+   "year支卯·帝旺",
+   "month支卯·帝旺"
+  ]
+ },
+ {
+  "name": "炎上例·丁火",
+  "gz": "丁巳丙午丁巳丙午",
+  "verdict": "专旺(炎上)",
+  "exp_side": "zhuanwang",
+  "source": "A教材例:炎上格全是自党",
+  "ratio": 0.707,
+  "label": "身旺",
+  "has_root": true,
+  "support": 94.4,
+  "drain": 39.1,
+  "cong": "",
+  "root_note": [
+   "year支巳·帝旺",
+   "month支午·临官"
+  ]
+ },
+ {
+  "name": "从革例·辛金",
+  "gz": "戊戌庚申辛酉己丑",
+  "verdict": "专旺(从革)",
+  "exp_side": "zhuanwang",
+  "source": "A教材例:从革格申酉戌会金",
+  "ratio": 0.8473,
+  "label": "身旺",
+  "has_root": true,
+  "support": 119.8,
+  "drain": 21.6,
+  "cong": "",
+  "root_note": [
+   "month支申·帝旺",
+   "day支酉·临官"
+  ]
+ },
+ {
+  "name": "稼穑例·己土",
+  "gz": "戊戌丙辰己巳己巳",
+  "verdict": "专旺(稼穑)",
+  "exp_side": "zhuanwang",
+  "source": "A教材例:稼穑格火土成势",
+  "ratio": 0.7339,
+  "label": "身旺",
+  "has_root": true,
+  "support": 105.9,
+  "drain": 38.4,
+  "cong": "",
+  "root_note": [
+   "day支巳·帝旺",
+   "hour支巳·帝旺"
+  ]
+ },
+ {
+  "name": "润下例·癸水",
+  "gz": "癸亥癸亥癸丑壬子",
+  "verdict": "专旺(润下)",
+  "exp_side": "zhuanwang",
+  "source": "A教材例:润下格亥子丑会水",
+  "ratio": 0.7529,
+  "label": "身旺",
+  "has_root": true,
+  "support": 98.7,
+  "drain": 32.4,
+  "cong": "",
+  "root_note": [
+   "year支亥·帝旺",
+   "month支亥·帝旺"
+  ]
+ },
+ {
+  "name": "滴天髓·甲木夏中和",
+  "gz": "庚辰壬午甲辰丁卯",
+  "verdict": "中和",
+  "exp_side": "balanced",
+  "source": "A典籍:五行俱足一气相生(无强弱极断)",
+  "ratio": 0.4033,
+  "label": "中和",
+  "has_root": true,
+  "support": 52.3,
+  "drain": 77.4,
+  "cong": "",
+  "root_note": [
+   "hour支卯·帝旺",
+   "比劫墓库根×3"
+  ]
+ },
+ {
+  "name": "胡适",
+  "gz": "辛卯庚子丁丑丁未",
+  "verdict": "身弱",
+  "exp_side": "weak",
+  "source": "B名人盘通行共识:丁火子月失令",
+  "ratio": 0.283,
+  "label": "偏弱",
+  "has_root": false,
+  "support": 38.8,
+  "drain": 98.3,
+  "cong": "",
+  "root_note": []
+ },
+ {
+  "name": "南怀瑾",
+  "gz": "戊午乙卯甲子乙亥",
+  "verdict": "身强",
+  "exp_side": "strong",
+  "source": "B:甲木卯月得令",
+  "ratio": 0.7837,
+  "label": "身旺",
+  "has_root": true,
+  "support": 101.4,
+  "drain": 28.0,
+  "cong": "",
+  "root_note": [
+   "month支卯·帝旺",
+   "hour支亥·长生"
+  ]
+ },
+ {
+  "name": "溥仪",
+  "gz": "丙午庚申壬午壬寅",
+  "verdict": "中和",
+  "exp_side": "balanced",
+  "source": "B存疑:五虎遁不合,通行未有定论,记中和待考",
+  "ratio": 0.4252,
+  "label": "中和",
+  "has_root": true,
+  "support": 58.0,
+  "drain": 78.4,
+  "cong": "",
+  "root_note": [
+   "month支申·长生"
+  ]
+ },
+ {
+  "name": "戴笠",
+  "gz": "丁酉乙巳丙戌丁酉",
+  "verdict": "身强",
+  "exp_side": "strong",
+  "source": "B:丙火巳月得令",
+  "ratio": 0.4068,
+  "label": "中和",
+  "has_root": true,
+  "support": 54.3,
+  "drain": 79.2,
+  "cong": "",
+  "root_note": [
+   "month支巳·临官"
+  ]
+ },
+ {
+  "name": "韦千里",
+  "gz": "辛亥辛卯庚子庚辰",
+  "verdict": "身弱",
+  "exp_side": "weak",
+  "source": "B:庚金子月泄气无令",
+  "ratio": 0.2392,
+  "label": "身弱",
+  "has_root": false,
+  "support": 28.0,
+  "drain": 89.0,
+  "cong": "",
+  "root_note": []
+ },
+ {
+  "name": "李鸿章",
+  "gz": "癸未甲寅乙亥己卯",
+  "verdict": "专旺疑似(曲直)",
+  "exp_side": "zhuanwang",
+  "source": "B/A:FateMaster引徐乐吾评曲直格",
+  "ratio": 0.657,
+  "label": "身旺",
+  "has_root": true,
+  "support": 90.4,
+  "drain": 47.2,
+  "cong": "",
+  "root_note": [
+   "month支寅·帝旺",
+   "hour支卯·临官"
+  ]
+ },
+ {
+  "name": "王安石",
+  "gz": "辛酉庚子癸未丙辰",
+  "verdict": "身强",
+  "exp_side": "strong",
+  "source": "B:癸水子月得令印助",
+  "ratio": 0.6068,
+  "label": "偏旺",
+  "has_root": true,
+  "support": 83.2,
+  "drain": 53.9,
+  "cong": "",
+  "root_note": [
+   "month支子·临官"
+  ]
+ },
+ {
+  "name": "彭玉麟",
+  "gz": "丙子辛丑戊子癸丑",
+  "verdict": "身弱",
+  "exp_side": "weak",
+  "source": "B:戊土冬月财旺身弱",
+  "ratio": 0.3059,
+  "label": "偏弱",
+  "has_root": false,
+  "support": 41.0,
+  "drain": 93.0,
+  "cong": "",
+  "root_note": []
+ },
+ {
+  "name": "毛泽东",
+  "gz": "癸巳甲子丁酉甲辰",
+  "verdict": "身弱",
+  "exp_side": "weak",
+  "source": "B:丁火子月失令(通行身弱用印)",
+  "ratio": 0.2927,
+  "label": "偏弱",
+  "has_root": true,
+  "support": 40.0,
+  "drain": 96.6,
+  "cong": "",
+  "root_note": [
+   "year支巳·帝旺",
+   "day支酉·长生"
+  ]
+ },
+ {
+  "name": "徐乐吾",
+  "gz": "丙戌壬辰丙申丙申",
+  "verdict": "身弱(偏弱)",
+  "exp_side": "weak",
+  "source": "B:丙火辰月泄气,通行偏弱",
+  "ratio": 0.2467,
+  "label": "身弱",
+  "has_root": false,
+  "support": 35.6,
+  "drain": 108.7,
+  "cong": "",
+  "root_note": []
+ },
+ {
+  "name": "证严法师",
+  "gz": "丁丑甲辰辛卯己丑",
+  "verdict": "中和",
+  "exp_side": "balanced",
+  "source": "B:辛金辰月印生财泄,通行中和",
+  "ratio": 0.4779,
+  "label": "中和",
+  "has_root": false,
+  "support": 65.2,
+  "drain": 71.2,
+  "cong": "",
+  "root_note": []
+ },
+ {
+  "name": "杜月笙",
+  "gz": "戊子庚申乙丑壬午",
+  "verdict": "身弱",
+  "exp_side": "weak",
+  "source": "B:乙木申月失令",
+  "ratio": 0.3499,
+  "label": "偏弱",
+  "has_root": true,
+  "support": 48.4,
+  "drain": 89.9,
+  "cong": "",
+  "root_note": [
+   "hour支午·长生"
+  ]
+ },
+ {
+  "name": "曾国藩",
+  "gz": "辛未己亥丙辰己亥",
+  "verdict": "身弱",
+  "exp_side": "weak",
+  "source": "B:丙火亥月失令",
+  "ratio": 0.2708,
+  "label": "偏弱",
+  "has_root": false,
+  "support": 34.8,
+  "drain": 93.7,
+  "cong": "",
+  "root_note": []
+ },
+ {
+  "name": "岳飞",
+  "gz": "癸未乙卯甲子乙巳",
+  "verdict": "身强",
+  "exp_side": "strong",
+  "source": "B存疑:五鼠遁不合;甲木卯月得令记强",
+  "ratio": 0.7102,
+  "label": "身旺",
+  "has_root": true,
+  "support": 97.0,
+  "drain": 39.6,
+  "cong": "",
+  "root_note": [
+   "month支卯·帝旺"
+  ]
+ }
+]

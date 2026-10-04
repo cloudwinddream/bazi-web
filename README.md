@@ -46,3 +46,10 @@ Cloudflare Pages 直连本仓库：构建命令 `npm run build`，输出目录 `
 
 - `npm run test:cases`：30 个边界命例（立春节气秒级交界、子时两 sect、闰月、真太阳跨时辰、1900/2100 两端、海外时区、大运两 sect）与 lunar-python 金标准逐字段比对。
 - `npm run test:cross`：重新生成金标准并做 JS vs lunar-python 全字段 diff + sxtwl 节气/四柱校验。2026-10-03 实测 30/30 通过。
+
+## 日主强弱引擎（2026-10-04 接入）
+
+- 算法来源：zaoxu001/tianzhi-core（MIT）`strength.py` 成分连乘模型，TS 等价移植于 `src/engine/strength.ts`；权重原样（基础 天干10/地支12、根气 本1.0/中0.5/余0.3、纯气×1.6、月令×2.0、贴身×1.2、虚透×0.5），ratio 五档 0.26/0.35/0.48/0.61。
+- 与 Python 原版对测：28 真实盘 ratio 与档位 28/28 一致，普通盘强弱侧 16/20（与 Python 基线相同）；`npm run test:strength` 可复跑（基线 `tests/strength-expected.json`）。
+- 专旺/从格双轨：ratio 硬闸（≥0.88 有根 / ≤0.12 无根）只作极端提示，结构闸（成局/无破格等逐条）另标「疑似」，不自动反转喜忌。合化/合局不计入旺衰分。
+- 步骤三（月令状态与五行旺衰图解）并入「得令」展开：状态为季节标签不计分，图主数=加权分、副数=个数；司令按节后天数展示，未加权（与真实盘测试 `month_siling=None` 口径一致）。

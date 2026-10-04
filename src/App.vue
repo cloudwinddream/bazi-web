@@ -121,6 +121,26 @@ function run() {
 }
 
 const maxWx = computed(() => (result.value ? Math.max(...result.value.wuXing.map((w) => w.score), 1) : 1))
+// ---- 强弱推导展开 ----
+const openFactors = ref<Set<string>>(new Set())
+function toggleFactor(k: string) { const s = new Set(openFactors.value); s.has(k) ? s.delete(k) : s.add(k); openFactors.value = s }
+const wxFilter = ref<string | null>(null)
+const showL2 = ref(false); const showL3 = ref(false)
+const WX_CYCLE = ['木', '火', '土', '金', '水']
+const circleItems = computed(() => {
+  const r = result.value; if (!r) return []
+  const dayWx = r.pillars[2].ganWx
+  const start = WX_CYCLE.indexOf(dayWx)
+  return r.strength.monthState.map((row) => {
+    const k = (WX_CYCLE.indexOf(row.wuxing) - start + 5) % 5
+    const ang = (-90 + k * 72) * Math.PI / 180
+    const pt = (rad: number) => ({ x: 250 + rad * Math.cos(ang), y: 250 + rad * Math.sin(ang) })
+    return { row, namePt: pt(108), statPt: pt(163), godPt: pt(214), isDay: row.wuxing === dayWx }
+  })
+})
+const maxElem = computed(() => (result.value ? Math.max(...result.value.strength.elementPower.map((e) => e.weighted), 1) : 1))
+const STATUS_COLOR: Record<string, string> = { 旺: '#cf2a1f', 相: '#d97a16', 休: '#7a6a55', 囚: '#35618e', 死: '#4a4a6a' }
+const statusStyle = (s: string) => ({ color: STATUS_COLOR[s], borderColor: STATUS_COLOR[s] })
 const activeDaYun = computed(() => (result.value ? result.value.daYun[selectedDaYun.value] : null))
 function isCurrentDy(dy: any) { return dy.index > 0 && todayStr >= dy.startDate && todayStr <= dy.endDate }
 
@@ -333,7 +353,107 @@ run()
           <div class="wx-bar"><div class="wx-fill" :style="{ width: (w.score / maxWx * 100) + '%', background: wxBarColor(w.name) }"></div></div>
           <span class="sc">{{ w.score.toFixed(1) }}</span>
         </div>
-        <p class="meta">日主 {{ result.dayGan }}：{{ result.dayMasterStrength }}（同党占比粗判，仅供参考）</p>
+        <p class="meta">日主 {{ result.dayGan }}：强弱见下方「日主强弱推导」（量化模型，不再用粗判）</p>
+      </section>
+
+      <!-- 日主强弱：四层可展开推导 -->
+      <section class="card strength-card">
+        <h2>日主强弱推导 · {{ result.strength.grade }}</h2>
+        <div class="l0">
+          <span class="grade-badge">{{ result.strength.grade }}</span>
+          <span>同党占比 ratio <b>{{ result.strength.ratio.toFixed(4) }}</b></span>
+          <span class="small">同党 {{ result.strength.support.toFixed(1) }} / 异党 {{ result.strength.drain.toFixed(1) }}</span>
+          <span class="small">强根：{{ result.strength.hasRoot ? '有（' + result.strength.rootNotes.join('、') + '）' : '无' }}</span>
+          <span v-if="result.strength.gates.zhuan.suspect" class="suspect">专旺疑似（结构闸）</span>
+          <span v-if="result.strength.gates.cong.suspect" class="suspect">疑似{{ result.strength.gates.cong.kind }}（结构闸）</span>
+          <span v-if="result.strength.gates.ratioStrong" class="suspect">占比极高（≥0.88 硬闸）</span>
+          <span v-if="result.strength.gates.ratioWeak" class="suspect">占比极低（≤0.12 硬闸）</span>
+        </div>
+        <p class="small">口径：量化打分派 · tianzhi-core 连乘权重（MIT）。点开每层可逐行验算；专旺/从格只标疑似，不自动反转喜忌。</p>
+
+        <div class="factor-list">
+          <div v-for="f in result.strength.factors" :key="f.key" class="factor">
+            <button class="factor-head" @click="toggleFactor(f.key)">
+              <span class="f-name">{{ f.name }}</span>
+              <span class="f-score">同 {{ f.ally.toFixed(1) }}<span v-if="f.enemy"> / 异 {{ f.enemy.toFixed(1) }}</span></span>
+              <span class="f-toggle">{{ openFactors.has(f.key) ? '收起' : '展开' }}</span>
+            </button>
+            <div class="f-text">{{ f.text }}</div>
+            <div v-if="openFactors.has(f.key) && f.key === 'deling'" class="deling-detail">
+              <table class="state-table">
+                <thead><tr><th>五行</th><th>月令状态</th><th>与日主</th><th>加权分</th><th>占比</th><th>个数 主(附)</th><th>十神对</th></tr></thead>
+                <tbody>
+                  <tr v-for="row in result.strength.monthState" :key="row.wuxing">
+                    <td><b :style="{ color: wxBarColor(row.wuxing) }">{{ row.wuxing }}</b></td>
+                    <td><span class="status-chip" :style="statusStyle(row.status)">{{ row.status }}</span></td>
+                    <td>{{ row.relationToDM }}</td>
+                    <td>{{ row.weighted.toFixed(1) }}</td>
+                    <td>{{ (row.share * 100).toFixed(1) }}%</td>
+                    <td>{{ row.counts.main }}({{ row.counts.hidden }})</td>
+                    <td class="small">{{ row.tenGodPair[0] }} {{ row.tenGodPair[1] }} / {{ row.tenGodPair[2] }} {{ row.tenGodPair[3] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="small">月令状态口径声明：状态为季节标签，不计分；月令得分来自月支成分 ×2.0，见逐成分明细。辰戌丑未月按四季土旺入表；司令分野另见下行。</p>
+              <div class="wx-chart">
+                <svg viewBox="0 0 500 500" class="wx-svg" role="img" aria-label="五行旺衰圆图">
+                  <circle cx="250" cy="250" r="238" class="wx-bg" />
+                  <g v-for="it in circleItems" :key="it.row.wuxing" class="wx-node" @click="wxFilter = wxFilter === it.row.wuxing ? null : it.row.wuxing; showL2 = true">
+                    <text :x="it.namePt.x" :y="it.namePt.y" text-anchor="middle" class="wx-name" :fill="wxBarColor(it.row.wuxing)">{{ it.row.wuxing }}{{ it.isDay ? '·日主' : '' }}</text>
+                    <text :x="it.statPt.x" :y="it.statPt.y" text-anchor="middle" class="wx-stat">{{ it.row.weighted.toFixed(1) }}分 · {{ it.row.status }} · {{ it.row.counts.main }}({{ it.row.counts.hidden }})</text>
+                    <text :x="it.godPt.x" :y="it.godPt.y" text-anchor="middle" class="wx-god">{{ it.row.tenGodPair[0] }}{{ it.row.tenGodPair[1] }} {{ it.row.tenGodPair[2] }}{{ it.row.tenGodPair[3] }}</text>
+                  </g>
+                  <text x="250" y="244" text-anchor="middle" class="wx-center">{{ result.dayGan }}日主</text>
+                  <text x="250" y="266" text-anchor="middle" class="wx-center-sub">{{ result.strength.grade }} · {{ result.strength.ratio.toFixed(3) }}</text>
+                </svg>
+                <div class="wx-bars">
+                  <div v-for="e in result.strength.elementPower" :key="e.wuxing" class="wx-row">
+                    <span class="nm">{{ e.wuxing }}</span>
+                    <div class="wx-bar"><div class="wx-fill" :style="{ width: (e.weighted / maxElem * 100) + '%', background: wxBarColor(e.wuxing) }"></div></div>
+                    <span class="sc">{{ e.weighted.toFixed(1) }}</span>
+                  </div>
+                  <p class="small">圆图点任意五行 → 下方逐成分按该五行过滤。主数=加权分，副数=个数（主气/附属气）。</p>
+                </div>
+              </div>
+              <p class="meta">司令与长生：{{ result.strength.deling.silingGan ? `司令 ${result.strength.deling.silingGan}（${result.strength.deling.silingTenGod}，节后约 ${result.strength.deling.daysAfterJie?.toFixed(1)} 天，仅展示未加权）` : '司令：直接输入无节气日数，未算' }}；日主在月支十二长生：{{ result.strength.deling.dmChangSheng }}；得令徽标：{{ result.strength.deling.badge }}</p>
+            </div>
+            <div v-else-if="openFactors.has(f.key)" class="f-items small">成分：{{ f.items.join('、') }}（到 L2 逐行验算）</div>
+          </div>
+        </div>
+
+        <button class="btn sub" @click="showL2 = !showL2">{{ showL2 ? '收起' : '展开' }} L2 逐成分明细（可验算）</button>
+        <div v-if="showL2" class="scroll-x">
+          <div class="chip-row"><button class="chip" :class="{ on: !wxFilter }" @click="wxFilter = null">全部</button><button v-for="w in ['木','火','土','金','水']" :key="w" class="chip" :class="{ on: wxFilter === w }" @click="wxFilter = w">{{ w }}</button></div>
+          <table class="contrib-table">
+            <thead><tr><th>柱</th><th>成分</th><th>十神</th><th>阵营</th><th>基础分</th><th>权重连乘</th><th>加权分</th></tr></thead>
+            <tbody>
+              <tr v-for="c in result.strength.contributions.filter(c => !wxFilter || c.wuxing === wxFilter)" :key="c.id">
+                <td>{{ c.pillar }}</td><td>{{ c.source }}</td><td>{{ c.tenGod }}</td>
+                <td :class="c.camp === '同党' ? 'ally' : 'enemy'">{{ c.camp }}</td>
+                <td>{{ c.base }}</td>
+                <td class="small">{{ c.multipliers.map(m => m.label).join(' × ') }}</td>
+                <td><b>{{ c.weighted.toFixed(2) }}</b></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="small">验算：加权分 = 基础分 × 各权重。同党合计 {{ result.strength.support.toFixed(3) }}，异党 {{ result.strength.drain.toFixed(3) }}，ratio = 同/(同+异)。</p>
+        </div>
+
+        <button class="btn sub" @click="showL3 = !showL3">{{ showL3 ? '收起' : '展开' }} L3 关系修正与门槛</button>
+        <div v-if="showL3">
+          <div v-if="result.strength.adjustments.length" class="adj-list">
+            <div v-for="(a, i) in result.strength.adjustments" :key="i" class="adj"><b>{{ a.relation }}</b> <span class="small">{{ a.participants.join(' · ') }}｜{{ a.applied ? '已计入 ' + a.delta : '仅提示，不计分' }}｜{{ a.note }}</span></div>
+          </div>
+          <p v-else class="small">无三合/三会/六合/冲/刑/害关系。</p>
+          <div class="gate-box">
+            <div class="gate-title">从格门槛（结构闸）</div>
+            <div v-for="(c, i) in result.strength.gates.cong.conditions" :key="i" class="gate-row">{{ c.met ? '☑' : '☐' }} {{ c.label }}</div>
+            <div class="gate-title">专旺门槛（结构闸）</div>
+            <div v-for="(c, i) in result.strength.gates.zhuan.conditions" :key="i" class="gate-row">{{ c.met ? '☑' : '☐' }} {{ c.label }}</div>
+            <p class="small">两闸全过才标「疑似」，仍需人工复核，不自动改判喜忌。ratio 硬闸：≥0.88 有根 / ≤0.12 无根，只作极端提示。</p>
+          </div>
+        </div>
+        <p class="trace small">{{ result.strength.trace }} 算法来源：zaoxu001/tianzhi-core（MIT）连乘模型 TS 移植，权重原样：基础 天干10/地支12、根气 本1.0/中0.5/余0.3、纯气×1.6、月令×2.0、贴身×1.2、虚透×0.5。</p>
       </section>
 
       <section v-if="!result.daYun.length" class="card">

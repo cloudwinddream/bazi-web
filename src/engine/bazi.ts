@@ -8,6 +8,7 @@
 // - 输入时区入参：先按输入时区换算为北京时间再排盘（库 Solar 口径为北京时间），海外出生可正确对齐节气
 // - 藏干/十神/纳音/地势/胎元/命宫/身宫全部取库原生表
 import { Solar, Lunar, LunarUtil } from 'lunar-javascript'
+import { analyzeStrength, type StrengthResult, type Quad } from './strength.js'
 
 export interface BirthInput {
   calendar: 'solar' | 'lunar'
@@ -97,6 +98,7 @@ export interface BaziResult {
   directMode?: boolean
   reverseSolarText?: string
   caliber: string[]
+  strength: StrengthResult
 }
 
 const GAN_WUXING: Record<string, string> = {
@@ -334,6 +336,15 @@ export function calcBazi(input: BirthInput): BaziResult {
   } catch { /* 老年份节气表异常时留空 */ }
 
   const offsetMinText = offsetSeconds !== null ? `${offsetSeconds >= 0 ? '+' : ''}${(offsetSeconds / 60).toFixed(2)} 分钟（${Math.round(offsetSeconds)} 秒）` : ''
+  // 强弱引擎（tianzhi 连乘移植）：司令按 prev 节后天数算，仅展示未加权（与真实盘测试口径一致）
+  let daysAfterPrevJie: number | null = null
+  try {
+    const prev = lunar.getPrevJie()
+    const toMs2 = (s: any) => Date.UTC(s.getYear(), s.getMonth() - 1, s.getDay(), s.getHour(), s.getMinute(), s.getSecond())
+    daysAfterPrevJie = (toMs2(workSolar) - toMs2(prev.getSolar())) / 86400000
+  } catch { daysAfterPrevJie = null }
+  const quad: Quad = { year: [pillars[0].gan, pillars[0].zhi], month: [pillars[1].gan, pillars[1].zhi], day: [pillars[2].gan, pillars[2].zhi], hour: [pillars[3].gan, pillars[3].zhi] }
+  const strength = analyzeStrength(quad, { daysAfterJie: daysAfterPrevJie, jieqiFromPrev: jieQiFromPrevText || null })
   const caliber = [
     `历法引擎 lunar-javascript 1.7.7（节气/朔望天文历）`,
     `输入时区 UTC${tz >= 0 ? '+' : ''}${tz}，已换算北京时间 ${beijingText}`,
@@ -365,6 +376,7 @@ export function calcBazi(input: BirthInput): BaziResult {
     qiYunStartDate: solarYmd(qiYunStartObj),
     jiaoYunText, jieQiTermText,
     caliber,
+    strength,
   }
 }
 
@@ -456,6 +468,7 @@ export function calcFromPillars(pillarsInput: string[], gender: 'male' | 'female
       qiYunStartDate: '', jiaoYunText: '直接输入模式默认只看本命盘；如需大运，请改用生辰排盘并补出生日期/性别。', jieQiTermText: '',
       directMode: true, reverseSolarText: '',
       caliber: ['直接输入四柱（备用计算八字·比对用），与生辰模式同库表口径（lunar-javascript 1.7.7）', '此四柱反查无对应真实公历（见警告），本命字段按库表由四柱直接推算', ...warns, '大运未排：直接输入无生辰信息，性别仅影响大运顺逆说明，本命盘不变'],
+      strength: analyzeStrength({ year: [ygz.charAt(0), ygz.charAt(1)], month: [mgz.charAt(0), mgz.charAt(1)], day: [dgz.charAt(0), dgz.charAt(1)], hour: [tgz.charAt(0), tgz.charAt(1)] }),
     }
   }
   const lunar = found.getLunar()
@@ -497,5 +510,6 @@ export function calcFromPillars(pillarsInput: string[], gender: 'male' | 'female
       `子时流派 sect=${ziSect}`,
       '大运未排：直接输入无生辰信息，性别仅影响大运顺逆说明，本命盘不变',
     ],
+    strength: analyzeStrength({ year: [pillars[0].gan, pillars[0].zhi], month: [pillars[1].gan, pillars[1].zhi], day: [pillars[2].gan, pillars[2].zhi], hour: [pillars[3].gan, pillars[3].zhi] }),
   }
 }

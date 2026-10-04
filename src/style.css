@@ -121,3 +121,37 @@ footer { margin-top: 22px; font-size: 12px; color: var(--muted2); line-height: 1
 .preset-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { border: 1px solid var(--line); background: var(--box-bg); color: var(--ink); border-radius: 999px; padding: 6px 10px; font-size: 12px; cursor: pointer; font-family: inherit; }
 .chip:active { background: var(--on-bg); border-color: var(--red); }
+
+/* 强弱推导 */
+.strength-card .l0 { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 14px; }
+.grade-badge { background: var(--red); color: #fff; padding: 4px 14px; border-radius: 999px; font-weight: 700; letter-spacing: 2px; }
+.suspect { background: var(--jiao-bg); border: 1px solid var(--jiao-line); padding: 3px 10px; border-radius: 999px; font-size: 12px; }
+.factor-list { margin-top: 10px; border-top: 1px solid var(--line); }
+.factor { border-bottom: 1px solid var(--line); padding: 8px 0; }
+.factor-head { width: 100%; display: flex; gap: 10px; align-items: baseline; background: none; border: 0; color: var(--ink); font-family: inherit; font-size: 14px; cursor: pointer; text-align: left; padding: 2px 0; }
+.f-name { font-weight: 700; min-width: 110px; }
+.f-score { color: var(--red); }
+.f-toggle { margin-left: auto; color: var(--muted); font-size: 12px; }
+.f-text { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.state-table, .contrib-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+.state-table th, .state-table td, .contrib-table th, .contrib-table td { border: 1px solid var(--line); padding: 5px 4px; text-align: center; }
+.status-chip { border: 1px solid; border-radius: 6px; padding: 1px 7px; font-weight: 700; }
+.wx-chart { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
+@media (min-width: 620px) { .wx-chart { grid-template-columns: 300px 1fr; align-items: center; } }
+.wx-svg { width: 100%; max-width: 340px; margin: 0 auto; display: block; }
+.wx-bg { fill: var(--box-bg); stroke: var(--line); }
+.wx-node { cursor: pointer; }
+.wx-name { font-size: 21px; font-weight: 700; }
+.wx-stat { font-size: 11.5px; fill: var(--ink); }
+.wx-god { font-size: 11px; fill: var(--muted); }
+.wx-center { font-size: 17px; font-weight: 700; fill: var(--ink); }
+.wx-center-sub { font-size: 12px; fill: var(--muted); }
+.btn.sub { background: var(--card); color: var(--red); border: 1px solid var(--red); letter-spacing: 1px; font-size: 14px; padding: 9px; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.chip.on { background: var(--red); color: #fff; border-color: var(--red); }
+.ally { color: var(--jade); font-weight: 700; } .enemy { color: var(--red); }
+.adj { font-size: 13px; padding: 4px 0; border-bottom: 1px dashed var(--line); }
+.gate-box { margin-top: 10px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: var(--box-bg); }
+.gate-title { font-weight: 700; font-size: 13px; margin: 6px 0 4px; }
+.gate-row { font-size: 13px; padding: 2px 0; }
+.trace { margin-top: 10px; line-height: 1.7; }
