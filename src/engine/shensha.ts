@@ -2,7 +2,7 @@
 // 来源口径：天乙「甲戊庚牛羊…」、文昌、禄、羊刃、三合桃花/驿马/华盖/将星/劫煞/亡神/灾煞、
 //   天德月德、红鸾天喜、孤辰寡宿、金舆、学堂词馆等均为《三命通会》通行查表（公开口诀核对 2026-10-04）
 // 神煞只展示+释义，默认不计入强弱分（本站口径声明）
-export interface ShenShaHit { name: string; meaning: string; now: string; method: string }
+export interface ShenShaHit { name: string; meaning: string; now: string; method: string; basis: string }
 export type Quad2 = { year: [string, string]; month: [string, string]; day: [string, string]; hour: [string, string] }
 const POS = ['year', 'month', 'day', 'hour'] as const
 
@@ -63,37 +63,45 @@ export function calcShenSha(quad: Quad2): { perPillar: Record<string, ShenShaHit
   const dayGan = quad.day[0]
   const yearZhi = quad.year[1], dayZhi = quad.day[1], monthZhi = quad.month[1]
   const perPillar: Record<string, ShenShaHit[]> = { year: [], month: [], day: [], hour: [] }
-  const add = (pos: string, name: string, method: string) => {
+  const POS_CN: Record<string, string> = { year: '年', month: '月', day: '日', hour: '时' }
+  const add = (pos: string, name: string, method: string, basis?: string) => {
     const m = MEANINGS[name]; if (!m) return
-    if (perPillar[pos].some((h) => h.name === name)) return
-    perPillar[pos].push({ name, meaning: m[0], now: m[1], method })
+    const b = basis || method
+    const existing = perPillar[pos].find((h) => h.name === name)
+    if (existing) {
+      // 同一神煞同柱由两条起法（如年支/日支三合）同时命中时合并依据，不重复列条
+      if (!existing.basis.includes(b)) { existing.basis += `；另：${b}`; existing.method = existing.basis }
+      return
+    }
+    perPillar[pos].push({ name, meaning: m[0], now: m[1], method: b, basis: b })
   }
   for (const pos of POS) {
     const [gan, zhi] = quad[pos]
     // 日干起（支见）
     for (const name of ['天乙贵人', '文昌贵人', '禄神', '羊刃', '金舆', '学堂']) {
       const targets = DAY_GAN_BRANCH[name]?.[dayGan] || []
-      if (targets.includes(zhi)) add(pos, name, `按日干${dayGan}起，${pos === 'day' ? '日' : ''}支见${zhi}`)
+      if (targets.includes(zhi)) add(pos, name, '', `以日干${dayGan}查「${name}」表得${targets.join('、')}，${POS_CN[pos]}支见${zhi}在表中，故${POS_CN[pos]}柱命中`)
     }
-    if (CIGUAN[dayGan] === gan + zhi) add(pos, '词馆', `按日干${dayGan}起，柱见${gan}${zhi}词馆对`)
+    if (CIGUAN[dayGan] === gan + zhi) add(pos, '词馆', '', `以日干${dayGan}查词馆干支对表得${CIGUAN[dayGan]}，${POS_CN[pos]}柱干支正是${gan}${zhi}全对，故${POS_CN[pos]}柱命中`)
     // 三合局起（按年支与日支各查，结果并集并注明）
     for (const [baseName, baseZhi] of [['年支', yearZhi], ['日支', dayZhi]] as const) {
-      const grp = GROUP_SHA[SANHE_GROUP[baseZhi] || '']
+      const grpName = SANHE_GROUP[baseZhi] || ''
+      const grp = GROUP_SHA[grpName]
       if (!grp) continue
-      for (const [shaName, target] of Object.entries(grp)) if (zhi === target) add(pos, shaName, `按${baseName}${baseZhi}三合局起，见${target}`)
+      for (const [shaName, target] of Object.entries(grp)) if (zhi === target) add(pos, shaName, '', `以${baseName}${baseZhi}定${grpName}局，查该局「${shaName}」位得${target}，${POS_CN[pos]}支见${target}，故${POS_CN[pos]}柱命中`)
     }
     // 天德/月德（按月支）
     const td = TIANDE[monthZhi]
-    if (td && (gan === td || zhi === td)) add(pos, '天德贵人', `按月支${monthZhi}起，天德在${td}`)
-    if (gan === YUEDE[monthZhi]) add(pos, '月德贵人', `按月支${monthZhi}起，月德在${YUEDE[monthZhi]}`)
+    if (td && (gan === td || zhi === td)) add(pos, '天德贵人', '', `以月支${monthZhi}查天德表得${td}，${POS_CN[pos]}柱${gan === td ? `干${gan}` : `支${zhi}`}见${td}，故${POS_CN[pos]}柱命中`)
+    if (gan === YUEDE[monthZhi]) add(pos, '月德贵人', '', `以月支${monthZhi}查月德表得${YUEDE[monthZhi]}，${POS_CN[pos]}柱干见${gan}，故${POS_CN[pos]}柱命中`)
     // 红鸾天喜（按年支）
-    if (zhi === HONGLUAN[yearZhi]) add(pos, '红鸾', `按年支${yearZhi}起，见${zhi}`)
-    if (zhi === TIANXI[yearZhi]) add(pos, '天喜', `按年支${yearZhi}起，见${zhi}`)
+    if (zhi === HONGLUAN[yearZhi]) add(pos, '红鸾', '', `以年支${yearZhi}查红鸾表得${HONGLUAN[yearZhi]}，${POS_CN[pos]}支见${zhi}，故${POS_CN[pos]}柱命中`)
+    if (zhi === TIANXI[yearZhi]) add(pos, '天喜', '', `以年支${yearZhi}查天喜表得${TIANXI[yearZhi]}，${POS_CN[pos]}支见${zhi}，故${POS_CN[pos]}柱命中`)
     // 孤辰寡宿（按年支）
-    if (zhi === GUCHEN[yearZhi]) add(pos, '孤辰', `按年支${yearZhi}起，见${zhi}`)
-    if (zhi === GUASU[yearZhi]) add(pos, '寡宿', `按年支${yearZhi}起，见${zhi}`)
+    if (zhi === GUCHEN[yearZhi]) add(pos, '孤辰', '', `以年支${yearZhi}查孤辰表得${GUCHEN[yearZhi]}，${POS_CN[pos]}支见${zhi}，故${POS_CN[pos]}柱命中`)
+    if (zhi === GUASU[yearZhi]) add(pos, '寡宿', '', `以年支${yearZhi}查寡宿表得${GUASU[yearZhi]}，${POS_CN[pos]}支见${zhi}，故${POS_CN[pos]}柱命中`)
     // 魁罡（日柱）
-    if (pos === 'day' && KUIGANG.has(gan + zhi)) add(pos, '魁罡', '日柱干支为魁罡日')
+    if (pos === 'day' && KUIGANG.has(gan + zhi)) add(pos, '魁罡', '', `日柱干支${gan}${zhi}在魁罡日表（庚辰、庚戌、壬辰、戊戌）内，故日柱命中`)
   }
   const all: { pillar: string; hit: ShenShaHit }[] = []
   for (const pos of POS) for (const hit of perPillar[pos]) all.push({ pillar: pos, hit })

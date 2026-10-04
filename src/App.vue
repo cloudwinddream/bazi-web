@@ -64,6 +64,30 @@ function applyPreset(pr: typeof PRESETS[number]) {
   form.value.gender = pr.gender
   runDirect()
 }
+// 穷通宝鉴调候例 15（与名人预设分开分组）：出处与定论要点据经典命例集 classic_cases.json（verdict_type=tiaohou）
+// 首用神以站点调候输出为准对照学习；原书定论要点摘自 verdict_text 通则。性别原书未载，默认乾造（仅影响大运说明，本命盘不变）
+const QIONGTONG_PRESETS: { name: string; gz: string; gender: 'male' | 'female'; source: string; verdict: string; note?: string }[] = [
+  { name: '正月甲木·进士例', gz: '庚申戊寅甲寅丙寅', gender: 'male', source: '三春甲木正月 L53-58 · A原书原文', verdict: '正月甲木得丙癸富贵双全；原例一行金水运发进士' },
+  { name: '九月甲木·天元一气', gz: '甲辰甲戌甲辰甲戌', gender: 'male', source: '三秋甲木九月 L166-169 · A原书原文', verdict: '天元一气一才一用，身伴明君富贵寿考' },
+  { name: '九月甲木·庚丁为用', gz: '庚申丙戌甲申壬申', gender: 'male', source: '三秋甲木九月 L186 · A原书原文', verdict: '庚丁为用，主功名显达有文学' },
+  { name: '九月甲木·支成水局', gz: '戊戌壬戌甲子甲申', gender: 'male', source: '三秋甲木九月 L188-191 · A原书原文', verdict: '支成水局干有壬水，配得中和一榜之命', note: '原集标注五虎/五鼠遁存疑例，仍按原字出盘供对照' },
+  { name: '三月戊土·戊癸化火', gz: '丁未癸卯戊寅乙卯', gender: 'male', source: '三月戊土 L1021 · A原书原文', verdict: '癸丁透干戊癸化火，反得武科探花' },
+  { name: '五月戊土·壬甲两透', gz: '辛未甲午戊寅壬子', gender: 'male', source: '五月戊土 L1081 · A原书原文', verdict: '壬甲两透印旺杀高，出将入相' },
+  { name: '正月壬水·庚丙戊齐透', gz: '己巳丙寅壬辰庚子', gender: 'male', source: '正月壬水例表 L1978 · B表格转录', verdict: '庚丙戊齐透科甲', note: '原书例表按时日月年读序还原，OCR待核' },
+  { name: '三月壬水·甲庚俱透', gz: '壬申甲辰壬辰甲辰', gender: 'male', source: '三月壬水例表 L2015 · B表格转录', verdict: '甲庚俱透科甲', note: '原书例表转录，OCR待核' },
+  { name: '正月辛金·己壬两透', gz: '丙辰庚寅辛酉己丑', gender: 'male', source: '正月辛金例表 L1708 · B表格转录', verdict: '己壬两透科甲', note: '原书例表转录，OCR待核' },
+  { name: '四月辛金·壬水洗淘', gz: '乙未辛巳辛亥乙未', gender: 'male', source: '四月辛金例表 L1765 · B表格转录', verdict: '壬水洗淘为用', note: '原书例表转录，OCR待核' },
+  { name: '五月辛金·壬己并用', gz: '丙子甲午辛亥壬辰', gender: 'male', source: '五月辛金例表 L1781 · B表格转录', verdict: '壬己并用', note: '原书例表转录，OCR待核' },
+  { name: '七月辛金·壬水为尊', gz: '甲午壬申辛卯癸巳', gender: 'male', source: '七月辛金例表 L1814 · B表格转录', verdict: '壬水为尊', note: '原书例表转录，OCR待核' },
+  { name: '十月丙火·甲戊庚出干', gz: '甲申乙亥丙戌庚寅', gender: 'male', source: '十月丙火例表 L682-684 · B表格转录', verdict: '甲戊庚出干可云科甲', note: '原书例表转录，OCR待核' },
+  { name: '十月丙火·表例二', gz: '壬辰辛亥丙戌戊子', gender: 'male', source: '十月丙火例表 L682-684 · B表格转录', verdict: '十月丙火表例（无通则摘录，对照站点首用）', note: '原书例表转录，OCR待核' },
+  { name: '十月丙火·表例三', gz: '辛巳己亥丙子壬辰', gender: 'male', source: '十月丙火例表 L682-684 · B表格转录', verdict: '十月丙火表例（无通则摘录，对照站点首用）', note: '原书例表转录，OCR待核' },
+]
+function applyQiongtong(pr: typeof QIONGTONG_PRESETS[number]) {
+  for (let i = 0; i < 4; i++) { direct.value[i] = { gan: pr.gz.charAt(i * 2), zhi: pr.gz.charAt(i * 2 + 1) } }
+  form.value.gender = pr.gender
+  runDirect()
+}
 function runDirect() {
   errorMsg.value = ''
   try {
@@ -198,6 +222,10 @@ function ganStyle(g: string, isDay = false) {
 }
 function zhiStyle(z: string) { const palette = theme.value === 'dark' ? DARK_COLORS : LIGHT_COLORS; const c = palette[ZHI_WX[z]]; return { color: isYangZhi(z) ? c.yang : c.yin } }
 function hideStyle(g: string) { return ganStyle(g) }
+// 藏干十神配色：用对应藏干的五行阴阳色（弱化字重，与藏干本身同色系，保证可读）
+function hideSSStyle(g: string) { const s = ganStyle(g); return { ...s, fontWeight: '600', opacity: '0.88' } }
+// 大运/流年天干十神配色：十神由该干对日主而定，颜色取该干自身五行阴阳色
+function ganSSStyle(g: string) { const s = ganStyle(g); return { ...s, fontWeight: '700' } }
 
 // 十神简称（藏干下方小字，仿参考图单字风格；全称在十神行展示）
 const SS_SHORT: Record<string, string> = {
@@ -245,6 +273,16 @@ run()
           <div class="preset-chips">
             <button v-for="pr in PRESETS" :key="pr.name" class="chip" @click="applyPreset(pr)">{{ pr.gz }} {{ pr.name }}</button>
           </div>
+        </div>
+        <div class="preset-box">
+          <div class="preset-title">穷通宝鉴调候例 · 学习用（点一下即出盘，对照下方「调候」结论与原书首用）</div>
+          <div class="preset-chips">
+            <button v-for="pr in QIONGTONG_PRESETS" :key="pr.gz + pr.name" class="chip qt-chip" :title="`${pr.source}｜${pr.verdict}${pr.note ? '｜' + pr.note : ''}`" @click="applyQiongtong(pr)">{{ pr.gz }} {{ pr.name }}</button>
+          </div>
+          <div class="qt-list">
+            <div v-for="pr in QIONGTONG_PRESETS" :key="'q'+pr.gz" class="qt-row"><b>{{ pr.name }}</b> <span class="small">{{ pr.gz }} · {{ pr.source }} · 定论要点：{{ pr.verdict }}<span v-if="pr.note"> · {{ pr.note }}</span></span></div>
+          </div>
+          <p class="small">说明：穷通例与上方名人例分开分组；原书性别未载，默认乾造仅影响大运顺逆说明、本命盘不变。站点调候首用见出盘后「调候」结论条，可与定论要点逐例对照。</p>
         </div>
       </template>
       <div v-if="inputMode === 'birth'" class="grid">
@@ -341,7 +379,7 @@ run()
                   <div class="hide-wrap light">
                     <div v-for="(hg, i) in p.hideGan" :key="i" class="hide-item">
                       <div class="hide-gan" :style="hideStyle(hg)">{{ hg }}</div>
-                      <div class="hide-ss">{{ shortSS(p.shiShenZhi[i]) }}<span class="hide-full">{{ p.shiShenZhi[i] }}</span></div>
+                      <div class="hide-ss" :style="hideSSStyle(hg)">{{ shortSS(p.shiShenZhi[i]) }}<span class="hide-full" :style="hideSSStyle(hg)">{{ p.shiShenZhi[i] }}</span></div>
                     </div>
                   </div>
                 </td>
@@ -376,7 +414,7 @@ run()
           <button class="concl-bar" @click="openDrawer('strength')"><span class="concl-k">强弱</span><span class="concl-v">{{ result.strength.grade }} · 修正后 {{ result.strength.ratio.toFixed(3) }}（基础 {{ result.strength.baseRatio.toFixed(3) }}）<span v-if="result.strength.crossGrade" class="cross"> · 关系修正跨档</span></span><span class="concl-go">推导 ›</span></button>
           <button class="concl-bar" @click="openDrawer('tiaohou')"><span class="concl-k">调候</span><span class="concl-v">{{ result.tiaohou.climate }} · {{ result.tiaohou.needText }}</span><span class="concl-go">推导 ›</span></button>
           <button class="concl-bar" @click="openDrawer('geju')"><span class="concl-k">格局</span><span class="concl-v">{{ result.geju.name }} · {{ result.geju.basis }}</span><span class="concl-go">推导 ›</span></button>
-          <button class="concl-bar" @click="openDrawer('yongshen')"><span class="concl-k">多寡/用神</span><span class="concl-v">喜 {{ result.yongshen.xi.join('、') }} · 忌 {{ result.yongshen.ji.join('、') || '—' }}（候选）</span><span class="concl-go">推导 ›</span></button>
+          <button class="concl-bar" @click="openDrawer('yongshen')"><span class="concl-k">多寡/用神</span><span class="concl-v">主用神 {{ result.yongshen.primary.text }}<span v-if="result.yongshen.controversial" class="cross"> · 争议</span> · 喜 {{ result.yongshen.xi.join('、') || '—' }} · 忌 {{ result.yongshen.ji.join('、') || '—' }}</span><span class="concl-go">推导 ›</span></button>
           <button class="concl-bar" @click="openDrawer('shensha')"><span class="concl-k">神煞</span><span class="concl-v">{{ result.shensha.all.length ? [...new Set(result.shensha.all.map(a => a.hit.name))].join('、') : '无常用神煞命中' }}</span><span class="concl-go">释义 ›</span></button>
         </div>
         <p class="small">主页只留结论；全部推导（强弱四层、关系修正逐条、调候/格局判定、多寡双口径、神煞释义）在抽屉里逐项可验算。</p>
@@ -544,18 +582,25 @@ run()
         <p class="small">加权分与强弱同源（连乘权重），个数为干支字数口径；缺/弱/旺仅描述分布，不单独断吉凶。</p>
       </section>
       <section v-if="drawerTab === 'yongshen'" class="stage-panel">
-        <h3>最终用神 · 三路汇合</h3>
+        <h3>最终用神 · 三路汇合（收敛为一个主用神）</h3>
+        <p class="ys-primary">主用神：<b>{{ result.yongshen.primary.text }}</b><span v-if="result.yongshen.controversial" class="cross"> · 争议·三路冲突</span></p>
+        <p>喜神（辅助）：{{ result.yongshen.xi.join('、') || '—' }} ｜ 忌神：{{ result.yongshen.ji.join('、') || '—' }}</p>
+        <div class="gate-title">裁决过程</div>
+        <div v-for="(s, i) in result.yongshen.adjudication" :key="i" class="gate-row">{{ i + 1 }}. {{ s }}</div>
+        <div class="gate-title">三路票源（为何舍其余：票次者降为喜神，不并列）</div>
+        <template v-if="result.yongshen.votes.length"><div class="gate-row" v-for="v in result.yongshen.votes" :key="v.wuxing">{{ v.wuxing }}：{{ v.score }} 票（{{ v.routes.join('、') || '—' }}）{{ v.wuxing === result.yongshen.primary.wuxing ? ' ← 主用神' : '' }}</div></template>
         <div v-for="r in result.yongshen.routes" :key="r.name" class="route-box"><b>{{ r.name }}</b>：喜 {{ r.xi.join('、') || '—' }}<span v-if="r.ji.length"> · 忌 {{ r.ji.join('、') }}</span><div class="small">{{ r.text }}</div></div>
         <p><b>{{ result.yongshen.finalText }}</b></p>
         <p class="small">优先级口径：{{ result.yongshen.priorityText }}</p>
         <p v-if="result.yongshen.conflictText" class="suspect">{{ result.yongshen.conflictText }}</p>
-        <p class="small">三路来源：扶抑（强弱扶抑）、调候（穷通气候）、格局（子平顺用/逆用）。每路贡献如上可追溯；均为候选，需结合大运流年复核。</p>
+        <p class="small">三路来源：扶抑（强弱扶抑）、调候（穷通气候）、格局（子平顺用/逆用）。主用神只定一个；其余高票者降为喜神（辅助），忌神独立成层，均可追溯票源。</p>
       </section>
       <section v-if="drawerTab === 'shensha'" class="stage-panel">
-        <h3>神煞释义（传统说法，中性表述）</h3>
-        <div v-for="(a, i) in result.shensha.all" :key="i" class="sha-row"><b>{{ a.hit.name }}</b>（{{ ['年柱','月柱','日柱','时柱'][PILLAR_KEYS.indexOf(a.pillar)] }}）<div>{{ a.hit.meaning }}</div><div class="small">{{ a.hit.now }} · 起法：{{ a.hit.method }}</div></div>
-        <p v-if="result.pillars.some(pp => pp.xunKong.includes(pp.zhi))" class="small">另有空亡位见命盘明细空亡行。</p>
-        <p class="small">神煞据《三命通会》通行口诀自建查表：天乙/文昌/禄/羊刃/金舆/学堂按日干起，三合桃花/驿马/华盖/将星/劫煞/亡神/灾煞按年支·日支起，天德/月德按月支起，红鸾/天喜/孤辰/寡宿按年支起，词馆/魁罡按干支对。只展示释义，不计入强弱分，不作吉凶断言。</p>
+        <h3>神煞释义（只列本盘命中 · 传统说法，中性表述）</h3>
+        <p v-if="!result.shensha.all.length" class="small">本盘无常用神煞命中，故无释义条目（未命中者不列辞典）。</p>
+        <div v-for="(a, i) in result.shensha.all" :key="i" class="sha-row"><b>{{ a.hit.name }}</b>（{{ ['年柱','月柱','日柱','时柱'][PILLAR_KEYS.indexOf(a.pillar)] }}）<div>{{ a.hit.meaning }}</div><div class="small">{{ a.hit.now }}</div><div class="sha-basis">计算依据：{{ a.hit.basis || a.hit.method }}</div></div>
+        <p v-if="result.pillars.some(pp => pp.xunKong.includes(pp.zhi))" class="small">另有空亡位见命盘明细空亡行（旬空按库旬空表，不在此重复释义）。</p>
+        <details class="sha-dict"><summary>查表口径说明（非本盘辞典，未命中不释义）</summary><p class="small">神煞据《三命通会》通行口诀自建查表：天乙/文昌/禄/羊刃/金舆/学堂按日干起，三合桃花/驿马/华盖/将星/劫煞/亡神/灾煞按年支·日支起，天德/月德按月支起，红鸾/天喜/孤辰/寡宿按年支起，词馆/魁罡按干支对。每条依据由代码实际查表路径生成（起法→查得何值→何柱见何字）。只展示命中释义，不计入强弱分，不作吉凶断言。</p></details>
       </section>
           </div>
         </div>
@@ -574,17 +619,18 @@ run()
               <div class="dy-before">起运前</div><div class="dy-date">{{ dy.startDate }} 起</div>
             </template>
             <template v-else>
+              <div class="dy-ss-top" :style="ganSSStyle(dy.gan)">{{ dy.shiShenGan }}</div>
               <div class="gz-stack dy-gz">
                 <span :style="ganStyle(dy.gan)">{{ dy.gan }}</span>
                 <span :style="zhiStyle(dy.zhi)">{{ dy.zhi }}</span>
               </div>
-              <div class="dy-ss">{{ dy.shiShenGan }} · {{ dy.shiShenZhiMain }}</div>
               <div class="hide-wrap light dy-hide">
                 <div v-for="(hg, i) in dy.hideGan" :key="i" class="hide-item">
                   <div class="hide-gan" :style="hideStyle(hg)">{{ hg }}</div>
-                  <div class="hide-ss">{{ shortSS(dy.shiShenZhi[i]) }}</div>
+                  <div class="hide-ss" :style="hideSSStyle(hg)">{{ shortSS(dy.shiShenZhi[i]) }}<span class="hide-full" :style="hideSSStyle(hg)">{{ dy.shiShenZhi[i] }}</span></div>
                 </div>
               </div>
+              <div class="dy-ss-main small">地支本气：<span :style="hideSSStyle(dy.hideGan[0])">{{ dy.shiShenZhiMain }}</span></div>
               <div class="dy-date">{{ dy.startDate }} 起交<br />至 {{ dy.endDate }}<br />起运 {{ dy.startAgeText }}<span v-if="isCurrentDy(dy)"> · 当前大运</span></div>
             </template>
           </div>
@@ -594,20 +640,21 @@ run()
         <div v-if="activeDaYun" class="ln-grid2">
           <div v-for="ln in activeDaYun.liuNian" :key="ln.year" class="ln-card" :class="{ cur: ln.year === currentYear }">
             <div class="ln-year">{{ ln.year }} · {{ ln.age }}岁</div>
+            <div class="ln-ss-top" :style="ganSSStyle(ln.gan)">{{ ln.shiShenGan }}</div>
             <div class="gz-stack ln-gz">
               <span :style="ganStyle(ln.gan)">{{ ln.gan }}</span>
               <span :style="zhiStyle(ln.zhi)">{{ ln.zhi }}</span>
             </div>
-            <div class="ln-ss">{{ ln.shiShenGan }} · {{ ln.shiShenZhiMain }}</div>
             <div class="hide-wrap light ln-hide">
               <div v-for="(hg, i) in ln.hideGan" :key="i" class="hide-item">
                 <div class="hide-gan" :style="hideStyle(hg)">{{ hg }}</div>
-                <div class="hide-ss">{{ shortSS(ln.shiShenZhi[i]) }}</div>
+                <div class="hide-ss" :style="hideSSStyle(hg)">{{ shortSS(ln.shiShenZhi[i]) }}<span class="hide-full" :style="hideSSStyle(hg)">{{ ln.shiShenZhi[i] }}</span></div>
               </div>
             </div>
+            <div class="ln-ss-main small">本气 <span :style="hideSSStyle(ln.hideGan[0])">{{ ln.shiShenZhiMain }}</span></div>
           </div>
         </div>
-        <p class="meta">大运/流年十神口径：天干十神 + 地支本气（藏干首位）十神；藏干小字为地支全部藏干及其对日主十神（简称）。</p>
+        <p class="meta">大运/流年排版口径：天干十神在天干上方、地支藏干在地支下方且每个藏干十神紧贴其下；干、支、十神颜色均按五行分阴阳（阳饱和、阴柔色，与命盘明细同规则），藏干十神用对应藏干的五行色弱化显示。</p>
       </section>
     </template>
 

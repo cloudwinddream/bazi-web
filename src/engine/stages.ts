@@ -15,9 +15,16 @@ export interface TiaoHouResult {
 export interface GeJuResult { name: string; basis: string; touText: string; yongfa: string; checks: StageCheck[]; suspectNote: string | null }
 export interface DuoGuaRow { wuxing: Wx; weighted: number; share: number; count: number; level: string; relation: string }
 export interface YongShenResult {
+  /** 主用神（唯一收敛结果）：五行 + 与日主关系（十神类） */
+  primary: { wuxing: string; relation: string; text: string }
+  /** 喜神（辅助）：除主用神外的高票候选，降为辅助层 */
   xi: string[]; ji: string[]
   routes: { name: string; xi: string[]; ji: string[]; text: string }[]
   priorityText: string; conflictText: string | null; finalText: string
+  /** 三路冲突裁决过程（逐条可追溯） */
+  adjudication: string[]
+  votes: { wuxing: string; score: number; routes: string[] }[]
+  controversial: boolean
 }
 
 const wxByRelation = (dm: Wx, rel: string): Wx => WX_ORDER.find((w) => relation(w, dm) === rel) as Wx
@@ -120,18 +127,63 @@ export function analyzeStages(quad: Quad, strength: StrengthResult): { tiaohou: 
   ]
   const score = new Map<string, number>()
   const addScore = (list: string[], w: number) => list.forEach((x) => score.set(x, (score.get(x) || 0) + w))
-  // 优先级：气候极端且调候缺如时调候权重最高；否则格局与扶抑同权汇合
-  if (tiaohou.extreme && !present) { addScore(routes[1].xi, 3); addScore(routes[2].xi, 2); addScore(routes[0].xi, 1) }
-  else { addScore(routes[0].xi, 2); addScore(routes[2].xi, 2); addScore(routes[1].xi, 1) }
-  const xi = [...score.entries()].sort((a, b) => b[1] - a[1]).filter(([, v]) => v >= 2).map(([k]) => k)
+  // 优先级（已声明口径不变）：气候极端且调候缺如时调候最高；否则格局与扶抑同权、调候为辅
+  const extremePriority = tiaohou.extreme && !present
+  const weights = extremePriority ? [1, 3, 2] : [2, 1, 2] // [扶抑, 调候, 格局]
+  addScore(routes[0].xi, weights[0]); addScore(routes[1].xi, weights[1]); addScore(routes[2].xi, weights[2])
+  // 票面与出处（每行的票来自哪几路）
+  const ranked = [...score.entries()].map(([wuxing, s]) => ({
+    wuxing, score: s,
+    routes: routes.filter((r) => r.xi.includes(wuxing)).map((r) => r.name.replace(/（.*/, '')),
+  })).sort((a, b) => b.score - a.score)
+  const candidates = ranked.filter((v) => v.score >= 2)
   const jiSet = new Set(fuyiJi.map(String)); geXi.forEach((x) => jiSet.delete(String(x)))
-  const conflict = xi.filter((x) => jiSet.has(x))
+  // —— 收敛为唯一主用神 ——
+  // 裁决顺序：总票高者为主；同票按本盘优先级路序取先出者（极端时 调候>格局>扶抑，否则 格局>扶抑>调候）；
+  // 无候选达 2 票时取扶抑首位兜底并标争议。被主用神落败者一律降为喜神（辅助），不并列冒充结论。
+  const routeOrder = extremePriority ? ['调候', '格局', '扶抑'] : ['格局', '扶抑', '调候']
+  const firstByRoute = (wuxing: string) => { const names = routes.filter((r) => r.xi.includes(wuxing)).map((r) => r.name.replace(/（.*/, '')); const idx = names.map((n) => routeOrder.indexOf(n)).filter((i) => i >= 0); return idx.length ? Math.min(...idx) : 99 }
+  let primaryWx: string
+  let usedFallback = false
+  if (candidates.length) {
+    const topScore = candidates[0].score
+    const tied = candidates.filter((v) => v.score === topScore)
+    tied.sort((a, b) => firstByRoute(a.wuxing) - firstByRoute(b.wuxing))
+    primaryWx = tied[0].wuxing
+  } else {
+    primaryWx = String(fuyiXi[0] || wxByRelation(dayWx, '印'))
+    usedFallback = true
+  }
+  const primaryRel = relation(primaryWx as Wx, dayWx)
+  const auxXi = candidates.map((v) => v.wuxing).filter((w) => w !== primaryWx)
+  const ji = [...jiSet].filter((x) => x !== primaryWx)
+  const conflictWithJi = jiSet.has(primaryWx)
+  const topTied = candidates.length > 1 && candidates[1].score === candidates[0].score
+  const routeFirsts = routes.map((r) => r.xi[0]).filter(Boolean)
+  const routesDisagree = new Set(routeFirsts).size > 1
+  const controversial = usedFallback || conflictWithJi || (topTied && routesDisagree)
+  const primaryRouteNames = routes.filter((r) => r.xi.includes(primaryWx)).map((r) => r.name.replace(/（.*/, ''))
+  const adjudication: string[] = [
+    extremePriority
+      ? `优先级：本盘气候极端（${tiaohou.season}、${tiaohou.climate}）且调候之气缺如，按已声明口径调候路权重最高（调候3·格局2·扶抑1）`
+      : '优先级：非极端缺候盘，格局与扶抑同权（各2）、调候为辅（1）；特殊格疑似不自动反转喜忌',
+    `三路票面：${ranked.length ? ranked.map((v) => `${v.wuxing} ${v.score}票（${v.routes.join('、') || '—'}）`).join('；') : '无'}`,
+    candidates.length
+      ? `得票≥2 的候选共 ${candidates.length} 个：${candidates.map((v) => v.wuxing).join('、')}；取总票最高者为主用神${topTied ? `，同票时按本盘路序（${routeOrder.join('>')}）先出者胜` : ''}`
+      : '无候选达 2 票，取扶抑路首位兜底为主用神，并标争议待复核',
+    `裁定主用神为「${primaryWx}」（${primaryRel}）：出自${primaryRouteNames.join('、') || '扶抑兜底'}${primaryRouteNames.length > 1 ? '多路共识' : '单路支持、余路未反对到忌层之外'}`,
+    auxXi.length ? `其余候选 ${auxXi.join('、')} 票次之，降为喜神（辅助层），不与主用神并列` : '无次级候选，喜神层空缺',
+    conflictWithJi ? `注意：主用神 ${primaryWx} 同时落在扶抑忌层——三路冲突未消解，按优先级仍取之为主，标「争议」人工复核` : (ji.length ? `忌神层：${ji.join('、')}（扶抑忌、且未被格局喜抵销者）` : '忌神层无明确标的'),
+  ]
+  const conflict = candidates.map((v) => v.wuxing).filter((x) => jiSet.has(x))
   const yongshen: YongShenResult = {
-    xi: xi.length ? xi : fuyiXi.map(String), ji: [...jiSet],
+    primary: { wuxing: primaryWx, relation: primaryRel, text: `${primaryWx}（${primaryRel}）` },
+    xi: auxXi, ji,
     routes,
-    priorityText: tiaohou.extreme && !present ? '本盘气候偏极且调候缺如：调候优先，格局次之，扶抑校验（已声明口径）' : '格局与扶抑同权汇合，调候为辅；三路冲突逐条注明，不黑箱裁决',
-    conflictText: conflict.length ? `冲突提示：${conflict.join('、')} 在扶抑为忌、在格局/调候为喜，按优先级保留为候选并在此注明` : null,
-    finalText: `喜（候选）：${(xi.length ? xi : fuyiXi.map(String)).join('、') || '—'}；忌（候选）：${[...jiSet].join('、') || '—'}。均为推导候选，需结合大运流年复核${strength.gates.cong.suspect || strength.gates.zhuan.suspect ? '；特殊格疑似未自动反转喜忌' : ''}`,
+    priorityText: extremePriority ? '本盘气候偏极且调候缺如：调候优先，格局次之，扶抑校验（已声明口径）；裁决只定一个主用神' : '格局为主、扶抑同权校验、调候为辅；三路冲突按路序裁决出唯一主用神，余者降为喜神（已声明口径）',
+    conflictText: controversial ? `争议·三路冲突：${conflictWithJi ? `主用神 ${primaryWx} 与扶抑忌层相撞` : usedFallback ? '三路无 2 票以上共识，扶抑兜底' : '多路首选不一致且票面同分'}，主用神仍只定一个（${primaryWx}），请结合大运流年人工复核` : (conflict.length ? `附注：${conflict.join('、')} 在扶抑为忌、在格局/调候为喜，已按优先级裁定（主用神 ${primaryWx}），未入选者降喜神层并在此注明` : null),
+    finalText: `主用神：${primaryWx}（${primaryRel}）${controversial ? '·争议' : ''}；喜神（辅助）：${auxXi.join('、') || '—'}；忌神：${ji.join('、') || '—'}。主用神只定一个，余皆分层；需结合大运流年复核${strength.gates.cong.suspect || strength.gates.zhuan.suspect ? '；特殊格疑似未自动反转喜忌' : ''}`,
+    adjudication, votes: ranked, controversial,
   }
   return { tiaohou, geju, duogua, yongshen }
 }

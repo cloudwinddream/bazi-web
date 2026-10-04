@@ -109,6 +109,17 @@ table.pan th { background: var(--table-head); font-weight: 600; color: var(--tab
 .ln-ss { font-size: 11px; color: var(--muted); }
 .ln-hide { margin-top: 4px; }
 .ln-hide .hide-gan { font-size: 14px; }
+.sha-basis { font-size: 12px; line-height: 1.65; margin-top: 3px; padding: 5px 8px; border-left: 3px solid var(--gold); background: var(--jiao-bg); border-radius: 0 8px 8px 0; }
+.sha-dict { margin-top: 10px; }
+.sha-dict summary { cursor: pointer; font-size: 12px; color: var(--muted); }
+.ys-primary { font-size: 17px; }
+.ys-primary b { color: var(--red); font-size: 19px; }
+.qt-list { margin-top: 8px; border-top: 1px dashed var(--line); }
+.qt-row { font-size: 12px; line-height: 1.6; padding: 4px 0; border-bottom: 1px dashed var(--line); }
+.qt-chip { text-align: left; }
+.dy-ss-top, .ln-ss-top { font-size: 12px; line-height: 1.2; margin-bottom: 2px; }
+.dy-ss-main, .ln-ss-main { margin-top: 3px; font-size: 10px; }
+.dy-hide .hide-ss, .ln-hide .hide-ss, table.pan .hide-ss { color: inherit; }
 footer { margin-top: 22px; font-size: 12px; color: var(--muted2); line-height: 1.8; text-align: center; }
 
 /* 直接输入模式 */
